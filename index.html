@@ -1979,7 +1979,7 @@ requestAnimationFrame(loop);
 
 /* ===== Dock sosial (🏆 👥 🌐 jadi satu) + badge chat belum dibaca ===== */
 (function(){const cb=document.querySelector('button[aria-label="Chat global"]'),L=typeof lbb!=='undefined'?lbb:null,G=typeof pgb!=='undefined'?pgb:null;if(!cb&&!L&&!G)return;
- const css=document.createElement('style');css.textContent='#sdock{position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 92px);z-index:12;display:none;flex-direction:column;gap:6px;align-items:flex-start}#sdock>button{position:relative!important;left:auto!important;top:auto!important;width:38px!important;height:38px!important;min-width:0!important;padding:0!important;margin:0!important;border-radius:50%!important;font-size:17px!important;line-height:1!important;border:1px solid rgba(255,255,255,.4)!important;background:rgba(8,20,26,.78)!important;color:#fff!important;box-shadow:0 2px 8px #0005!important}#sdock.c>button:not(#sdm){display:none!important}.sdb{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;padding:0 3px;border-radius:8px;background:#ff3b30;color:#fff;font:800 10px/16px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 2px rgba(255,255,255,.9);box-sizing:border-box;pointer-events:none;display:none}';document.head.appendChild(css);
+ const css=document.createElement('style');css.textContent='#sdock{position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 92px);z-index:12;display:none;flex-direction:row;gap:6px;align-items:center}#sdock>button{position:relative!important;left:auto!important;top:auto!important;width:38px!important;height:38px!important;min-width:0!important;padding:0!important;margin:0!important;border-radius:50%!important;font-size:17px!important;line-height:1!important;border:1px solid rgba(255,255,255,.4)!important;background:rgba(8,20,26,.78)!important;color:#fff!important;box-shadow:0 2px 8px #0005!important}#sdock.c>button:not(#sdm){display:none!important}.sdb{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;padding:0 3px;border-radius:8px;background:#ff3b30;color:#fff;font:800 10px/16px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 2px rgba(255,255,255,.9);box-sizing:border-box;pointer-events:none;display:none}';document.head.appendChild(css);
  const dk=document.createElement('div');dk.id='sdock';dk.className='c';let open=false;try{open=localStorage.getItem('pm-sdock')==='1'}catch(e){}if(open)dk.className='';
  const m=document.createElement('button');m.id='sdm';m.type='button';m.textContent='🤝';m.setAttribute('aria-label','Menu sosial');
  const mb=document.createElement('span');mb.className='sdb';m.appendChild(mb);dk.appendChild(m);
@@ -1988,7 +1988,9 @@ requestAnimationFrame(loop);
  document.body.appendChild(dk);
  m.addEventListener('click',e=>{e.stopPropagation();dk.classList.toggle('c');try{localStorage.setItem('pm-sdock',dk.classList.contains('c')?'0':'1')}catch(x){}});
  dk.addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b!==m)setTimeout(()=>{dk.classList.add('c');try{localStorage.setItem('pm-sdock','0')}catch(x){}},150)});
- setInterval(()=>{dk.style.display=items.some(x=>x.style.display==='block')?'flex':'none'},400);
+ const pos=()=>{let b=0,l=null;['hb','mq','gmq'].forEach(id=>{const e=document.getElementById(id);if(!e)return;const r=e.getBoundingClientRect();if(r.width<2||r.height<2)return;if(r.bottom>b)b=r.bottom;if(l===null||r.left<l)l=r.left});
+  dk.style.top=(b?Math.min(Math.round(b+6),innerHeight-50):92)+'px';dk.style.left=(l!==null?Math.max(4,Math.round(l)):8)+'px'};
+ setInterval(()=>{dk.style.display=items.some(x=>x.style.display==='block')?'flex':'none';pos()},400);
  let seen=0,unread=0,init=false,wasOpen=false;
  const upd=()=>{const n=unread>9?'9+':String(unread);[cbb,mb].forEach(e=>{e.textContent=n;e.style.display=unread?'block':'none'})};
  if(cb)cb.addEventListener('click',()=>{unread=0;upd()});
