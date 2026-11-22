@@ -1394,7 +1394,7 @@ window.PM_VER='v2026.11.22-l';
   const b=base(),f=v=>+(+v||0).toFixed(2),A='auth='+encodeURIComponent(tok);
   ghPut(b+'/'+AU.uid+'.json?'+A,{n:AU.u.slice(0,14),x:f(P.x),y:f(P.y),fx:P.fx|0,fy:P.fy|0,s:String(st).slice(0,6),tx:f(tx),ty:f(ty),i:ISL|0,k:S.skin|0,e:rk()|0,lv:S.lvl|0,m:(GM&&Date.now()-GM.u<9000)?GM:null,cf:(GCF&&Date.now()-GCF.u<9000)?GCF:null,pt:PETS[S.pet]?S.pet|0:-1,sl:sail?1:0,bu:S.bup|0,hl:S.hul|0,bc:S.bsc|0,pl:PCF,b:(!sail&&S.mb&&S.mb[ISL])?{x:+S.mb[ISL][0]||0,y:+S.mb[ISL][1]||0,fx:S.mb[ISL][2]|0,fy:S.mb[ISL][3]|0}:null,h:(held&&st!=='reel')?{n:held.n,r:held.r,m:held.m|0,z:held.sz|0,kg:held.kg,v:held.v}:null,t:Date.now()});
   ghStream(tok);const d=ghData(),now=Date.now(),seen={};let c=0;
-  const onl={};for(const id in d){const x=d[id];if(!AU||id===AU.uid||!x)continue;onl[id]={n:mpClean(x.n),i:x.i|0,lv:+x.lv||0};const cf=x.cf;if(GCU[id]===undefined)GCU[id]=cf&&cf.u?cf.u:0;else if(cf&&cf.u&&cf.u!==GCU[id]){GCU[id]=cf.u;try{ghCatch(x.n,cf)}catch(e){}}}
+  const onl={};for(const id in d){const x=d[id];if(!AU||id===AU.uid||!x)continue;onl[id]={n:mpClean(x.n),i:x.i|0,lv:+x.lv||0,pl:x.pl?1:0};const cf=x.cf;if(GCU[id]===undefined)GCU[id]=cf&&cf.u?cf.u:0;else if(cf&&cf.u&&cf.u!==GCU[id]){GCU[id]=cf.u;try{ghCatch(x.n,cf)}catch(e){}}}
   GON=onl;
   for(const id in d){const x=d[id];if(!AU||id===AU.uid||!x||typeof x.x!=='number'||typeof x.y!=='number'||(x.i|0)!==(ISL|0)||c>=20)continue;
    const q=GHT[id]||(GHT[id]={t:0,u:now});if(q.t!==x.t){q.t=x.t;q.u=now}if(now-q.u>10000)continue;
@@ -2029,7 +2029,7 @@ function pgShow(){if(document.getElementById('pgm'))return;const E=(t,x,c)=>{con
    if(window.aqSync)window.aqSync();
    const lst=E('div','','margin-top:4px;display:flex;flex-direction:column;gap:4px;max-height:170px;overflow:auto');bx.appendChild(lst);
    const fill=()=>{const ids=Object.keys(GON);cnt.textContent='🟢 Online sekarang: '+ids.length;lst.textContent='';if(!ids.length){lst.appendChild(E('div','Belum ada pemain lain yang online.','font-size:12px;opacity:.7'));return}
-    ids.forEach(id=>{const g=GON[id],r=E('div','','display:flex;align-items:center;justify-content:space-between;gap:8px'),same=g.i===(ISL|0),n=E('span','👤 '+g.n+' ','font-weight:700;color:'+nameCol(g.lv)),w=E('small',same?'· pulau ini':(g.i===2?'· Pulau Karang':'· Pulau Utama'),'font-weight:400;opacity:.7');n.appendChild(w);const v=E('button','🐠','padding:5px 9px'),isF=(S.fr||[]).some(x=>x.toLowerCase()===g.n.toLowerCase()),fb=E('button',isF?'✓ Teman':'➕ Teman','padding:5px 8px');v.title='Akuarium';v.onclick=()=>{o.remove();aqVisit(id,g.n)};fb.onclick=()=>{S.fr=S.fr||[];if(!S.fr.some(x=>x.toLowerCase()===g.n.toLowerCase())){S.fr.push(g.n);save();toast('👥 '+g.n+' ditambahkan ke teman')}fill()};const bt=E('span','','display:flex;gap:4px');bt.append(fb,v);r.append(n,bt);lst.appendChild(r)})};
+    ids.forEach(id=>{const g=GON[id],r=E('div','','display:flex;align-items:center;justify-content:space-between;gap:8px'),same=g.i===(ISL|0),n=E('span',(g.pl?'🖥 ':'📱 ')+g.n+' ','font-weight:700;color:'+nameCol(g.lv)),w=E('small',same?'· pulau ini':(g.i===2?'· Pulau Karang':'· Pulau Utama'),'font-weight:400;opacity:.7');n.appendChild(w);const v=E('button','🐠','padding:5px 9px'),isF=(S.fr||[]).some(x=>x.toLowerCase()===g.n.toLowerCase()),fb=E('button',isF?'✓ Teman':'➕ Teman','padding:5px 8px');v.title='Akuarium';v.onclick=()=>{o.remove();aqVisit(id,g.n)};fb.onclick=()=>{S.fr=S.fr||[];if(!S.fr.some(x=>x.toLowerCase()===g.n.toLowerCase())){S.fr.push(g.n);save();toast('👥 '+g.n+' ditambahkan ke teman')}fill()};const bt=E('span','','display:flex;gap:4px');bt.append(fb,v);r.append(n,bt);lst.appendChild(r)})};
    fill();const iv=setInterval(()=>{if(!o.isConnected){clearInterval(iv);return}fill()},1500);
    const vi=E('input','',IN);vi.placeholder='Kunjungi akuarium (nama pemain)';vi.maxLength=14;vi.autocapitalize='off';const vb=E('button','🐠 Kunjungi','margin-top:6px;padding:8px;width:100%'),vs=E('div','','font-size:12px;min-height:14px;margin-top:4px;opacity:.85');
    vb.onclick=async()=>{const n=vi.value.trim();if(!/^[A-Za-z0-9_]{3,14}$/.test(n)){vs.textContent='Nama tidak valid';return}vs.textContent='Mencari...';try{const u=await aqByName(n);o.remove();aqVisit(u,n)}catch(e){vs.textContent='Pemain tidak ditemukan'}};bx.append(vi,vb,vs);
@@ -2299,9 +2299,10 @@ const dk=document.getElementById('sdock');if(!dk||typeof AQB==='undefined')retur
 const E=(t,x,c)=>{const e=document.createElement(t);if(x!==undefined)e.textContent=x;if(c)e.style.cssText=c;return e};
 const B=()=>AQB()+'/music';
 let NOW=null,skew=0,key='',keyS=0,advK='',blocked=false,muted=false,vol=.8,open=false,seek=0,errN=0;
-try{muted=localStorage.getItem('pm-shmute')==='1'}catch(e){}
+try{muted=localStorage.getItem('pm-shmute')==='1';const sv=parseFloat(localStorage.getItem('pm-shvol'));if(sv>=0&&sv<=1)vol=sv}catch(e){}
 const au=new Audio();au.preload='auto';au.volume=vol;
 const gm=()=>typeof mute!=='undefined'&&mute;
+const nextI=(c,r)=>{const n=TRACKS.length;if(r&&n>1){let k;do{k=Math.floor(Math.random()*n)}while(k===c);return k}return (c+1)%n};
 const duck=v=>{window.__shm=v?1:0};
 const srv=()=>Date.now()+skew;
 const api=async(m,p,body)=>{const tok=await auToken();if(!tok)throw 0;const r=await fetch(B()+p+'.json?auth='+encodeURIComponent(tok),{method:m,body:body===undefined?undefined:JSON.stringify(body)});if(!r.ok)throw r.status;return r.json()};
@@ -2310,7 +2311,7 @@ const syncClock=async()=>{try{const t0=Date.now(),v=await api('PUT','/clk/'+AU.u
 /* ---------- UI ---------- */
 const css=document.createElement('style');css.textContent='#shb.on{background:#1f9d57!important}#shm button{cursor:pointer}';document.head.appendChild(css);
 const btn=E('button','🎵');btn.id='shb';btn.type='button';btn.setAttribute('aria-label','Musik bersama');dk.appendChild(btn);
-let ov=null,npEl,ls,pb,mb,statEl;
+let ov=null,npEl,ls,pb,mb,sf,statEl;
 function build(){
  ov=E('div','','position:fixed;inset:0;z-index:42;background:#000a;display:flex;align-items:center;justify-content:center');ov.id='shm';
  const bx=E('div','','width:min(94vw,400px);max-height:86dvh;overflow:auto;background:var(--card,#16324a);color:var(--ink,#fff);border:2px solid #fff;border-radius:14px;padding:12px;font:13px system-ui,sans-serif');
@@ -2320,10 +2321,11 @@ function build(){
  npEl=E('div','','font-weight:700;word-break:break-word;margin-bottom:8px');
  const ct=E('div','','display:flex;gap:6px;align-items:center');
  pb=E('button','','flex:1;padding:8px');pb.onclick=toggle;
- const sk=E('button','⏭','padding:8px 12px');sk.onclick=()=>{if(!TRACKS.length)return;const i=NOW?(NOW.i+1)%TRACKS.length:0;start(i)};
+ const sk=E('button','⏭','padding:8px 12px');sk.onclick=()=>{if(!TRACKS.length)return;start(NOW?nextI(NOW.i,NOW.r):0)};
+ sf=E('button','🔀','padding:8px 12px');sf.onclick=shuf;
  mb=E('button','','padding:8px 12px');mb.onclick=()=>{muted=!muted;try{localStorage.setItem('pm-shmute',muted?'1':'0')}catch(e){}apply()};
- ct.append(pb,sk,mb);
- const vr=E('input','','width:100%;margin-top:8px');vr.type='range';vr.min=0;vr.max=100;vr.value=vol*100;vr.oninput=()=>{vol=vr.value/100;au.volume=vol};
+ ct.append(pb,sf,sk,mb);
+ const vr=E('input','','width:100%;margin-top:8px');vr.type='range';vr.min=0;vr.max=100;vr.value=vol*100;vr.oninput=()=>{vol=vr.value/100;au.volume=vol;try{localStorage.setItem('pm-shvol',String(vol))}catch(e){}};
  ls=E('div','','margin-top:8px;max-height:min(34vh,240px);overflow:auto;border:1px solid #fff4;border-radius:10px;background:#0003;padding:4px');
  statEl=E('div','','font-size:11px;opacity:.7;margin-top:6px');
  bx.append(hd,npEl,ct,vr,ls,statEl,E('div','Musik diputar serempak untuk semua pemain online. Tombol ▶/⏸ dan ⏭ berlaku untuk semua. 🔇 hanya mematikan musik bersama di perangkatmu (BGM game nyala lagi).','font-size:11px;opacity:.65;margin-top:6px'));
@@ -2334,7 +2336,7 @@ function render(){
  if(!ov)return;
  const on=NOW&&NOW.on&&TRACKS[NOW.i];
  npEl.textContent=on?'▶ '+TRACKS[NOW.i].n+(NOW.b?'  · diputar '+NOW.b:''):(TRACKS.length?'Musik berhenti (BGM game aktif)':'Belum ada lagu');
- pb.textContent=on?'⏸ Hentikan':'▶ Putar';mb.textContent=muted?'🔇':'🔊';
+ pb.textContent=on?'⏸ Hentikan':'▶ Putar';sf.style.opacity=NOW&&NOW.r?'1':'.45';sf.title='Acak lagu';mb.textContent=muted?'🔇':'🔊';
  statEl.textContent=muted?'Kamu mematikan musik bersama.':blocked?'Ketuk layar sekali agar suara bisa mulai.':'';
  ls.textContent='';
  if(!TRACKS.length){ls.appendChild(E('div','Daftar lagu masih kosong.','padding:8px;opacity:.7'));return}
@@ -2342,11 +2344,12 @@ function render(){
 
 /* ---------- kontrol bersama ---------- */
 const nm=()=>String(AU.u||'').slice(0,14);
-async function start(i){try{await api('PUT','/now',{i:i,s:{'.sv':'timestamp'},on:true,b:nm()});await poll()}catch(e){toast('Gagal mengganti lagu (cek Rules Firebase)')}}
+async function start(i){try{await api('PUT','/now',Object.assign({i:i,s:{'.sv':'timestamp'},on:true,b:nm()},NOW&&NOW.r?{r:1}:{}));await poll()}catch(e){toast('Gagal mengganti lagu (cek Rules Firebase)')}}
+async function shuf(){if(!NOW){toast('Putar lagu dulu');return}try{await api('PUT','/now',Object.assign({i:NOW.i,s:NOW.s,on:!!NOW.on,b:nm()},NOW.r?{}:{r:1}));toast(NOW.r?'🔀 Acak mati':'🔀 Acak nyala');await poll()}catch(e){toast('Gagal (cek Rules Firebase)')}}
 async function toggle(){if(!TRACKS.length)return;const on=NOW&&NOW.on;
- try{if(on)await api('PUT','/now',{i:NOW.i,s:NOW.s,on:false,b:nm()});else await start(NOW?NOW.i:0);await poll()}catch(e){toast('Gagal (cek Rules Firebase)')}}
+ try{if(on)await api('PUT','/now',Object.assign({i:NOW.i,s:NOW.s,on:false,b:nm()},NOW.r?{r:1}:{}));else await start(NOW?NOW.i:0);await poll()}catch(e){toast('Gagal (cek Rules Firebase)')}}
 async function advance(fk){if(advK===fk)return;advK=fk;await new Promise(r=>setTimeout(r,Math.random()*700));
- try{const n=await api('GET','/now');if(!n||!n.on||n.i+'|'+n.s!==fk)return;await api('PUT','/now',{i:(n.i+1)%TRACKS.length,s:{'.sv':'timestamp'},on:true,b:String(n.b||'').slice(0,14)});await poll()}catch(e){}}
+ try{const n=await api('GET','/now');if(!n||!n.on||n.i+'|'+n.s!==fk)return;await api('PUT','/now',Object.assign({i:nextI(n.i,n.r),s:{'.sv':'timestamp'},on:true,b:String(n.b||'').slice(0,14)},n.r?{r:1}:{}));await poll()}catch(e){}}
 
 /* ---------- pemutaran ---------- */
 function play(){const p=au.play();if(p&&p.catch)p.catch(()=>{blocked=true;duck(0);render()})}
