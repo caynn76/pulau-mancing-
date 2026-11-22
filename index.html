@@ -377,7 +377,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 <div id="spl-msg"></div>
 <button id="spl-go" type="button">▶ MULAI</button>
 <label><input type="checkbox" id="spl-fs" checked> Layar penuh</label>
-<div class="ver">v35 · Bisa dimainkan offline</div></div>
+<div class="ver">v36 · Bisa dimainkan offline</div></div>
 <main>
 <section class="col colL"><h1>Pulau Mancing</h1><div id="hb"></div>
 <div id="joy" aria-label="Joystick"><i id="knob"></i></div><div class="pad">
@@ -422,13 +422,13 @@ const MUT=[
 const INC=.6,DIF={zw:1,d:.8,prg:1,dec:.4},tmG=p=>Math.round([300,150,80,40][p]*(1+.15*(S.lvl-1))*INC/10)*10;
 const ROD=[{n:'Bambu',c:0,l:0,z:0,m:0,i:1},{n:'Fiber',c:300,l:.3,z:2,m:.1,i:1},{n:'Karbon',c:2500,l:.7,z:3,m:.25,i:1},{n:'Petir',c:18000,l:1.3,z:5,m:.5,i:1},{n:'Dewa',c:80000,l:2.2,z:6,m:1,i:1},{n:'Kraken',c:200000,l:3,z:6,m:1.6,i:1},{n:'Semesta',c:550000,l:4,z:7,m:2.4,i:1}];
 const BRN=['Common','Uncommon','Rare','Epic','Legendary'],BRC=['#9aa5b1','#4cd964','#4aa3ff','#b061ff','#ffb02e'];
-const BAIT=[{n:'Cacing',c:5,l:.35,m:.5,v:.1,r:0,i:'🐛'},{n:'Udang',c:5,l:.9,m:1,v:.25,r:1,i:'🦐'},{n:'Emas',c:45,l:2,m:3,v:.6,r:2,i:'✨'},
+const BAIT=[{n:'Cacing',c:3,l:.35,m:.5,v:.1,r:0,i:'🐛'},{n:'Udang',c:4,l:.9,m:1,v:.25,r:1,i:'🦐'},{n:'Emas',c:45,l:2,m:3,v:.6,r:2,i:'✨'},
 {n:'Jangkrik',c:6,l:.4,m:2,v:.2,r:1,i:'🦗'},{n:'Cumi Segar',c:60,l:1.2,m:2,v:1.2,r:2,i:'🦑'},
 {n:'Mutiara',c:120,l:2.4,m:4,v:1.4,r:3,i:'🐚',q:2},{n:'Kristal Beku',c:100,l:1.6,m:7,v:1,r:3,i:'❄️',q:2},
 {n:'Cahaya Dewa',c:350,l:2.8,m:6,v:2.2,r:4,i:'🌟',q:3},{n:'Inti Kosmik',c:320,l:2.2,m:12,v:1.8,r:4,i:'🔮',q:3},
 {n:'Kepiting Koral',c:90,l:1.6,m:3,v:1.6,r:3,i:'🦀',q:2,k:1},{n:'Cumi Neon',c:180,l:2.6,m:5,v:2.6,r:4,i:'🐙',q:3,k:1},{n:'Mutiara Hitam',c:260,l:3.2,m:9,v:3,r:4,i:'⚫',q:3,k:1}];
 const BTIP=['Termurah. Hampir impas di Kolam dan Laut, hanya hoki kecil.','Hemat. Bagus untuk Fiber.','Mutasi lebih tinggi dari Udang, harga menengah.','Paling untung di Laut Dalam (Fiber dan Karbon).','Paling untung di Samudra sampai Petir.','Untuk berburu ikan langka dan mutasi, bukan untuk cari gem.','Untuk berburu mutasi (hingga x7).','Paling untung dengan pancing Dewa ke atas.','Untuk berburu mutasi Kosmik (x25).'];
-const BWARN=["Hampir impas; untung tipis di Laut dengan pancing Karbon ke atas.", "Rugi di Kolam. Untung mulai di Laut dengan pancing Fiber ke atas.", "Rugi di Kolam. Untung mulai di Laut dengan pancing Karbon ke atas.", "Hampir impas di Kolam; untung tipis di Laut.", "Rugi di Kolam dan Laut dengan pancing awal. Untung di Laut Dalam dengan Karbon ke atas.", "Rugi di Kolam dan Laut. Untung mulai di Laut Dalam dengan pancing Petir ke atas.", "Rugi di Laut dan Laut Dalam. Untung di Samudra.", "Rugi besar di Kolam dan Laut. Untung mulai di Laut Dalam dengan pancing Dewa ke atas.", "Rugi di Kolam, Laut, dan Laut Dalam. Untung di Samudra."];const BALL=BAIT.map((_,i)=>i).sort((a,b)=>BAIT[a].r-BAIT[b].r||BAIT[a].c-BAIT[b].c),BORD=BALL.filter(i=>!BAIT[i].k);BTIP.push('Umpan Karang: nilai jual tinggi. Efek penuh hanya di Pulau Karang (di luar itu setengah).','Umpan Karang: hoki dan nilai tinggi. Efek penuh hanya di Pulau Karang.','Umpan Karang terbaik: hoki, mutasi, dan nilai. Efek penuh hanya di Pulau Karang.');BWARN.push('Dijual Nyai Karang dengan Mutiara.','Dijual Nyai Karang dengan Mutiara.','Dijual Nyai Karang dengan Mutiara.');
+const BWARN=["Cukup hemat; mulai untung di Kolam bila beruntung, lebih stabil di Laut.", "Hampir impas di Kolam. Untung di Laut dengan pancing Fiber ke atas.", "Rugi di Kolam. Untung mulai di Laut dengan pancing Karbon ke atas.", "Hampir impas di Kolam; untung tipis di Laut.", "Rugi di Kolam dan Laut dengan pancing awal. Untung di Laut Dalam dengan Karbon ke atas.", "Rugi di Kolam dan Laut. Untung mulai di Laut Dalam dengan pancing Petir ke atas.", "Rugi di Laut dan Laut Dalam. Untung di Samudra.", "Rugi besar di Kolam dan Laut. Untung mulai di Laut Dalam dengan pancing Dewa ke atas.", "Rugi di Kolam, Laut, dan Laut Dalam. Untung di Samudra."];const BALL=BAIT.map((_,i)=>i).sort((a,b)=>BAIT[a].r-BAIT[b].r||BAIT[a].c-BAIT[b].c),BORD=BALL.filter(i=>!BAIT[i].k);BTIP.push('Umpan Karang: nilai jual tinggi. Efek penuh hanya di Pulau Karang (di luar itu setengah).','Umpan Karang: hoki dan nilai tinggi. Efek penuh hanya di Pulau Karang.','Umpan Karang terbaik: hoki, mutasi, dan nilai. Efek penuh hanya di Pulau Karang.');BWARN.push('Dijual Nyai Karang dengan Mutiara.','Dijual Nyai Karang dengan Mutiara.','Dijual Nyai Karang dengan Mutiara.');
 const SP=[
  {n:'Nila',r:0,w:30,b:5,z:0},{n:'Lele',r:0,w:25,b:6,z:0},{n:'Mujair',r:0,w:20,b:7,z:0},{n:'Gurame',r:1,w:15,b:16,z:0},{n:'Patin Raja',r:1,w:10,b:24,z:0},
  {n:'Arwana Merah',r:2,w:6,b:55,z:0},{n:'Koi Neon',r:2,w:4,b:80,z:0},{n:'Arapaima',r:3,w:2.5,b:210,z:0},{n:'Naga Sungai',r:3,w:1.5,b:330,z:0},{n:'Dewa Koi',r:4,w:.3,b:1000,z:0},{n:'Koi Semesta',r:5,w:.05,b:5000,z:0},{n:'Gurame Senja',r:1,w:12,b:30,z:0},{n:'Nila Matahari',r:1,w:10,b:26,z:0},{n:'Koi Purnama',r:2,w:5,b:90,z:0},
@@ -478,7 +478,7 @@ function misiHTML(){dqCheck();let h='<div class="row"><b>Misi Harian '+S.dq.q.fi
   return h+'<p class="hint">Selesaikan dan ambil ketiga misi untuk bonus 💎 '+dqBonus()+'. Hadiah makin besar seiring levelmu.</p><div class="bar"><button data-x="1">Tutup</button></div>'}
 function tugasHTML(t){const bar='<div class="stk"><div class="tabs">'+TG.map(k=>'<button data-t="'+k+'" class="'+(k===t?'on':'')+'">'+TGN[k]+'</button>').join('')+'</div></div>';
  return bar+(t==='quest'?questHTML():t==='login'?loginHTML():t==='hadiah'?dailyHTML():misiHTML())}
-const SKM=i=>i===6?5:10;
+const SKM=i=>i===6?5:10,SKXG=500;
 function nxtUpd(){try{if((S.sk[6]|0)>5){S.sp=(S.sp|0)+(S.sk[6]-5);S.sk[6]=5;save()}let e=$('nxt');if(!e){e=document.createElement('div');e.id='nxt';$('hb').insertAdjacentElement('afterend',e)}
  const tot=S.tot||0;let t='';if(st==='walk'&&!HOME&&tot<15){if(tot===0)t='Hadap air, lalu tekan Lempar';else if(S.inv.length>=3)t='Jual ikanmu di Toko (dekat penjual, tekan Aksi)';else if(tot<6)t='Lempar lagi untuk menangkap ikan'}
  if(e.dataset.t!==t){e.dataset.t=t;e.textContent=t?'👉 '+t:'';e.style.display=t?'block':'none'}}catch(x){}}
@@ -488,7 +488,7 @@ function shopBar(t){const L={grod:'🎣 Pancing',skin:'👕 Skin',gpet:'🐾 Pet
 function skMini(c,k,ox,oy){if(GFX>=5&&c.canvas&&c.canvas.id==='skg'){try{hdSkMini(c,k,ox,oy);return}catch(e){}}const P=Object.assign({},PAL,{c:k.h,C:k.H,r:skR(k,0),R:skR(k,1)});PD.forEach((row,j)=>{for(let i=0;i<10;i++){const q=P[row[i]];if(q&&row[i]!=='.'){c.fillStyle=q;c.fillRect(ox+i,oy+j,1,1)}}});c.fillStyle=PAL.p;c.fillRect(ox+3,oy+11,2,2);c.fillRect(ox+5,oy+11,2,2);c.fillStyle=PAL.b;c.fillRect(ox+3,oy+13,2,1);c.fillRect(ox+5,oy+13,2,1)}
 function skExtra(p){
  const own=S.skins||[0],sh=S.sh|0,lock=SKINS.map((k,i)=>[k,i]).filter(x=>x[1]>0&&!own.includes(x[1]));
- if(skSec()==='g'){const h=(S.gh||[]).map(q=>'<i style="display:inline-block;width:9px;height:9px;background:'+SQ[q].c+'"></i>').join('');if(h)p.insertAdjacentHTML('beforeend','<div class="row" style="flex-direction:column;align-items:stretch"><b>\ud83d\udcdc Riwayat tarikan</b><div style="display:flex;gap:2px;flex-wrap:wrap;margin-top:4px">'+h+'</div></div>');return}
+ if(skSec()==='g'){const h=(S.gh||[]).map(q=>'<i style="display:inline-block;width:9px;height:9px;background:'+SQ[q].c+'"></i>').join('');if(h)($('pbody')||p).insertAdjacentHTML('beforeend','<div class="row" style="flex-direction:column;align-items:stretch"><b>\ud83d\udcdc Riwayat tarikan</b><div style="display:flex;gap:2px;flex-wrap:wrap;margin-top:4px">'+h+'</div></div>');return}
  const lem=$('skLem'),pec=$('skPec');if(!lem||!pec)return;
  const ids=SKINS.map((_,i)=>i).sort((a,b)=>(SKINS[b].q|0)-(SKINS[a].q|0)||a-b);
  lem.innerHTML='<div class="row" style="flex-direction:column;align-items:stretch"><b>\ud83d\udc57 Lemari</b><canvas id="skg" width="240" height="'+(Math.ceil(SKINS.length/10)*22)+'" style="width:100%;image-rendering:pixelated"></canvas></div>';
@@ -497,10 +497,10 @@ function skExtra(p){
  pec.innerHTML=x;
  const cv=$('skg');if(!cv)return;const c=cv.getContext('2d');if(GFX>=5){cv.width=480;cv.height=Math.ceil(SKINS.length/10)*44;cv.style.imageRendering='auto';c.setTransform(2,0,0,2,0,0)}
  ids.forEach((i,n)=>{const k=SKINS[i],ox=(n%10)*24+7,oy=Math.floor(n/10)*22+1,has=own.includes(i);c.globalAlpha=has?1:.4;skMini(c,k,ox,oy);c.globalAlpha=1;c.fillStyle=i?SQ[k.q].c:SQ[0].c;c.fillRect(ox-3,oy+17,16,2);if((S.skin||0)===i){c.fillStyle='#fff';c.fillRect(ox-3,oy+19,16,1)}})}
-const GMC='admin123';
+const cy53=(s,seed=0)=>{let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,c;i<s.length;i++){c=s.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)},GMH=7933804493620537;
 function gmHTML(full){const inp='padding:6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)';if(!S.gm)return '<div class="sec">🛠 GM</div><div class="row"><span>Kode GM</span><input id="gmc" type="password" autocomplete="off" placeholder="masukkan kode" style="flex:1;min-width:0;max-width:50%;'+inp+'"><button data-gml="1">Masuk</button></div>';
  if(!full)return '<div class="sec">🛠 Mode GM</div><div class="row"><span>Menu GM aktif. Letaknya di kanan bawah: ketuk tombol GM (ungu) di samping tombol 💬 dan 😀.</span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>';
- return '<div class="sec">🛠 Mode GM</div><div class="row"><span>💜 Gem Ungu: <b>∞ (tak terbatas)</b><br><small>Hanya GM yang memilikinya.</small></span></div><div class="row"><span>Tukar 💜 jadi 💎</span><span><button data-gm="1">+100 rb</button> <button data-gm="2">+1 juta</button></span></div><div class="row"><span>Buka semua skin</span><button data-gm="3">Buka</button></div>'+gmFish()+'<div class="row"><span>Pindah pulau</span><span><button data-gm="4">Rumah</button> <button data-gm="5">Karang</button></span></div><div class="row"><span>Perahu Karang gratis</span><button data-gm="6">Buka</button></div><div class="row"><span>Joran Terumbu gratis</span><button data-gm="26">Buka</button></div><div class="row"><span>Reset minigame awal</span><button data-gm="7">Reset</button></div><div class="row"><span>Level +10 (dapat skill point)</span><span><button data-gm="8">+10</button> </span></div><div class="row"><span>Semua joran terbuka</span><span><button data-gm="9">Buka</button> </span></div><div class="row"><span>Umpan semua jenis +50</span><span><button data-gm="10">+50</button> </span></div><div class="row"><span>Buka Kapal samudra</span><span><button data-gm="11">Buka</button> </span></div><div class="row"><span>Lengkapi buku ikan</span><span><button data-gm="12">Isi</button> </span></div><div class="row"><span>Ganti cuaca (siklus)</span><span><button data-gm="13">Ganti</button> </span></div><div class="row"><span>Waktu</span><span><button data-gm="14">Siang</button> <button data-gm="15">Malam</button> <button data-gm="16">Normal</button> </span></div><div class="row"><span>Reset misi, login, lomba, peti harian</span><span><button data-gm="17">Reset</button> </span></div><div class="row"><span>Hapus SEMUA progres (tes pemain baru)</span><span><button data-gm="18">Hapus</button> </span></div><div class="row"><span><b>⏱ Event 30 menit</b><br><small>Hanya di perangkat ini</small></span></div><div class="row"><span><button data-gm="20">🌟 Emas</button> <button data-gm="21">🧬 Mutasi</button> <button data-gm="22">💰 Cuan</button> <button data-gm="23">Stop</button></span></div><div class="row"><span>Atur level</span><span><input id="gmLv" type="number" inputmode="numeric" min="1" max="9999" placeholder="Lv" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="24">Set</button></span></div><div class="row"><span>Atur gem 💎</span><span><input id="gmGm" type="number" inputmode="numeric" min="0" placeholder="jumlah" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="25">Set</button></span></div><div class="row"><span><b>🎁 Kirim gem ke pemain</b><br><small>UID akunmu: '+(typeof AU!=='undefined'&&AU?AU.uid:'belum login')+'</small></span></div><div class="row"><span><input id="gmGu" placeholder="username" maxlength="14" autocapitalize="off" autocomplete="off" style="width:96px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <input id="gmGa" type="number" inputmode="numeric" min="1" placeholder="gem" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="27">Kirim</button></span></div><div class="row"><span><b>🎁 Kirim umpan / skin</b><br><small>Pakai username di kolom kirim gem di atas</small></span></div><div class="row"><span>'+gmItemSel()+'</span><button data-gm="39">Kirim</button></div><div class="row"><span><b>🌐 Event SEMUA pemain (30 mnt)</b><br><small>Teman yang online dapat dalam ±1 menit</small></span></div><div class="row"><span><button data-gm="35">🌟 Emas</button> <button data-gm="36">🧬 Mutasi</button> <button data-gm="37">💰 Cuan</button> <button data-gm="38">Stop</button></span></div><div class="row"><span><b>🌈 Efek langit</b><br><small>Aurora &amp; lentera otomatis bikin malam cerah</small></span></div><div class="row"><span><button data-gm="28">🌈 Pelangi</button> <button data-gm="29">🌌 Aurora</button> <button data-gm="30">🏮 Lentera</button></span></div><div class="row"><span><b>☁️ Pilih cuaca (5 mnt)</b></span></div><div class="row"><span><button data-gm="31">☀️</button> <button data-gm="32">⛅</button> <button data-gm="33">🌧️</button> <button data-gm="34">⛈️</button></span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>'}
+ return '<div class="sec">🛠 Mode GM</div><div class="row"><span>💜 Gem Ungu: <b>∞ (tak terbatas)</b><br><small>Hanya GM yang memilikinya.</small></span></div><div class="row"><span>Tukar 💜 jadi 💎</span><span><button data-gm="1">+100 rb</button> <button data-gm="2">+1 juta</button></span></div><div class="row"><span>Buka semua skin</span><button data-gm="3">Buka</button></div>'+gmFish()+'<div class="row"><span>Pindah pulau</span><span><button data-gm="4">Rumah</button> <button data-gm="5">Karang</button></span></div><div class="row"><span>Perahu Karang gratis</span><button data-gm="6">Buka</button></div><div class="row"><span>Joran Terumbu gratis</span><button data-gm="26">Buka</button></div><div class="row"><span>Reset minigame awal</span><button data-gm="7">Reset</button></div><div class="row"><span>Level +10 (dapat skill point)</span><span><button data-gm="8">+10</button> </span></div><div class="row"><span>Semua joran terbuka</span><span><button data-gm="9">Buka</button> </span></div><div class="row"><span>Umpan semua jenis +50</span><span><button data-gm="10">+50</button> </span></div><div class="row"><span>Buka Kapal samudra</span><span><button data-gm="11">Buka</button> </span></div><div class="row"><span>Lengkapi buku ikan</span><span><button data-gm="12">Isi</button> </span></div><div class="row"><span>Ganti cuaca (siklus)</span><span><button data-gm="13">Ganti</button> </span></div><div class="row"><span>Waktu</span><span><button data-gm="14">Siang</button> <button data-gm="15">Malam</button> <button data-gm="16">Normal</button> </span></div><div class="row"><span>Reset misi, login, lomba, peti harian</span><span><button data-gm="17">Reset</button> </span></div><div class="row"><span>Hapus SEMUA progres (tes pemain baru)</span><span><button data-gm="18">Hapus</button> </span></div><div class="row"><span><b>⏱ Event 30 menit</b><br><small>Hanya di perangkat ini</small></span></div><div class="row"><span><button data-gm="20">🌟 Emas</button> <button data-gm="21">🧬 Mutasi</button> <button data-gm="22">💰 Cuan</button> <button data-gm="23">Stop</button></span></div><div class="row"><span>Atur level</span><span><input id="gmLv" type="number" inputmode="numeric" min="1" max="9999" placeholder="Lv" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="24">Set</button></span></div><div class="row"><span>Atur gem 💎</span><span><input id="gmGm" type="number" inputmode="numeric" min="0" placeholder="jumlah" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="25">Set</button></span></div><div class="row"><span><b>🎁 Kirim gem ke pemain</b><br><small>UID akunmu: '+(typeof AU!=='undefined'&&AU?AU.uid:'belum login')+'</small></span></div><div class="row"><span><input id="gmGu" placeholder="username" maxlength="14" autocapitalize="off" autocomplete="off" style="width:96px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <input id="gmGa" type="number" inputmode="numeric" min="1" placeholder="gem" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="27">Kirim</button></span></div><div class="row"><span><b>🎁 Kirim umpan / skin</b><br><small>Pakai username di kolom kirim gem di atas</small></span></div><div class="row"><span>'+gmItemSel()+'</span><button data-gm="39">Kirim</button></div>'+rdgHTML()+(typeof annGmHTML==='function'?annGmHTML():'')+'<div class="row"><span><b>🌐 Event SEMUA pemain (30 mnt)</b><br><small>Teman yang online dapat dalam ±1 menit</small></span></div><div class="row"><span><button data-gm="35">🌟 Emas</button> <button data-gm="36">🧬 Mutasi</button> <button data-gm="37">💰 Cuan</button> <button data-gm="38">Stop</button></span></div><div class="row"><span><b>🌈 Efek langit</b><br><small>Aurora &amp; lentera otomatis bikin malam cerah</small></span></div><div class="row"><span><button data-gm="28">🌈 Pelangi</button> <button data-gm="29">🌌 Aurora</button> <button data-gm="30">🏮 Lentera</button></span></div><div class="row"><span><b>☁️ Pilih cuaca (5 mnt)</b></span></div><div class="row"><span><button data-gm="31">☀️</button> <button data-gm="32">⛅</button> <button data-gm="33">🌧️</button> <button data-gm="34">⛈️</button></span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>'}
 function cardFx(f,R){const c=$('card'),hi=f.r>=2;c.style.borderColor=hi?R.c:'';c.style.boxShadow=hi?'0 0 '+(18+f.r*8)+'px '+R.c+',0 18px 50px rgba(0,0,0,.55)':'';c.style.background=hi?'radial-gradient(120% 100% at 50% 0%,'+R.c+'66,#0a1c28 72%)':'';}
 function hud(){
  let kI=0;try{kI=ISL}catch(e){}const gs=kI===2?'K|'+fmt(S.prl|0)+'|'+fmt(S.gems)+'|'+kxChip():'💎 '+fmt(S.gems)+(S.gm?' · 💜 ∞':'');if($('gems').dataset.k!==gs){$('gems').dataset.k=gs;if(kI===2)$('gems').innerHTML='🦪 '+fmt(S.prl|0)+'<small style="font-size:11px;opacity:.85;margin-left:6px">💎 '+fmt(S.gems)+' · 💱 '+kxChip()+'</small>';else $('gems').textContent=gs;const e=$('gems');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
@@ -1140,7 +1140,7 @@ function book(){
    const n=S.myq||0,t=mysSt();h+='<div class="row"><b>Galeri Hadiah '+n+'/'+RID.length+'</b><span>🕯️ Sosok Misterius</span></div>';
    galList().forEach((im,k)=>{h+='<div class="row"><span><b>🖼️ Gambar hadiah '+(k+1)+'</b><br>Ketuk untuk memperbesar</span><button data-gal="'+im+'" style="padding:0;border:0;background:none"><img alt="Hadiah quest" src="'+GI[im]+'" style="width:72px;height:72px;object-fit:cover;border:2px solid var(--ink);display:block"></button></div>'});
    RID.forEach((r,i)=>{const ok=i<n;h+='<div class="row"><span><b'+(ok?'':' style="color:var(--mute)"')+'>'+(ok?'🏅 ':'🔒 ')+'Teka-teki '+(i+1)+'</b><br>'+(ok?(S.myr[i]||'Selesai'):'Terbuka di Lv '+r.lv+(i===n&&t.s==='day'?' · bisa dikerjakan besok':i===n&&t.s==='ready'?' · siap dikerjakan!':''))+'</span><span>'+(ok?'✔':'')+'</span></div>'});
-   h+='<p class="hint">Temui Sosok Misterius di desa (sisi utara). Tanpa batas level dan harian: selama kamu bisa menjawab, teka-teki berikutnya langsung terbuka. Hadiahnya gem, umpan langka, dan skin. Gambar lain didapat dari Quest Galeri (menu Quest).</p><div class="bar"><button data-x="1">Tutup</button></div>';
+   h+='<p class="hint">Temui Sosok Misterius di desa (sisi utara). Tanpa batas level dan harian: selama kamu bisa menjawab, teka-teki berikutnya langsung terbuka. Hadiahnya gem, umpan langka, dan skin. Gambar lain didapat dari Quest Galeri (menu Tugas).</p><div class="bar"><button data-x="1">Tutup</button></div>';
   }else if(tab==='rek'){
   const r=S.rec,rw=(a,b)=>'<div class="row"><span>'+a+'</span><b>'+b+'</b></div>',sec=Math.floor(r.sec);
   h+=rw('🎣 Total tangkapan',S.tot)+rw('💎 Total gem dari jual',fmt(S.earn))+rw('⚖️ Ikan terberat',r.heavy?r.heavy.n+' '+r.heavy.kg+' kg'+(r.heavy.s?' ('+r.heavy.s+')':''):'-')+rw('💰 Tangkapan termahal',r.value?r.value.n+' 💎'+r.value.v+(r.value.s?' ('+r.value.s+')':''):'-')+rw('🔥 Streak terbaik',r.streak)+rw('📖 Koleksi ikan',SP.filter(f=>S.dex[f.n]).length+'/'+SP.length)+rw('🧬 Mutasi ditemukan',S.mdex.filter(x=>x>0).length+'/'+S.mdex.length)+rw('🏆 Lomba dimenangkan',r.wins)+rw('⭐ Level',S.lvl)+rw('⏱ Waktu main',Math.floor(sec/3600)+' j '+Math.floor(sec%3600/60)+' m')+sesRows(rw);
@@ -1158,7 +1158,7 @@ function book(){
 const HELP=[
 ['🎮 Dasar',['Geser joystick untuk jalan (keyboard: WASD atau panah).','Hadap air lalu TAHAN Aksi untuk mengisi kekuatan lempar. Makin lama ditahan makin jauh (dan makin dalam airnya). Lepas saat bar emas penuh = PERFECT, gigitan datang lebih cepat.','Saat ikan menggigit, tekan Aksi (Tarik) dengan cepat.','Lalu TAHAN Aksi untuk menaikkan bar hijau agar menutupi ikan, sampai bar kuning penuh.','Di ujung dermaga air lebih dalam, jadi ikan langka lebih sering.','Gubuk merah = upgrade pancing, umpan, skill, dan perahu. Jual ikan di Lapak pasar (hadap lapak, tekan Aksi).','Hadap penduduk pulau lalu tekan Aksi untuk ngobrol. Tiap orang memberi 2 Umpan Cacing sekali sehari.','Akuarium kaca di dekat tempat mulai: hadap lalu tekan Aksi untuk memajang sampai 4 ikan favoritmu. Ikan yang dipajang terkunci dari penjualan.']],
 ['🌊 Perairan',['Kolam: di samping tempat mulai.','Laut: di pesisir.','Laut Dalam: lewat jembatan mercusuar di timur, butuh pancing Fiber, ikan sampai Legendary.','Samudra: naik perahu dari dermaga selatan (beli Kapal Samudra di toko, tab Perahu). Ikan Divine dan Secret hanya di sini.','Ikan tiap perairan berbeda. Beberapa ikan hanya muncul saat malam, hujan, atau badai.','Pulau Karang: di sana butuh Joran Terumbu (toko, tab Pancing) atau joran gacha Legend/Mythic. Ikan karang '+KPR+'x lebih mahal dan punya tab sendiri di Buku.']],
-['🎣 Pancing, Umpan, Hotbar',['Hotbar bawah: slot paling kiri = pancing yang dipakai. Ketuk atau tekan Q untuk ganti. Tiap pancing punya skin berbeda.','Slot 1-4 = ikan hasil pancingan, terisi otomatis. Ketuk slot atau tekan angka 1-4 untuk memegang ikannya. Kalau penuh, ikan masuk Tas.','Tiap tingkat ikan butuh pancing minimal: Common Bambu, Rare Fiber, Epic Karbon, Legendary Petir (Legendary raksasa seperti Megalodon butuh Dewa), Divine Kraken, Secret hanya Semesta (paling mahal). Lihat syarat tiap ikan di Buku. Pancing Gacha (Gubuk Upgrade > Gacha) bisa lebih kuat dari pancing toko.','Pasif pancing (kumulatif): Fiber waktu menarik +0,5 dtk, Karbon bar turun lebih lambat, Petir ikan lebih cepat menggigit, Dewa Hentakan pertama otomatis sempurna.','Umpan (toko, tab Umpan) menambah hoki, mutasi, dan nilai jual. Pilih yang dipakai lewat tombol Pakai. Tombol 🛒 di atas slot umpan (hotbar) langsung membeli +5 umpan yang sedang dipakai, di mana saja.']],
+['🎣 Pancing, Umpan, Hotbar',['Hotbar bawah: slot paling kiri = pancing yang dipakai. Ketuk atau tekan Q untuk ganti. Tiap pancing punya skin berbeda.','Slot 1-4 = ikan hasil pancingan, terisi otomatis. Ketuk slot atau tekan angka 1-4 untuk memegang ikannya. Kalau penuh, ikan masuk Tas.','Tiap tingkat ikan butuh pancing minimal: Common Bambu, Rare Fiber, Epic Karbon, Legendary Petir (Legendary raksasa seperti Megalodon butuh Dewa), Divine Kraken, Secret hanya Semesta (paling mahal). Lihat syarat tiap ikan di Buku. Pancing Gacha (menu Gacha) bisa lebih kuat dari pancing toko.','Pasif pancing (kumulatif): Fiber waktu menarik +0,5 dtk, Karbon bar turun lebih lambat, Petir ikan lebih cepat menggigit, Dewa Hentakan pertama otomatis sempurna.','Umpan (toko, tab Umpan) menambah hoki, mutasi, dan nilai jual. Pilih yang dipakai lewat tombol Pakai. Tombol 🛒 di atas slot umpan (hotbar) langsung membeli +5 umpan yang sedang dipakai, di mana saja.']],
 ['💪 Tarikan dan Hentakan',['Gaya tarik beda per rarity: Common santai, Rare melesat, Epic zigzag, Legendary melawan (zona tertekan), Divine menghilang, Secret kontrol terbalik.','Ikan Legendary ke atas punya notif khusus dan minigame Hentakan: tekan Aksi saat penanda ada di zona emas. Hasil sempurna menambah nilai ikan.','Zona hijau hampir sama lebar di semua ikan (makin langka hanya sedikit lebih sempit). Yang beda adalah lamanya menarik: sekitar 3 detik untuk Common, 5 Rare, 8,5 Epic, 14 Legendary, 20 Divine, dan 32 detik untuk Secret (kalau kamu menahan tombol dengan lancar).','Pancing yang lebih bagus melebarkan zona hijau, jadi tarikan makin cepat.']],
 ['🧬 Mutasi dan Ukuran',['Mutasi menambah efek tarikan dan nilai jual: Berkilau berkedip, Emas berat, Beku licin, Bercahaya cepat, Bayangan tak terlihat, Pelangi kacau, Kosmik terbalik.','Ikan bisa Raksasa x4, Raksasa Absurd x8, Kolosal x16 (makin jarang). Nilainya x2, x4, x8 dan menariknya lebih lama.','Raksasa Absurd dan Kolosal memicu peringatan sirene saat menggigit. Bersiaplah!']],
 ['✨ Titik Ikan',['Gelembung berkilau ✨ muncul di air dekat pantai atau dermaga, maksimal 2 titik, hilang setelah sekitar 2,5 menit.','Hadap titik itu dan lempar kail: kamu dapat Berkah 3 menit (hoki +30%, peluang mutasi naik) dan titiknya habis. Titik baru muncul tiap setengah sampai satu menit.','Panah kuning di tepi layar menunjuk titik terdekat. Di 🗺️ Peta ada tombol Pergi ke tiap titik.']],
@@ -1194,6 +1194,7 @@ function openPanel(shop,t){
  }else if(tab==='skill'){
   h+='<div class="row"><b>Skill Point: '+S.sp+'</b><span>Lv '+S.lvl+'</span></div>';
   SK.forEach((k,i)=>{const v=S.sk[i]|0;h+='<div class="row"><span><b>'+k.n+'</b> '+v+'/'+SKM(i)+'<br>'+k.d+'</span><button data-sk="'+i+'"'+(S.sp>0&&v<SKM(i)?'':' disabled')+'>+1</button></div>'});
+  if(SK.every((k,i)=>(S.sk[i]|0)>=SKM(i))&&S.sp>0)h+='<div class="row"><span><b>✨ Semua skill penuh</b><br>Tukar poin sisa: 1 poin = 💎 '+fmt(SKXG)+'</span><button data-skx="1">Tukar '+S.sp+' poin → 💎 '+fmt(S.sp*SKXG)+'</button></div>';
   h+='<p class="hint">Dapat 1 skill point tiap naik level.</p>'+skRstRow()+'<div class="bar"><button data-x="1">Tutup</button></div>';
  }else if(tab==='asah'){h+=asahHTML();}else if(tab==='hadiah'){h+=dailyHTML();}else if(tab==='tasu'){h+=bagUpHTML();}else if(tab==='grod'){h+=grodHTML();
  }else if(tab==='rod'){
@@ -1244,7 +1245,9 @@ $('panel').addEventListener('click',window.PCLK=e=>{
  if(d.hul!==undefined){const l=S.hul|0,nx=HUL[l];if(nx&&S.boat&&S.gems>=nx[1]&&cfm('hul'+l,nx[1])){S.gems-=nx[1];S.hul=l+1;toast('🛡️ '+nx[0]+' terpasang! Hoki saat berlayar naik');snd(988,.08);snd(1319,.1,'square',.08)}}
  if(d.bsn!==undefined){if(!S.bsn&&S.boat&&S.gems>=SNC&&cfm('bsn',SNC)){S.gems-=SNC;S.bsn=1;toast('📡 Sonar Peti terpasang!');snd(988,.08);snd(1319,.1,'square',.08)}}
  if(d.shx){const i=+(($('shs')||{}).value),k=SKINS[i];S.skins=S.skins||[0];if(k&&k.q>0&&!S.skins.includes(i)&&(S.sh|0)>=SHX[k.q]){S.sh-=SHX[k.q];S.skins.push(i);skRes=[{i,q:k.q,dup:0,rf:0}];toast('🔶 Ditukar: '+k.n);sfxGacha(k.q,0)}else{toast('Pecahan kurang');snd(180,.2,'sawtooth')}save();hud();openPanel(shopMode,'skin');return}
- if(d.gml!==undefined){if(d.gml==='0'){S.gm=0;toast('Mode GM dimatikan')}else{const v=String(($('gmc')||{}).value||'').trim();if(v===GMC){S.gm=1;toast('💜 Mode GM aktif: Gem Ungu tak terbatas');snd(660,.1);snd(990,.15,'square',.1)}else{toast('Kode GM salah');snd(180,.2,'sawtooth')}}}
+ if(d.rdm!==undefined){doRedeem().then(rdmAfter);return}
+ if(S.gm&&d.rdg!==undefined){gmRdMake();return}if(S.gm&&d.anp!==undefined){if(window.annGmPost)window.annGmPost();return}if(S.gm&&d.rdl!==undefined){gmRdList();return}if(S.gm&&d.rdd!==undefined){gmRdDel(d.rdd);return}
+ if(d.gml!==undefined){if(d.gml==='0'){S.gm=0;toast('Mode GM dimatikan')}else{const v=String(($('gmc')||{}).value||'').trim();if(cy53(v)===GMH){S.gm=1;toast('💜 Mode GM aktif: Gem Ungu tak terbatas');snd(660,.1);snd(990,.15,'square',.1)}else{toast('Kode GM salah');snd(180,.2,'sawtooth')}}}
  if(d.gm!==undefined&&S.gm&&+d.gm>=4&&+d.gm<=7){const k=+d.gm;if(k<=5){$('panel').style.display='none';goIsland(k===4?1:2)}else if(k===6){S.boat2=1;toast('🛶 GM: Perahu Karang dibuka')}else{S.karang=0;toast('🛶 GM: minigame awal direset')}save();hud()}if(d.gm!==undefined&&S.gm&&+d.gm>=8){const k=+d.gm;let t='';
  if(k===8){for(let i=0;i<10;i++){S.lvl++;S.sp++;S.spt++}t='Level +10 (Lv '+S.lvl+')'}
  else if(k===9){S.rod=ROD.length-1;t='Semua joran terbuka: '+ROD[S.rod].n}
@@ -1283,7 +1286,7 @@ if(d.gm!==undefined&&S.gm&&+d.gm<4){const k=+d.gm;if(k===1)S.gems+=1e5;else if(k
  if(d.boat&&!S.boat&&S.gems>=8000&&S.rod>=2){S.gems-=8000;S.boat=true;snd(660,.1);snd(880,.2,'square',.1);toast('⛵ Kapal Samudra dibeli!')}
  if(d.slot!==undefined){const [i,k]=d.slot.split(',').map(Number),f=S.inv[i];if(f){S.hot=S.hot.map(x=>x===f.id?0:x);if(S.hot[k]!==f.id)S.hot[k]=f.id;snd(600,.08)}}
  if(d.h!==undefined){held=held===S.inv[+d.h]?null:S.inv[+d.h];say(held?'Memegang '+fname(held)+' ('+wtxt(held)+')':'Ikan dilepas.');snd(600,.08)}
- if(d.sk!==undefined){const i=+d.sk;if(S.sp>0&&(S.sk[i]|0)<SKM(i)){S.sp--;S.sk[i]=(S.sk[i]|0)+1;snd(660,.1);snd(990,.15,'square',.1)}}if(d.dr!==undefined&&(!S.dr||S.dr.n!==dayN())){const lv=1+.15*(S.lvl-1);let x;if(Math.random()<.5){const g=Math.max(10,Math.round((100+Math.random()*400)*lv*INC/10)*10);S.gems+=g;x='💎 '+fmt(g)+' gem'}else{const av=BAIT.map((b,i)=>i).filter(i=>!BAIT[i].k&&(BAIT[i].q===undefined||tierMax()>=BAIT[i].q)),i=av[Math.floor(Math.random()*av.length)],a=[10,8,5,3,2][BAIT[i].r];S.bait[i]=(S.bait[i]|0)+a;if(S.sel<0)S.sel=i;x=BAIT[i].i+' '+BAIT[i].n+' x'+a}S.dr={n:dayN(),x};snd(988,.08);snd(1319,.1,'square',.08);toast('🎁 '+x)}if(d.bagu!==undefined){const u=S.bagU|0;if(u<BAGC.length&&S.gems>=BAGC[u]&&cfm('bg'+u,BAGC[u])){S.gems-=BAGC[u];S.bagU=u+1;snd(660,.1);snd(990,.15,'square',.1);toast('Tas jadi '+bagCap()+' slot')}}if(d.skr!==undefined){const left=(S.skR||0)+SKRCD-Date.now(),tot=S.sk.reduce((a,b)=>a+(b|0),0);if(left>0)toast('Reset skill masih cooldown');else if(!tot)toast('Belum ada poin skill terpakai');else if(S.gems<SKRC)toast('Gem kurang');else if(confirm('Reset semua skill?\nBiaya 10.000 gem, cooldown 6 jam. Poin dikembalikan.')){S.gems-=SKRC;S.sp+=tot;S.sk=S.sk.map(()=>0);S.skR=Date.now();snd(520,.12,'triangle');toast('Skill di-reset, poin dikembalikan')}}
+ if(d.skx!==undefined&&S.sp>0&&SK.every((k,i)=>(S.sk[i]|0)>=SKM(i))){const g=S.sp*SKXG;S.gems+=g;toast('✨ '+S.sp+' poin skill → 💎 '+fmt(g));S.sp=0;snd(880,.1,'triangle');snd(1175,.14,'triangle',.1);save()}if(d.sk!==undefined){const i=+d.sk;if(S.sp>0&&(S.sk[i]|0)<SKM(i)){S.sp--;S.sk[i]=(S.sk[i]|0)+1;snd(660,.1);snd(990,.15,'square',.1)}}if(d.dr!==undefined&&(!S.dr||S.dr.n!==dayN())){const lv=1+.15*(S.lvl-1);let x;if(Math.random()<.5){const g=Math.max(10,Math.round((100+Math.random()*400)*lv*INC/10)*10);S.gems+=g;x='💎 '+fmt(g)+' gem'}else{const av=BAIT.map((b,i)=>i).filter(i=>!BAIT[i].k&&(BAIT[i].q===undefined||tierMax()>=BAIT[i].q)),i=av[Math.floor(Math.random()*av.length)],a=[10,8,5,3,2][BAIT[i].r];S.bait[i]=(S.bait[i]|0)+a;if(S.sel<0)S.sel=i;x=BAIT[i].i+' '+BAIT[i].n+' x'+a}S.dr={n:dayN(),x};snd(988,.08);snd(1319,.1,'square',.08);toast('🎁 '+x)}if(d.bagu!==undefined){const u=S.bagU|0;if(u<BAGC.length&&S.gems>=BAGC[u]&&cfm('bg'+u,BAGC[u])){S.gems-=BAGC[u];S.bagU=u+1;snd(660,.1);snd(990,.15,'square',.1);toast('Tas jadi '+bagCap()+' slot')}}if(d.skr!==undefined){const left=(S.skR||0)+SKRCD-Date.now(),tot=S.sk.reduce((a,b)=>a+(b|0),0);if(left>0)toast('Reset skill masih cooldown');else if(!tot)toast('Belum ada poin skill terpakai');else if(S.gems<SKRC)toast('Gem kurang');else if(confirm('Reset semua skill?\nBiaya 10.000 gem, cooldown 6 jam. Poin dikembalikan.')){S.gems-=SKRC;S.sp+=tot;S.sk=S.sk.map(()=>0);S.skR=Date.now();snd(520,.12,'triangle');toast('Skill di-reset, poin dikembalikan')}}
  save();hud();if(e.gmq){if(window.gmqR)window.gmqR();return}openPanel(shopMode,tab)});
 // ---------- passives + daily quests
 const PAS=['','Reaksi: waktu menarik saat gigitan +0,5 dtk','Tali Kuat: bar tarik turun 25% lebih lambat','Sambaran: ikan menggigit 40% lebih cepat','Hentakan Dewa: Hentakan pertama otomatis sempurna','Kraken: efek Dewa + hoki dan mutasi besar. Wajib untuk ikan Divine','Semesta: pancing pulau 1 terkuat. Satu-satunya yang bisa menangkap ikan Secret'];
@@ -1296,7 +1299,7 @@ function dqGen(){const lv=1+.15*(S.lvl-1),zs=[0,1];if(S.rod>=1)zs.push(2);if(S.b
  return{day:dkey(),q:[0,1,2,3].sort(()=>Math.random()-.5).slice(0,3).map(i=>{const q=pool[i]();q.g=Math.max(10,Math.round(q.g*lv*INC/10)*10);q.p=0;q.c=0;return q})}}
 const dqBonus=()=>Math.round(200*(1+.15*(S.lvl-1))*INC/10)*10;
 function dqCheck(){if(!S.dq||S.dq.day!==dkey()||!Array.isArray(S.dq.q)){S.dq=dqGen();save()}}
-function dqProg(f){dqCheck();S.dq.q.forEach(q=>{if(q.c||q.p>=q.n)return;if(q.t==='any'||(q.t==='rar'&&f.r>=q.m)||(q.t==='zone'&&f.z===q.z)||(q.t==='mut'&&f.m>0)){q.p++;if(q.p>=q.n)setTimeout(()=>{toast('✅ Misi selesai! Ambil di Buku > Misi');snd(1047,.1,'triangle');snd(1319,.12,'triangle',.1)},1400)}})}
+function dqProg(f){dqCheck();S.dq.q.forEach(q=>{if(q.c||q.p>=q.n)return;if(q.t==='any'||(q.t==='rar'&&f.r>=q.m)||(q.t==='zone'&&f.z===q.z)||(q.t==='mut'&&f.m>0)){q.p++;if(q.p>=q.n)setTimeout(()=>{toast('✅ Misi selesai! Ambil di Tugas > Misi');snd(1047,.1,'triangle');snd(1319,.12,'triangle',.1)},1400)}})}
 const dqOK=()=>S.dq&&S.dq.q.some(q=>!q.c&&q.p>=q.n);
 // ---------- rod skins + hotbar
 const RSK=[{a:'#a56f3b',b:'#6b4a22',tip:'#e8c77a',ln:'#2b2b2b',bob:'#e4572e'},{a:'#2fb5a0',b:'#1f7f78',tip:'#c8fff2',ln:'#1d4f55',bob:'#2fb5a0',fx:'g'},{a:'#3a3f47',b:'#c4352f',tip:'#fff',ln:'#111',bob:'#c4352f',hl:'#fff'},{a:'#ffd23f',b:'#caa21a',tip:'#fff7b0',ln:'#b8a43a',bob:'#ffd23f',hl:'#ffd23f',fx:'s'},{rb:1,tip:'#fff',bob:'#ff6bf0',hl:'#ffd23f',fx:'r'},
@@ -1372,7 +1375,7 @@ const vib=q=>{if(S.hap===0)return;try{navigator.vibrate&&navigator.vibrate(q)}ca
 document.addEventListener('pointerdown',e=>{if(e.target.closest('button'))snd(520,.03,'square',0,.025)});
 const RP=[];function ripple(x,y){RP.push({x,y,t:0})}
 let streak=0,tipT=14,tipI=0,ambT=1,rainT=0;
-const TIPS=['Cari ✨ titik ikan di air: lempar kail ke sana untuk Berkah hoki dan mutasi 3 menit.','Ujung dermaga: air paling dalam, ikan langka lebih sering.','Hadap penduduk lalu tekan Aksi untuk ngobrol. Mereka kasih umpan tiap hari.','Tangkap ikan beruntun tanpa gagal untuk bonus nilai jual (streak).','Cek Buku, tab Misi, untuk hadiah gem harian.','Hujan dan badai menaikkan hoki dan mutasi.','Kunci ikan bagus dengan ★ di Tas supaya tidak ikut terjual.','Tekan Q untuk ganti pancing, 1-4 untuk memegang ikan.'];
+const TIPS=['Cari ✨ titik ikan di air: lempar kail ke sana untuk Berkah hoki dan mutasi 3 menit.','Ujung dermaga: air paling dalam, ikan langka lebih sering.','Hadap penduduk lalu tekan Aksi untuk ngobrol. Mereka kasih umpan tiap hari.','Tangkap ikan beruntun tanpa gagal untuk bonus nilai jual (streak).','Cek menu Tugas, tab Misi, untuk hadiah gem harian.','Hujan dan badai menaikkan hoki dan mutasi.','Kunci ikan bagus dengan ★ di Tas supaya tidak ikut terjual.','Tekan Q untuk ganti pancing, 1-4 untuk memegang ikan.'];
 let bubT=0,hmT=0,crT=0,brT=5,wfT=-9,wfV=.5;
 function wfr(){if(sail)return 1;if(time-wfT>.7||time<wfT){wfT=time;let n=0;for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){const a=P.x+dx,b=P.y+dy;if(a>=0&&b>=0&&a<MW&&b<MH&&M[b][a]===0)n++}wfV=Math.min(1,n/20)}return wfV}
 function amb(dt){if(!AC||mute)return;const va=S.va??1;if(va<=0)return;
@@ -1477,7 +1480,7 @@ function setHTMLraw(){const m=Math.round((S.vm??1)*100),v=Math.round((S.vs??1)*1
  return '<div class="sec">🔊 Suara</div><div class="row"><span>🎵 Musik <b>'+m+'%</b></span>'+r('m',m)+'</div><div class="row"><span>💥 Efek <b>'+v+'%</b></span>'+r('s',v)+'</div><div class="row"><span>🌊 Suara lingkungan <b>'+av+'%</b></span>'+r('a',av)+'</div><div class="row"><span>Bisukan semua</span><button data-mute="1">'+(mute?'Aktifkan':'Bisukan')+'</button></div><div class="sec">🌧 Hujan</div><div class="row">'+seg('crq',[['Mati',0],['Lembut',1],['Normal',2]],RQV())+'</div><p class="hint">Lembut: tetesan lebih sedikit dan samar, suara lebih teredam dan pelan. Mati: tanpa hujan dan suara hujan (petir tetap ada).</p>'
  +'<div class="sec">🖼️ Grafik</div><div class="row">'+seg('gfx',[['Low',0],['Medium',1],['High',2],['Ultra',3],['Max',4],['HD',5]],GFX)+'</div><p class="hint">Low: efek air, bayangan awan, hewan, dan cahaya malam dimatikan (paling ringan). Medium: efek dikurangi separuh. High: semua efek. Max: Ultra + refleksi perahu di air, lens flare, butiran film, riak hujan, dan hujan terlebat (paling berat). Ultra: tambahan sinar matahari, sedikit debu cahaya dan kunang-kunang, pewarnaan sinematik, hujan lebih lebat (butuh HP kuat; otomatis turun kalau FPS drop). HD: semua efek Max ditambah resolusi render 2x (teks, gradasi cahaya, dan butiran film lebih tajam dan halus) serta air dan daratan lebih detail (ombak mulus, riak tipis, kilau lembut, busa pantai bergelombang, rumput halus bergoyang, butir pasir, pasir basah, bayangan pohon lembut), serta karakter dan perahu (bayangan lembut, ombak buritan halus, tali pancing mulus, riak pelampung). Karakter digambar baru secara halus (kepala, topi, baju, tangan, dan kaki beranimasi), sedangkan sprite lain dan rumah dihaluskan otomatis (Scale2x). Paling berat, hanya untuk HP atau PC yang sangat kuat; turunkan ke Max kalau patah-patah.</p>'
  +'<div class="sec">⏱ FPS</div><div class="row">'+seg('fps',[['30',30],['60',60],['90',90],['120',120]],FPS)+'</div><p class="hint">FPS rendah menghemat baterai. 90 dan 120 FPS hanya terasa di layar 90 Hz atau 120 Hz ke atas; di layar 60 Hz tetap berjalan 60. FPS tinggi lebih boros baterai.</p>'+'<div class="sec">🎮 Kontrol</div><div class="row"><span>Ukuran joystick</span></div><div class="row">'+seg('cj',[['Auto',0],['Kecil',96],['Sedang',128],['Besar',160]],S.jsz||0)+'</div><div class="row"><span>Getar (haptic)</span><button data-chap="1">'+(S.hap===0?'Mati':'Nyala')+'</button></div><div class="row"><span>Mode kidal (tukar posisi joystick dan menu)</span><button data-clefty="1">'+(S.lefty?'Nyala':'Mati')+'</button></div><div class="sec">👁 Tampilan</div><div class="row"><span>Kurangi kilatan (petir tidak menyilaukan)</span><button data-cnfl="1">'+(NFL()?'Nyala':'Mati')+'</button></div>'
- +perfHTML()+dataHTML()+gmHTML()+'<div class="bar"><button data-x="1">Tutup</button></div>'}
+ +perfHTML()+rdmHTML()+dataHTML()+gmHTML()+'<div class="bar"><button data-x="1">Tutup</button></div>'}
 const aqFish=i=>S.inv.find(f=>f.id===S.aq[i])||null,fdesc=f=>chip(f)+' '+(f.sz?SZ[f.sz].n+' ':'')+(MUT[f.m].n?MUT[f.m].n+' ':'')+wtxt(f)+' 💎 '+f.v;
 function aqHTML(){S.aq=S.aq.filter(id=>S.inv.some(f=>f.id===id));const cap=aqCap(),nx=aqNext(),rt=aqRate(),pd=aqPend(),bn=aqBonus();if(AQO.bag===undefined&&!S.aq.length)AQO.bag=1;
  let h='<div class="row"><b>🐠 Akuarium</b><span>'+S.aq.length+'/'+cap+' ikan · 💎 '+fmt(S.gems)+'</span></div>';
@@ -1535,6 +1538,70 @@ if(!S.rec)S.rec={heavy:null,value:null,streak:0,sec:0,wins:0};
 function recUp(f){const r=S.rec,sn=f.sz?SZ[f.sz].n:'';if(!r.heavy||f.kg>r.heavy.kg)r.heavy={n:f.n,kg:f.kg,s:sn};if(!r.value||f.v>r.value.v)r.value={n:f.n,v:f.v,s:sn};if(streak>r.streak)r.streak=streak}
 const recTick=dt=>{S.rec.sec+=dt};
 let EXPC='';
+/* ===== Kode Redeem =====
+   1) Kode lokal (tabel RDM, tanpa internet, 1x per save): 'KODE':{g:gems, b:[indeksUmpan,jumlah], s:indeksSkin, x:'pesan', e:'YYYY-MM-DD'}
+   2) Kode online (dibuat GM di menu GM, tersimpan di Firebase node redeem/, berlaku untuk semua pemain, 1x per akun). */
+const RDM={'MANCING':{g:500,x:'Selamat datang di Pulau Mancing!'}};
+const rdmNorm=v=>String(v||'').trim().toUpperCase().replace(/\s+/g,'');
+const RDRE=/^[A-Z0-9]{3,24}$/;
+function rdmHTML(){const n=(S.rdm||[]).length;return '<div class="sec">🎁 Kode Redeem</div><div class="row"><input id="rdc" maxlength="24" autocomplete="off" autocapitalize="characters" placeholder="Masukkan kode" style="flex:1;min-width:0;font-size:16px;padding:6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-transform:uppercase"><button data-rdm="1">Tukar</button></div><p class="hint">Masukkan kode hadiah untuk dapat gems, umpan, atau skin. Tiap kode hanya bisa dipakai sekali per akun. Kode dari GM butuh akun online (masuk dulu). Kode lokal yang sudah dipakai: '+n+'.</p>'}
+function rdmApply(r){const t=[],g=Math.floor(+r.g||0);
+ if(g>0){S.gems+=g;t.push(fmt(g)+'💎')}
+ if(Array.isArray(r.b)){const bi=Math.floor(+r.b[0]),bn=Math.floor(+r.b[1]);if(BAIT[bi]&&bn>=1&&bn<=999){S.bait[bi]=(S.bait[bi]|0)+bn;if(S.sel<0)S.sel=bi;t.push(BAIT[bi].i+' '+BAIT[bi].n+' x'+bn)}}
+ if(Number.isInteger(r.s)&&SKINS[r.s]){S.skins=S.skins||[0];if(!S.skins.includes(r.s)){S.skins.push(r.s);t.push('skin '+SKINS[r.s].n)}else t.push('skin '+SKINS[r.s].n+' (sudah punya)')}
+ return t}
+let RDB=0;
+async function doRedeem(cc){if(RDB)return false;const inp=$('rdc'),c=rdmNorm(cc||(inp&&inp.value)),bad=m=>{toast(m);snd(180,.2,'sawtooth');return false},
+ ok=(r)=>{const t=rdmApply(r);save();hud();toast('🎁 '+(r.x?r.x+': ':'Berhasil: ')+t.join(' + '));snd(880,.08,'triangle');snd(1175,.12,'triangle',.08);if(inp)inp.value='';return true};
+ if(!c)return bad('Masukkan kode dulu');
+ if(!RDRE.test(c))return bad('Kode tidak valid (hanya huruf dan angka)');
+ const L=RDM[c];
+ if(L){if(L.e&&Date.now()>new Date(L.e+'T23:59:59').getTime())return bad('Kode sudah kedaluwarsa');
+  S.rdm=Array.isArray(S.rdm)?S.rdm:[];if(S.rdm.includes(c))return bad('Kode ini sudah kamu pakai');
+  S.rdm.push(c);return ok(L)}
+ if(typeof AU==='undefined'||!AU)return bad('Kode tidak ditemukan. Kode dari GM butuh akun online, masuk dulu');
+ RDB=1;
+ try{const tok=await auToken();if(!tok)return bad('Sesi login habis, masuk akun lagi');
+  const q='?auth='+encodeURIComponent(tok),B=AQB(),r1=await fetch(B+'/redeem/'+c+'.json'+q);
+  if(!r1.ok)return bad(r1.status===401||r1.status===403?'Kode online belum aktif (rules Firebase belum diperbarui)':'Gagal cek kode ('+r1.status+')');
+  const r=await r1.json();if(!r||typeof r!=='object')return bad('Kode tidak valid');
+  if(r.e&&Date.now()>r.e)return bad('Kode sudah kedaluwarsa');
+  const u=B+'/redeemed/'+AU.uid+'/'+c+'.json'+q,r2=await fetch(u);
+  if(r2.ok&&(await r2.json())===true)return bad('Kode ini sudah kamu pakai');
+  const r3=await fetch(u,{method:'PUT',body:'true'});
+  if(!r3.ok)return bad(r3.status===401||r3.status===403?'Kode tidak bisa dipakai (sudah dipakai atau kedaluwarsa)':'Gagal menukar kode ('+r3.status+')');
+  return ok(r)
+ }catch(e){return bad('Gagal terhubung, cek koneksi')}finally{RDB=0}}
+const rdmAfter=()=>{if(tab==='set'&&$('panel').style.display==='block')openPanel(shopMode,'set')};
+/* --- GM: buat / lihat / hapus kode online --- */
+let RDL=null;
+function rdlHTML(){if(RDL===null)return '<small>Ketuk Muat untuk melihat daftar kode.</small>';const k=Object.keys(RDL).filter(c=>RDRE.test(c)).sort();if(!k.length)return '<small>Belum ada kode online.</small>';
+ return k.map(c=>{const r=RDL[c]||{},p=[];if(r.g)p.push(fmt(r.g)+'💎');if(r.b&&BAIT[r.b[0]])p.push(BAIT[r.b[0]].i+' x'+r.b[1]);if(r.s!==undefined&&SKINS[r.s])p.push('skin '+SKINS[r.s].n);
+  return '<div class="row"><span><b>'+c+'</b><br><small>'+p.join(' + ')+(r.e?' · s/d '+new Date(r.e).toLocaleDateString('id-ID'):' · tanpa batas')+'</small></span><button data-rdd="'+c+'">Hapus</button></div>'}).join('')}
+function rdgHTML(){const st='padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit',
+ o='<option value="">(tanpa item)</option><optgroup label="Umpan">'+BAIT.map((b,i)=>'<option value="b:'+i+'">'+b.i+' '+b.n+'</option>').join('')+'</optgroup><optgroup label="Skin">'+SKINS.map((k,i)=>'<option value="s:'+i+'">'+k.n+'</option>').join('')+'</optgroup>';
+ return '<div class="row"><span><b>🎟 Kode Redeem online</b><br><small>Berlaku untuk SEMUA pemain, 1x per akun. Pemain menukar di Setelan.</small></span></div>'
+ +'<div class="row"><span><input id="gmRc" maxlength="24" placeholder="KODE" autocapitalize="characters" autocomplete="off" style="width:96px;'+st+'"> <input id="gmRg" type="number" inputmode="numeric" min="0" placeholder="gem" style="width:72px;'+st+'"></span></div>'
+ +'<div class="row"><span><select id="gmRi" style="max-width:56%;'+st+'">'+o+'</select> <input id="gmRn" type="number" inputmode="numeric" min="1" max="999" value="10" style="width:56px;'+st+'"></span></div>'
+ +'<div class="row"><span><select id="gmRe" style="'+st+'"><option value="0">Tanpa batas waktu</option><option value="24">Berlaku 1 hari</option><option value="168">Berlaku 7 hari</option><option value="720">Berlaku 30 hari</option></select></span><button data-rdg="1">Buat</button></div>'
+ +'<div class="row"><span><label><input type="checkbox" id="gmRa" checked> Umumkan otomatis di 📢 Papan</label></span></div>'
+ +'<div class="row"><span><b>Daftar kode online</b></span><button data-rdl="1">Muat</button></div><div id="gmRl">'+rdlHTML()+'</div>'}
+const rdlUp=()=>{const e=$('gmRl');if(e)e.innerHTML=rdlHTML()};
+async function gmRdCall(fn){try{if(!S.gm)return;if(typeof AU==='undefined'||!AU){toast('💜 GM: masuk akun online dulu');return}
+ const tok=await auToken();if(!tok){toast('💜 GM: sesi login habis, masuk akun lagi');return}await fn('?auth='+encodeURIComponent(tok),AQB())}catch(e){toast('💜 GM: gagal (cek koneksi)')}}
+const rdDeny=r=>r.status===401||r.status===403?'ditolak. Pastikan UID kamu ada di gm/ dan rules redeem sudah dipasang':'gagal ('+r.status+')';
+function gmRdMake(){return gmRdCall(async(q,B)=>{
+ const c=rdmNorm(($('gmRc')||{}).value),g=Math.floor(+(($('gmRg')||{}).value)||0),pr=String((($('gmRi')||{}).value)||'').split(':'),n=Math.max(1,Math.min(999,Math.floor(+(($('gmRn')||{}).value)||10))),h=+(($('gmRe')||{}).value)||0,an=!!(($('gmRa')||{}).checked),o={t:Date.now()};
+ if(!RDRE.test(c)){toast('💜 GM: kode 3-24 huruf/angka, tanpa spasi');return}
+ if(g>1e9){toast('💜 GM: gem maksimal 1.000.000.000');return}
+ if(g>0)o.g=g;
+ if(pr[0]==='b'&&BAIT[+pr[1]])o.b=[+pr[1],n];else if(pr[0]==='s'&&SKINS[+pr[1]])o.s=+pr[1];
+ if(!(o.g>0||o.b||o.s!==undefined)){toast('💜 GM: isi gem atau pilih item hadiah');return}
+ if(h>0)o.e=Date.now()+h*36e5;
+ const r=await fetch(B+'/redeem/'+c+'.json'+q,{method:'PUT',body:JSON.stringify(o)});
+ if(r.ok){toast('🎟 GM: kode '+c+' dibuat');snd(988,.08);snd(1319,.12,'triangle',.08);RDL=RDL||{};RDL[c]=o;rdlUp();const e=$('gmRc');if(e)e.value='';if(an&&window.annPost)window.annPost({t:'🎟 Kode redeem baru: '+c,c:c,r:window.annSum?window.annSum(o):'',e:o.e||0})}else toast('💜 GM: '+rdDeny(r))})}
+function gmRdList(){return gmRdCall(async(q,B)=>{const r=await fetch(B+'/redeem.json'+q);if(!r.ok){toast('💜 GM: '+rdDeny(r));return}const d=await r.json();RDL=d&&typeof d==='object'?d:{};rdlUp();toast('🎟 GM: '+Object.keys(RDL).length+' kode online')})}
+function gmRdDel(c){c=rdmNorm(c);if(!RDRE.test(c))return;return gmRdCall(async(q,B)=>{const r=await fetch(B+'/redeem/'+c+'.json'+q,{method:'DELETE'});if(r.ok){if(RDL)delete RDL[c];rdlUp();toast('🎟 GM: kode '+c+' dihapus')}else toast('💜 GM: '+rdDeny(r))})}
 function dataHTML(){const ta='width:100%;font-size:11px;border-radius:10px;padding:6px;font-family:monospace';return '<div class="sec">💾 Data</div><div class="row"><span>Cadangkan progres<br><small>'+bkTxt()+'</small></span><button data-exp="1">Ekspor</button></div><div class="row"><span>Simpan sebagai file</span><button data-dl="1">Unduh</button></div>'+(EXPC?'<textarea readonly rows="3" style="'+ta+'" onclick="this.select()">'+EXPC+'</textarea><p class="hint">Kode disalin ke clipboard jika didukung. Simpan kode ini untuk memulihkan progres.</p>':'')+'<div class="row"><span>Pulihkan dari kode</span><button data-imp="1">Muat</button></div><textarea id="imp" rows="2" placeholder="Tempel kode save di sini" style="'+ta+'"></textarea><p class="hint">Memuat kode akan menimpa progres saat ini.</p>'}
 function bkTxt(){return S.bk?'Terakhir dicadangkan: '+new Date(S.bk).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Belum pernah dicadangkan'}
 function doDownload(){try{S.bk=Date.now();save();EXPC=btoa(unescape(encodeURIComponent(JSON.stringify(S))));const u=URL.createObjectURL(new Blob([EXPC],{type:'text/plain'})),a=document.createElement('a');a.href=u;a.download='pulau-mancing-save.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('File save diunduh')}catch(e){toast('Gagal mengunduh, pakai Ekspor kode')}}
@@ -1753,7 +1820,7 @@ async function auSign(reg,u,p){if(!FB_KEY)return 'Kunci API (FB_KEY) belum diisi
   AU={u,uid:d.localId,rt:d.refreshToken,tok:d.idToken,exp:Date.now()+(+d.expiresIn||3600)*1000};auSave();return ''}catch(e){return 'Gagal: '+((e&&(e.name+' '+e.message))||e)+(navigator.onLine?'':' (HP offline)')+' | '+location.protocol+'//'+(location.host||'-')}}
 var GM=null,GCF=null,GCU={},GON={};function nameCol(l){l=+l||0;return l>=100?'#ff5d5d':l>=75?'#ffb02e':l>=50?'#c77dff':l>=25?'#4aa3ff':l>=10?'#5fe08a':'#ffffff'}
 const CATCH_MIN=3;/* 3 = Legendary ke atas */
-window.PM_VER='v2026.11.22-n';
+window.PM_VER='v2026.11.23-a';
 (function(){let busy=0;const PCF=(()=>{try{const ud=navigator.userAgent||'',h=navigator.userAgentData,mm=q=>matchMedia(q).matches;if(h&&h.mobile===true)return 0;if(/Android|iPhone|iPad|iPod|Mobile|Windows Phone|Opera Mini/i.test(ud))return 0;if(/Macintosh/i.test(ud)&&navigator.maxTouchPoints>1)return 0;if(mm('(pointer:coarse)')&&!mm('(any-pointer:fine)'))return 0;return(/Windows NT|Macintosh|X11|CrOS|Linux/i.test(ud)||mm('(any-pointer:fine)'))?1:0}catch(e){return 0}})();window.__PC=PCF;const base=()=>FB_URL?FB_URL.replace(/\/$/,'')+'/island':'';
 
  let lastJ='',lastS=0,ES=null,ESD={},ESAt=0,ESErr=0,ESk=0;const SA={};
@@ -1858,6 +1925,7 @@ $('chb').addEventListener('click',e=>{e.stopPropagation();chToggle()});
 $('chs').addEventListener('click',e=>{e.stopPropagation();chDo()});
 $('chin').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();chDo()}else if(e.key==='Escape'){chToggle(false)}});
 PB.addEventListener('click',e=>{const b=e.target.closest('button[data-ch]');if(!b)return;e.stopPropagation();const i=$('chp');if(i){chSend(i.value);i.value=''}});
+PB.addEventListener('keydown',e=>{if(e.target.id==='rdc'&&e.key==='Enter'){e.preventDefault();doRedeem().then(rdmAfter)}});
 PB.addEventListener('keydown',e=>{if(e.target.id==='chp'&&e.key==='Enter'){e.preventDefault();chSend(e.target.value);e.target.value=''}});
 function mpBusy(){const t='Host sedang penuh (sudah main dengan teman lain). Coba lagi nanti.';MP.msg=t;mpClose(true);toast('👥 '+t)}
 function nmWrap(t,w){const out=[];let cur='';for(const word of String(t).split(' ')){let x=word;while(nxc.measureText(x).width>w&&x.length>1){let k=x.length;while(k>1&&nxc.measureText(x.slice(0,k)).width>w)k--;if(cur){out.push(cur);cur=''}out.push(x.slice(0,k));x=x.slice(k)}const tr=cur?cur+' '+x:x;if(nxc.measureText(tr).width>w&&cur){out.push(cur);cur=x}else cur=tr}if(cur)out.push(cur);return out.slice(0,3)}
@@ -2468,6 +2536,96 @@ const AQB=()=>FB_URL?FB_URL.replace(/\/$/,''):'';
   poll();iv=setInterval(()=>{if(!o.isConnected){clearInterval(iv);return}poll()},2500)}
  b.addEventListener('click',gcShow)})();
 
+/* ===== Papan Pengumuman (dari GM): kode redeem baru & info =====
+   Firebase node: announce/<id> = {t:teks, u:waktu, n:nama GM, c:kode(opsional), r:ringkasan hadiah, e:kedaluwarsa(ms)}
+   Rules yang dibutuhkan (samakan pola cek GM dengan rules redeem milikmu):
+   "announce":{".read":"auth != null",".indexOn":["u"],"$id":{".write":"root.child('gm').child(auth.uid).exists()"}} */
+(function(){
+ const E=(t,x,c)=>{const e=document.createElement(t);if(x!==undefined)e.textContent=x;if(c)e.style.cssText=c;return e};
+ const clean=v=>String(v==null?'':v).replace(/[\u0000-\u001f\u2063]/g,' ').trim();
+ const DAY=864e5;let LIST=[],USED={},busy=0,lp=0,lastToast=0,ERR=0,ov=null,kd=null,ps=0;
+ const seen=()=>+S.ans||0,newest=()=>LIST.reduce((m,x)=>Math.max(m,x.u),0),unseen=()=>LIST.filter(x=>x.u>seen()).length;
+ const b=document.createElement('button');b.id='anb';b.type='button';b.textContent='📢';b.setAttribute('aria-label','Papan pengumuman');
+ b.style.cssText='position:fixed;left:52px;top:calc(env(safe-area-inset-top,0px) + 260px);z-index:11;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(8,20,26,.75);color:#fff;font-size:17px;line-height:1;display:none';document.body.appendChild(b);
+ setInterval(()=>{const on=!!(AU&&!HOME&&!document.getElementById('splash')&&st==='walk'&&$('panel').style.display!=='block');b.style.display=on?'block':'none';
+  const n=on?unseen():0;b.classList.toggle('dot',n>0);if(n>0)b.dataset.n=n>9?'9+':n},500);
+ window.annSum=o=>{const p=[];if(!o||typeof o!=='object')return '';const g=Math.floor(+o.g||0);if(g>0)p.push(fmt(g)+'💎');
+  if(Array.isArray(o.b)&&BAIT[o.b[0]])p.push(BAIT[o.b[0]].i+' '+BAIT[o.b[0]].n+' x'+(Math.floor(+o.b[1])||0));
+  if(Number.isInteger(o.s)&&SKINS[o.s])p.push('skin '+SKINS[o.s].n);return p.join(' + ')};
+ async function fetchList(){const tok=await auToken();if(!tok)return null;const B=AQB(),q='auth='+encodeURIComponent(tok);
+  let r=await fetch(B+'/announce.json?orderBy=%22u%22&limitToLast=15&'+q);if(!r.ok)r=await fetch(B+'/announce.json?'+q);if(!r.ok)return null;
+  const d=await r.json(),now=Date.now(),o=d&&typeof d==='object'?d:{};
+  return Object.keys(o).map(k=>{const x=o[k];if(!x||typeof x!=='object'||typeof x.t!=='string'||typeof x.u!=='number')return null;const c=rdmNorm(x.c);
+   return{id:k,t:clean(x.t).slice(0,200),c:RDRE.test(c)?c:'',r:clean(x.r).slice(0,80),e:+x.e>0?+x.e:0,u:x.u,n:clean(x.n).slice(0,14)}})
+   .filter(x=>x&&x.t&&now-x.u<30*DAY).sort((p,q2)=>q2.u-p.u).slice(0,15)}
+ async function checkUsed(){if(!AU)return;const tok=await auToken();if(!tok)return;
+  for(const x of LIST.slice(0,8)){if(!x.c||USED[x.c]!==undefined)continue;
+   try{const r=await fetch(AQB()+'/redeemed/'+AU.uid+'/'+x.c+'.json?auth='+encodeURIComponent(tok));if(r.ok)USED[x.c]=(await r.json())===true}catch(e){}}}
+ async function poll(){if(busy||!AU||!AQB())return;busy=1;
+  try{const l=await fetchList();ERR=l===null?1:0;
+   if(l){LIST=l;await checkUsed();const nw=l.filter(x=>x.u>Math.max(seen(),lastToast));
+    if(nw.length&&!document.getElementById('splash')){const x=nw[0];lastToast=x.u;
+     toast(x.c?'🎟 Kode redeem baru: '+x.c+(x.r?' ('+x.r+'). ':'. ')+'Buka 📢 untuk menukar':'📢 '+x.t.slice(0,60));try{snd(784,.1,'triangle');snd(1175,.15,'triangle',.1)}catch(e){}}}
+   if(ov)render()}catch(e){}
+  busy=0}
+ setInterval(()=>{if(!AU||document.getElementById('splash')||document.hidden)return;if(Date.now()-lp>=45000){lp=Date.now();poll()}},3000);
+ const ago=u=>{const m=Math.max(0,Math.floor((Date.now()-u)/6e4));return m<1?'baru saja':m<60?m+' menit lalu':m<1440?Math.floor(m/60)+' jam lalu':new Date(u).toLocaleDateString('id-ID',{day:'numeric',month:'short'})};
+ const copy=async c=>{try{await navigator.clipboard.writeText(c);toast('Kode '+c+' disalin')}catch(e){try{const t=E('textarea',c,'position:fixed;opacity:0');document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast('Kode '+c+' disalin')}catch(x){toast('Salin manual: '+c)}}};
+ async function del(x){try{const tok=await auToken();if(!tok)return;const r=await fetch(AQB()+'/announce/'+x.id+'.json?auth='+encodeURIComponent(tok),{method:'DELETE'});
+  if(r.ok){LIST=LIST.filter(y=>y.id!==x.id);toast('📢 GM: pengumuman dihapus');render()}else toast('💜 GM: '+(r.status===401||r.status===403?'ditolak. Cek rules /announce dan gm/'+AU.uid:'gagal ('+r.status+')'))}catch(e){toast('💜 GM: gagal (cek koneksi)')}}
+ function render(){if(!ov)return;const ls=ov.querySelector('#anl');ls.textContent='';
+  if(!LIST.length){ls.appendChild(E('div',ERR?'Gagal memuat pengumuman. Cek koneksi lalu buka lagi.':'Belum ada pengumuman. Nantikan kabar dari GM!','padding:18px 8px;text-align:center;color:#fdf3c8;opacity:.85'));return}
+  const now=Date.now();
+  LIST.forEach((x,i)=>{const card=E('div','','position:relative;margin:8px 4px;padding:9px 10px 9px 12px;border-radius:4px;background:#fdf3c8;color:#2a1a10;box-shadow:0 2px 0 #0005;transform:rotate('+(i%2?'.5':'-.5')+'deg);border-left:5px solid '+(x.c?'#e8a800':'#c0392b')+';word-break:break-word');
+   const nw=x.u>ps?E('span','BARU','float:right;margin-left:6px;padding:1px 6px;border-radius:999px;background:#ff3b30;color:#fff;font:800 10px system-ui,sans-serif'):null;
+   const hd=E('div','','font:600 11px system-ui,sans-serif;opacity:.65;margin-bottom:3px');hd.textContent='📌 '+ago(x.u)+(x.n?' · GM '+x.n:'');if(nw)hd.appendChild(nw);card.appendChild(hd);
+   card.appendChild(E('div',x.t,'font:700 14px/1.35 system-ui,sans-serif'));
+   if(x.c){const exp=x.e&&now>x.e,used=USED[x.c]===true,row=E('div','','display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px');
+    row.appendChild(E('span',x.c,'padding:4px 10px;border:2px dashed #8a5a1c;border-radius:6px;background:#fff;font:800 15px/1 ui-monospace,Menlo,monospace;letter-spacing:2px'));
+    row.appendChild(E('button','Salin','padding:5px 10px;font-size:12px'));
+    const tb=E('button',exp?'Kedaluwarsa':used?'✓ Sudah dipakai':'Tukar','padding:5px 12px;font-size:12px;font-weight:700');tb.disabled=!!(exp||used);
+    tb.onclick=async()=>{tb.disabled=true;tb.textContent='...';const ok=await doRedeem(x.c);if(ok)USED[x.c]=true;else delete USED[x.c];await checkUsed();render()};
+    row.children[1].onclick=()=>copy(x.c);row.appendChild(tb);card.appendChild(row);
+    const info=(x.r?'Hadiah: '+x.r:'')+(x.e&&!exp?(x.r?' · ':'')+'s/d '+new Date(x.e).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'');
+    if(info)card.appendChild(E('div',info,'font:600 11px system-ui,sans-serif;opacity:.7;margin-top:4px'))}
+   if(S.gm){const d=E('button','🗑','position:absolute;right:4px;bottom:4px;padding:2px 7px;font-size:12px');d.setAttribute('aria-label','Hapus pengumuman');d.onclick=()=>del(x);card.appendChild(d)}
+   ls.appendChild(card)})}
+ function close(){if(!ov)return;if(kd)window.removeEventListener('keydown',kd,true);kd=null;ov.remove();ov=null}
+ function show(){if(ov)return;ps=seen();S.ans=Math.max(ps,newest());try{save()}catch(e){}
+  const o=E('div','','position:fixed;inset:0;z-index:41;background:#000a;display:flex;align-items:center;justify-content:center');o.id='anm';
+  const bx=E('div','','width:min(94vw,420px);background:linear-gradient(135deg,#7a4a24,#5e3a1a);color:#fff;border:2px solid #fff;border-radius:14px;padding:12px;font:13px system-ui,sans-serif');o.appendChild(bx);
+  bx.appendChild(E('div','📢 Papan Pengumuman','font-size:16px;font-weight:700;margin-bottom:2px'));
+  bx.appendChild(E('div','Kabar dan kode redeem terbaru dari GM','font-size:11px;opacity:.75;margin-bottom:6px'));
+  const ls=E('div','','max-height:min(52vh,340px);overflow:auto;padding:2px;border-radius:10px;background:rgba(0,0,0,.18)');ls.id='anl';bx.appendChild(ls);
+  const cb=E('button','Tutup','margin-top:8px;padding:8px;width:100%');cb.onclick=close;bx.appendChild(cb);
+  o.addEventListener('click',e=>{if(e.target===o)close()});document.body.appendChild(o);ov=o;
+  kd=e=>{if(e.code==='Escape')close();e.stopPropagation()};window.addEventListener('keydown',kd,true);
+  render();lp=Date.now();poll()}
+ b.addEventListener('click',show);
+ window.annPost=async function(o){try{if(!S.gm||!AU)return false;const tok=await auToken();if(!tok){toast('💜 GM: sesi login habis, masuk akun lagi');return false}
+  const t=clean(o.t).slice(0,200);if(!t)return false;const c=rdmNorm(o.c),body={t:t,u:Date.now(),n:AU.u.slice(0,14)};
+  if(RDRE.test(c))body.c=c;if(o.r)body.r=clean(o.r).slice(0,80);if(+o.e>0)body.e=+o.e;
+  const id=Date.now().toString(36)+Math.floor(Math.random()*1296).toString(36),
+   r=await fetch(AQB()+'/announce/'+id+'.json?auth='+encodeURIComponent(tok),{method:'PUT',body:JSON.stringify(body)});
+  if(r.ok){toast('📢 GM: pengumuman terkirim');snd(988,.08);snd(1319,.12,'triangle',.08);lp=Date.now();poll();return true}
+  toast('💜 GM: '+(r.status===401||r.status===403?'pengumuman ditolak. Pasang rules /announce dan pastikan UID kamu ada di gm/':'gagal ('+r.status+')'));return false}
+  catch(e){toast('💜 GM: gagal (cek koneksi)');return false}};
+ window.annGmPost=async function(){if(!S.gm)return;const t=clean(($('gmAt')||{}).value),c=rdmNorm(($('gmAc')||{}).value);
+  if(!t&&!c){toast('💜 GM: isi teks atau kode');return}
+  let r='',e=0;
+  if(c){if(!RDRE.test(c)){toast('💜 GM: kode 3-24 huruf/angka, tanpa spasi');return}
+   try{const tok=await auToken();if(!tok){toast('💜 GM: sesi login habis, masuk akun lagi');return}
+    const rs=await fetch(AQB()+'/redeem/'+c+'.json?auth='+encodeURIComponent(tok)),d=rs.ok?await rs.json():null;
+    if(!d||typeof d!=='object'){toast('💜 GM: kode '+c+' belum ada di daftar online. Buat dulu di bagian Kode Redeem');return}
+    r=window.annSum(d);e=+d.e||0}catch(x){toast('💜 GM: gagal (cek koneksi)');return}}
+  const ok=await window.annPost({t:t||('🎟 Kode redeem baru: '+c),c:c,r:r,e:e});
+  if(ok){const a=$('gmAt'),k=$('gmAc');if(a)a.value='';if(k)k.value=''}};
+ window.annGmHTML=function(){const st='padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit;box-sizing:border-box';
+  return '<div class="row"><span><b>📢 Papan Pengumuman</b><br><small>Tampil ke semua pemain online. Isi kode yang sudah dibuat di atas supaya hadiah dan masa berlakunya ikut tampil, pemain bisa langsung tukar dari papan. Hapus lewat ikon 🗑 di papan.</small></span></div>'
+  +'<div class="row"><span style="flex:1"><input id="gmAt" maxlength="200" placeholder="Teks pengumuman" autocomplete="off" style="width:100%;'+st+'"></span></div>'
+  +'<div class="row"><span><input id="gmAc" maxlength="24" placeholder="KODE (opsional)" autocapitalize="characters" autocomplete="off" style="width:120px;'+st+'"></span><button data-anp="1">Umumkan</button></div>'};
+})();
+
 /* ===== Cadangan progres di cloud ===== */
 (function(){let sig='',busy=0;
  async function cloudSync(){if(!AU||busy||S.cuid!==AU.uid||window.NOSAVE||!AQB())return;const j=JSON.stringify(S);if(j===sig)return;busy=1;try{const tok=await auToken();if(!tok){busy=0;return}const t=Date.now(),d=await mpEnc(S),r=await fetch(AQB()+'/save/'+AU.uid+'.json?auth='+encodeURIComponent(tok),{method:'PUT',body:JSON.stringify({d,t,l:S.lvl|0,g:Math.round(S.gems)||0})});if(r.ok){S.cst=t;sig=JSON.stringify(S)}}catch(e){}busy=0}
@@ -2629,6 +2787,8 @@ function sesRows(rw){const mn=Math.max(1,(Date.now()-SES.t)/6e4),e=(S.earn|0)-SE
 /* Kabar versi baru, sekali saja */
 (function(){const t=setInterval(()=>{if(document.getElementById('splash'))return;clearInterval(t);if((S.nv|0)<25){S.nv=25;save();setTimeout(()=>{toast('🆕 v25: 🔨 Asah Pancing (Gubuk > Progres) dan ⭐ Penguasa Spesies (Buku > Ikan)');snd(880,.1,'triangle')},1200)}},1000)})();
 
+/* ===== v36: apa yang baru (sekali per pemain) ===== */
+(function(){const t=setInterval(()=>{if(document.getElementById('splash'))return;clearInterval(t);if((S.nv|0)<36){const old=(S.tot|0)>0;S.nv=36;save();if(old){setTimeout(()=>{toast('🆕 v36: lemparan maks 3 petak untuk semua joran. Menu baru: Tugas dan Gacha. Hujan lebih lembut (Atur → Hujan).');snd(880,.1,'triangle')},2500);setTimeout(()=>toast('⚖️ Skill: Tangan Mantap +1/poin, Reaksi Cepat maks 5 poin (kelebihan poin dikembalikan). Poin sisa bisa ditukar 💎.'),9000)}}},400)})();
 /* ===== v25: lempar jauh + titik ikan lebih luas ===== */
 var HR=2;
 /* ===== v26: lempar tahan-lepas. Makin lama ditahan makin jauh, lepas di puncak (emas) = PERFECT ===== */
