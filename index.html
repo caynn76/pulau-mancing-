@@ -1372,7 +1372,7 @@ async function auSign(reg,u,p){if(!FB_KEY)return 'Kunci API (FB_KEY) belum diisi
   AU={u,uid:d.localId,rt:d.refreshToken,tok:d.idToken,exp:Date.now()+(+d.expiresIn||3600)*1000};auSave();return ''}catch(e){return 'Gagal: '+((e&&(e.name+' '+e.message))||e)+(navigator.onLine?'':' (HP offline)')+' | '+location.protocol+'//'+(location.host||'-')}}
 var GM=null,GCF=null,GCU={},GON={};function nameCol(l){l=+l||0;return l>=100?'#ff5d5d':l>=75?'#ffb02e':l>=50?'#c77dff':l>=25?'#4aa3ff':l>=10?'#5fe08a':'#ffffff'}
 const CATCH_MIN=3;/* 3 = Legendary ke atas */
-window.PM_VER='v2026.11.22-l';
+window.PM_VER='v2026.11.22-m';
 (function(){let busy=0;const PCF=(()=>{try{return matchMedia('(pointer:fine)').matches&&!/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)?1:0}catch(e){return 0}})();window.__PC=PCF;const base=()=>FB_URL?FB_URL.replace(/\/$/,'')+'/island':'';
 
  let lastJ='',lastS=0,ES=null,ESD={},ESAt=0,ESErr=0,ESk=0;const SA={};
@@ -2302,6 +2302,11 @@ const B=()=>AQB()+'/music';
 let NOW=null,skew=0,key='',keyS=0,advK='',blocked=false,muted=false,vol=.8,open=false,seek=0,errN=0;
 try{muted=localStorage.getItem('pm-shmute')==='1';const sv=parseFloat(localStorage.getItem('pm-shvol'));if(sv>=0&&sv<=1)vol=sv}catch(e){}
 const au=new Audio();au.preload='auto';au.volume=vol;
+const MV=2,MC='pm-music';let blobU='';
+async function srcOf(t){try{if(!window.caches)return t.f;const c=await caches.open(MC),k=t.f+'?v='+MV,r=await c.match(k);
+ if(r){const u=URL.createObjectURL(await r.blob());if(blobU)setTimeout(()=>URL.revokeObjectURL(blobU),3000);blobU=u;return u}
+ fetch(k).then(x=>{if(x.ok&&x.status===200)return c.put(k,x)}).catch(()=>{});return t.f}catch(e){return t.f}}
+try{if(window.caches)caches.open(MC).then(c=>c.keys().then(ks=>ks.forEach(q=>{if(!q.url.endsWith('?v='+MV))c.delete(q)})))}catch(e){}
 const gm=()=>typeof mute!=='undefined'&&mute;
 const nextI=(c,r)=>{const n=TRACKS.length;if(r&&n>1){let k;do{k=Math.floor(Math.random()*n)}while(k===c);return k}return (c+1)%n};
 const duck=v=>{window.__shm=v?1:0};
@@ -2362,7 +2367,7 @@ function apply(){
  const k=NOW.i+'|'+NOW.s,exp=Math.max(0,(srv()-NOW.s)/1000);
  if(k!==key){
   if(key&&key.split('|')[0]===String(NOW.i)&&Math.abs(NOW.s-keyS)<8000){key=k;keyS=NOW.s}
-  else{key=k;keyS=NOW.s;seek=exp;au.src=t.f;play();chip('🎵 '+t.n+(NOW.b?'  · '+NOW.b:''))}}
+  else{key=k;keyS=NOW.s;seek=exp;const kk=k;srcOf(t).then(u=>{if(key!==kk)return;au.src=u;play()});chip('🎵 '+t.n+(NOW.b?'  · '+NOW.b:''))}}
  else if(au.paused&&!au.ended)play();
  else if(!au.paused&&Math.abs(au.currentTime-exp)>3)au.currentTime=Math.min(exp,au.duration||exp);
  render()}
@@ -2378,6 +2383,19 @@ setInterval(()=>{if(AU)syncClock()},300000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});
 btn.addEventListener('click',e=>{e.stopPropagation();if(ov){close();return}if(!AU){toast('Login dulu');return}open=true;build();syncClock();poll()});
 setTimeout(()=>{if(AU)syncClock().then(poll)},2500);
+})();
+</script>
+
+<script>
+/* ===== Pemberitahuan versi baru ===== */
+(function(){if(!/^https?:$/.test(location.protocol))return;
+let base=null,last=0,shown=false;
+const check=async()=>{if(shown||document.hidden||Date.now()-last<60000)return;last=Date.now();
+ try{const r=await fetch(location.pathname+'?_v='+Date.now(),{method:'HEAD',cache:'no-store'});if(!r.ok)return;const v=(r.headers.get('etag')||'')+'|'+(r.headers.get('last-modified')||'');if(v==='|')return;
+  if(base===null){base=v;return}if(v!==base)show()}catch(e){}};
+function show(){shown=true;const b=document.createElement('div');b.style.cssText='position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:50;display:flex;gap:8px;align-items:center;max-width:92vw;padding:8px 12px;border-radius:12px;background:#101c24;color:#fff;border:2px solid #ffd23f;font:600 13px system-ui,sans-serif;box-shadow:0 4px 14px #0008';
+ const t=document.createElement('span');t.textContent='🔄 Ada versi baru';const g=document.createElement('button');g.textContent='Muat ulang';g.style.cssText='padding:5px 10px';g.onclick=()=>location.reload();const x=document.createElement('button');x.textContent='✕';x.style.cssText='padding:5px 8px';x.onclick=()=>{b.remove();shown=false;last=Date.now()+30*60000};b.append(t,g,x);document.body.appendChild(b)}
+setTimeout(check,8000);setInterval(check,600000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});
 })();
 </script>
 </body>
