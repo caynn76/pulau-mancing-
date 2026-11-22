@@ -699,8 +699,9 @@ function note(m,t,d,ty,v){const o=AC.createOscillator(),k=AC.createGain();o.type
 let mzT=-9,mzV=-1;
 function nearZone(){if(time-mzT>.5||time<mzT){mzT=time;mzV=-1;let bd=99;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const a=P.x+dx,b=P.y+dy;if(a>=0&&b>=0&&a<MW&&b<MH&&(M[b][a]===0||M[b][a]===4)){const d=Math.abs(dx)+Math.abs(dy);if(d<bd){bd=d;mzV=zoneAt(a,b)}}}}return mzV}
 function musTrack(){if(st==='reel')return fish&&fish.r>=3?'epic':'reel';if(HOME)return 'home';let kI=0;try{kI=ISL}catch(e){}if(kI===2&&!sail&&wx<3)return NT>.62?'karangN':'karang';if(wx>=2)return wx===3?'storm':'rain';if(sail)return 'ocean';const z=nearZone();if(z===2)return 'deep';if(z===3)return 'ocean';if(NT>.62)return 'night';if(z===0)return 'pond';return wx===1?'cloud':'sun'}
-function music(){if(window.__shm||mute||!AC||(S.vm??1)<=0)return;bus();const tn=musTrack();
- if(tn!==mTr){mTr=tn;mI=0;const t0=AC.currentTime,g0=MBUS.gain;g0.cancelScheduledValues(t0);g0.setValueAtTime(g0.value,t0);g0.linearRampToValueAtTime(.0001,t0+.1);g0.linearRampToValueAtTime(1,t0+.6);mNext=t0+.13}
+let mDk=false;
+function music(){if(mute||!AC||(S.vm??1)<=0)return;bus();const dk=!!window.__shm;if(dk!==mDk){mDk=dk;const t=AC.currentTime,g=MBUS.gain;g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.linearRampToValueAtTime(dk?.0001:1,t+1.2)}if(dk&&MBUS.gain.value<.003)return;const tn=musTrack();
+ if(tn!==mTr){mTr=tn;mI=0;const t0=AC.currentTime,g0=MBUS.gain;g0.cancelScheduledValues(t0);g0.setValueAtTime(g0.value,t0);g0.linearRampToValueAtTime(.0001,t0+.1);g0.linearRampToValueAtTime(dk?.0001:1,t0+.6);mNext=t0+.13}
  const T=TR[mTr],d=30/T.b;if(mNext<AC.currentTime-.5)mNext=AC.currentTime+.05;
  while(mNext<AC.currentTime+.25){const c=T.ch[Math.floor(mI/8)%T.ch.length];note(c+T.sc[mI%T.sc.length],mNext,d*1.6,T.w,T.v);if(mI%8===0)note(c-24,mNext,d*7,'sine',T.v*1.6);if(T.sh&&mI%4===2)note(c+T.sc[(mI+2)%T.sc.length]+12,mNext,d*3.2,'sine',T.v*.55);if(T.pd&&mI%8===0)note(c-5,mNext,d*8,'triangle',T.v*.5);mNext+=d;mI++}}
 ['pointerdown','keydown'].forEach(e=>addEventListener(e,()=>{if(!AC)snd(1,.01,'sine',0,.0002)},{once:true}));
@@ -2343,6 +2344,8 @@ function render(){
  TRACKS.forEach((t,i)=>{const cur=on&&NOW.i===i,r=E('div',(cur?'▶ ':(i+1)+'. ')+t.n,'padding:7px 8px;border-radius:8px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(cur?'background:#ffd23f33':''));r.onclick=()=>start(i);ls.appendChild(r)})}
 
 /* ---------- kontrol bersama ---------- */
+const chipEl=E('div','','position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 6px);transform:translateX(-50%);max-width:86vw;z-index:8;padding:4px 12px;border-radius:999px;background:rgba(8,20,26,.82);color:#fff;border:1px solid rgba(255,255,255,.35);font:600 12px system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .4s;pointer-events:none');document.body.appendChild(chipEl);let chipT=0;
+const chip=t=>{chipEl.textContent=t;chipEl.style.opacity='1';clearTimeout(chipT);chipT=setTimeout(()=>{chipEl.style.opacity='0'},4500)};
 const nm=()=>String(AU.u||'').slice(0,14);
 async function start(i){try{await api('PUT','/now',Object.assign({i:i,s:{'.sv':'timestamp'},on:true,b:nm()},NOW&&NOW.r?{r:1}:{}));await poll()}catch(e){toast('Gagal mengganti lagu (cek Rules Firebase)')}}
 async function shuf(){if(!NOW){toast('Putar lagu dulu');return}try{await api('PUT','/now',Object.assign({i:NOW.i,s:NOW.s,on:!!NOW.on,b:nm()},NOW.r?{}:{r:1}));toast(NOW.r?'🔀 Acak mati':'🔀 Acak nyala');await poll()}catch(e){toast('Gagal (cek Rules Firebase)')}}
@@ -2359,7 +2362,7 @@ function apply(){
  const k=NOW.i+'|'+NOW.s,exp=Math.max(0,(srv()-NOW.s)/1000);
  if(k!==key){
   if(key&&key.split('|')[0]===String(NOW.i)&&Math.abs(NOW.s-keyS)<8000){key=k;keyS=NOW.s}
-  else{key=k;keyS=NOW.s;seek=exp;au.src=t.f;play();toast('🎵 '+t.n)}}
+  else{key=k;keyS=NOW.s;seek=exp;au.src=t.f;play();chip('🎵 '+t.n+(NOW.b?'  · '+NOW.b:''))}}
  else if(au.paused&&!au.ended)play();
  else if(!au.paused&&Math.abs(au.currentTime-exp)>3)au.currentTime=Math.min(exp,au.duration||exp);
  render()}
