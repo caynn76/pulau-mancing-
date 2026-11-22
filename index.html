@@ -634,7 +634,7 @@ const walkable=(x,y)=>sail?(x>=0&&y>=0&&x<MW&&y<MH&&(M[y][x]===0||M[y][x]===5)):
 function setMove(dx,dy){const d=Math.hypot(dx,dy);if(d<.01){dir=null;mvx=0;mvy=0;RUN=0;return}const a=Math.round(Math.atan2(dy,dx)/(Math.PI/8))*(Math.PI/8);mvx=Math.cos(a);mvy=Math.sin(a);if(Math.abs(mvx)<1e-6)mvx=0;if(Math.abs(mvy)<1e-6)mvy=0;dir=Math.abs(mvx)>=Math.abs(mvy)?(mvx>0?'r':'l'):(mvy>0?'d':'u')}
 const frOK=(x,y)=>{const hx=.27,t=y-.3,u=y+.4;return walkable(Math.round(x-hx),Math.round(t))&&walkable(Math.round(x+hx),Math.round(t))&&walkable(Math.round(x-hx),Math.round(u))&&walkable(Math.round(x+hx),Math.round(u))};
 function hideCard(){$('card').style.display='none'}
-let fin=0,hold=false,RUN=0,RUNK=0;
+let fin=0,hold=false,RUN=0,RUNK=0;var CHG={on:false,t0:0,p:0,ov:0,go:false,perf:false,lo:0,pf:false},CHGN=0;const CHG_UP=1.1,CHG_TOP=.3,CHG_DN=1.1,CHG_PF=.9;
 const PT=[];let BV=.4,SB=0,DBT=null;const BOAT_V=3.4;let held=null,sail=false,shake=0,camX=0,camY=0,NT=.5,wx=0,wxT=40,flash=0,zbs='';const RN=[];
 const WX=[{n:'Cerah',i:'☀️',l:0,m:0},{n:'Berawan',i:'⛅',l:.1,m:0},{n:'Hujan',i:'🌧️',l:.25,m:.2},{n:'Badai',i:'⛈️',l:.4,m:.6}];
 function wxUpdate(dt){wxT-=dt;if(wxT<=0){const r=Math.random();wx=r<.4?0:r<.7?1:r<.92?2:3;wxT=50+Math.random()*70;if(wx>=2)stormChests();if(st==='walk')say(WX[wx].i+' '+WX[wx].n+(WX[wx].l?': hoki +'+Math.round(WX[wx].l*100)+'%, mutasi +'+Math.round(WX[wx].m*100)+'%':''))}
@@ -693,7 +693,7 @@ const ACH=[
 const toast=t=>{const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2800)};
 function chk(){let o='';ACH.forEach(a=>{if(!S.ach.includes(a.id)&&a.t()){S.ach.push(a.id);S.gems+=a.g;S.earn+=a.g;o+=' 🏆 '+a.n+' +'+a.g;toast('🏆 '+a.n+' +💎'+a.g);snd(1047,.12,'triangle',.6)}});return o}
 const wtxt=f=>f.kg===undefined?'':(f.kg<1?Math.round(f.kg*1000)+' gr':f.kg.toFixed(2)+' kg')+' ('+Math.round(38*Math.cbrt(f.kg))+' cm)';
-function alab(){if(HOME){const t=homeLab();$('act').dataset.s='walk';if($('act').textContent!==t)$('act').textContent=t;return}const L={walk:(nearShop()&&!facingWater())?'Upgrade':(npcFront()>=0&&!facingWater())?(ISL===2?(npcFront()===0?'Dagang':npcFront()===5?'Tukar':npcFront()===3?'Misi':'Ngobrol'):npcFront()===5?'Main Kerang':npcFront()===6?'Jawab Soal':'Ngobrol'):((P.x+P.fx===9&&P.y+P.fy===6)||(ISL===2&&HOUSES.some(h=>P.y+P.fy===h[1]+1&&(P.x+P.fx===h[0]||P.x+P.fx===h[0]+1))))?'Masuk Rumah':((P.y+P.fy===7&&P.x+P.fx>=11&&P.x+P.fx<=12)||(ISL===2&&P.y+P.fy===KS[1]&&P.x+P.fx>=KS[0]&&P.x+P.fx<=KS[0]+1))?'Jual':(ISL===2&&!sail&&P.x+P.fx===KB[0]&&P.y+P.fy===KB[1])?'Naik Perahu':mbAt(P.x+P.fx,P.y+P.fy)?'Naik Perahu':((ISL===1&&P.x+P.fx===14&&P.y+P.fy===7)||(ISL===2&&P.x+P.fx===KBD[0]&&P.y+P.fy===KBD[1]))?'Lomba':chestNear()?'Klaim Peti':'Lempar',wait:'Angkat',bite:'TARIK!',reel:(rb.q?'HENTAK!':'Tahan biar naik'),show:'OK'}[st];$('act').dataset.s=st;if($('act').textContent!==L)$('act').textContent=L}
+function alab(){if(HOME){const t=homeLab();$('act').dataset.s='walk';if($('act').textContent!==t)$('act').textContent=t;return}const L={walk:(nearShop()&&!facingWater())?'Upgrade':(npcFront()>=0&&!facingWater())?(ISL===2?(npcFront()===0?'Dagang':npcFront()===5?'Tukar':npcFront()===3?'Misi':'Ngobrol'):npcFront()===5?'Main Kerang':npcFront()===6?'Jawab Soal':'Ngobrol'):((P.x+P.fx===9&&P.y+P.fy===6)||(ISL===2&&HOUSES.some(h=>P.y+P.fy===h[1]+1&&(P.x+P.fx===h[0]||P.x+P.fx===h[0]+1))))?'Masuk Rumah':((P.y+P.fy===7&&P.x+P.fx>=11&&P.x+P.fx<=12)||(ISL===2&&P.y+P.fy===KS[1]&&P.x+P.fx>=KS[0]&&P.x+P.fx<=KS[0]+1))?'Jual':(ISL===2&&!sail&&P.x+P.fx===KB[0]&&P.y+P.fy===KB[1])?'Naik Perahu':mbAt(P.x+P.fx,P.y+P.fy)?'Naik Perahu':((ISL===1&&P.x+P.fx===14&&P.y+P.fy===7)||(ISL===2&&P.x+P.fx===KBD[0]&&P.y+P.fy===KBD[1]))?'Lomba':chestNear()?'Klaim Peti':(CHG.on?'LEPAS!':'Lempar'),wait:'Angkat',bite:'TARIK!',reel:(rb.q?'HENTAK!':'Tahan biar naik'),show:'OK'}[st];$('act').dataset.s=st;if($('act').textContent!==L)$('act').textContent=L}
 function act(){
  if($('panel').style.display==='block'||$('sgov')||$('tqov'))return;
  if(HOME){homeAct();return}
@@ -703,10 +703,11 @@ function act(){
   {const ch=chestNear();if(ch){openChest(ch);return}}if(sail&&tx>=0&&ty>=0&&tx<MW&&ty<MH&&M[ty][tx]>0&&M[ty][tx]!==4&&M[ty][tx]!==5&&(!solid.has(tx+','+ty)||TS.has(tx+','+ty))){mbMoor(tx,ty);sail=false;P.x=tx;P.y=ty;say('⚓ Berlabuh di pulau. Perahumu menunggu di tepi air: hadap perahu lalu tekan Aksi untuk berlayar lagi.');snd(520,.12,'triangle');burst(tx*T+8,ty*T+8,10,'#cfeeff',60);return}if(ISL===1&&sail&&tx===26&&ty===19){setSail(false);return}if(!sail&&ISL===2&&tx===KB[0]&&ty===KB[1]){if(S.boat)setSail(true);else say('Perahu belum kamu punya. Beli Kapal Samudra di toko Pulau Rumah (tab Perahu).');return}
   if(mbAt(tx,ty)){mbBoard();return}
   if(!sail&&tx===9&&ty===11){if(S.boat)setSail(true);else say('Perahu belum kamu punya. Beli Kapal Samudra di toko (tab Perahu).');return}
+  if(!CHG.go&&chgStart())return;
   castFar();
   if(ty>=0&&tx>=0&&tx<MW&&ty<MH&&(M[ty][tx]===0||M[ty][tx]===4)){
    cz=zoneAt(tx,ty);if(bagUsed()>=bagCap()){say('Tas penuh! Jual ikan atau upgrade tas.');toast('🎒 Tas penuh '+bagUsed()+'/'+bagCap());snd(180,.2,'sawtooth');return}if(cz===2&&eq()<1){say('Kail bambu terlalu pendek untuk Laut Dalam. Upgrade ke Fiber di toko.');snd(180,.2,'sawtooth');return}if(ISL===2&&!reefOK()){say('🪸 Di Pulau Karang butuh Joran Terumbu (toko > Pancing) atau joran gacha Legend/Mythic. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}if(ISL!==2&&gOn()&&gOn().reef){say('🪸 Joran Terumbu khusus Pulau Karang. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}cb=-1;if(S.sel>=0&&S.bait[S.sel]>0){if(Math.random()>=(S.sk[8]|0)*.03)S.bait[S.sel]--;cb=S.sel;{const nb=cb;if(S.bait[nb]<=0)setTimeout(()=>toast('Umpan '+BAIT[nb].n+' habis'),700)}save();hud()}
-   st='wait';castAt=performance.now();held=null;burst(tx*T+8,ty*T+8,8,'#fff',50);wt=(1.5+Math.random()*3.5)*(eq()>=3?.6:1);say('Menunggu ikan menggigit…');nz(.3,500,.8,.1,0,'bandpass',2400);snd(300,.14,'sine');snd(520,.1,'triangle',.1);ripple(tx*T+8,ty*T+8);burst(tx*T+8,ty*T+8,12,'#cfeeff',80);{const hi=HS.findIndex(h=>Math.abs(h.x-tx)<=HR&&Math.abs(h.y-ty)<=HR);if(hi>=0){HS.splice(hi,1);HSB=time+180;toast('✨ Berkah Titik Ikan! Hoki dan mutasi naik 3 menit');burst(tx*T+8,ty*T+8,24,'#ffe27a',110);snd(1047,.1,'triangle');snd(1568,.2,'triangle',.1);vib([40,30,80])}}}
+   st='wait';castAt=performance.now();held=null;burst(tx*T+8,ty*T+8,8,'#fff',50);wt=(1.5+Math.random()*3.5)*(eq()>=3?.6:1)*(CHG.perf?.5:1);say(CHG.perf?'🎯 PERFECT! Gigitan datang lebih cepat…':'Menunggu ikan menggigit…');if(CHG.perf){toast('🎯 PERFECT CAST!');burst(tx*T+8,ty*T+8,16,'#ffd23f',110);snd(1047,.1,'triangle');snd(1568,.16,'triangle',.09)}nz(.3,500,.8,.1,0,'bandpass',2400);snd(300,.14,'sine');snd(520,.1,'triangle',.1);ripple(tx*T+8,ty*T+8);burst(tx*T+8,ty*T+8,12,'#cfeeff',80);{const hi=HS.findIndex(h=>Math.abs(h.x-tx)<=HR&&Math.abs(h.y-ty)<=HR);if(hi>=0){HS.splice(hi,1);HSB=time+180;toast('✨ Berkah Titik Ikan! Hoki dan mutasi naik 3 menit');burst(tx*T+8,ty*T+8,24,'#ffe27a',110);snd(1047,.1,'triangle');snd(1568,.2,'triangle',.1);vib([40,30,80])}}}
   else say('Hadap ke air untuk melempar kail.');
  }else if(st==='wait'){if(performance.now()-castAt<700)return;st='walk';say('Terlalu cepat, ikan kabur.');snd(180,.2,'sawtooth')}
  else if(st==='bite'){
@@ -754,7 +755,7 @@ function book(){
  }
  return h+'<p class="hint">Peluang dasar. Hoki, pancingan, umpan, dan level mengubahnya.</p><div class="bar"><button data-x="1">Tutup</button></div>'}
 const HELP=[
-['🎮 Dasar',['Geser joystick untuk jalan (keyboard: WASD atau panah).','Hadap air lalu tekan Aksi untuk melempar kail.','Saat ikan menggigit, tekan Aksi (Tarik) dengan cepat.','Lalu TAHAN Aksi untuk menaikkan bar hijau agar menutupi ikan, sampai bar kuning penuh.','Di ujung dermaga air lebih dalam, jadi ikan langka lebih sering.','Gubuk merah = upgrade pancing, umpan, skill, dan perahu. Jual ikan di Lapak pasar (hadap lapak, tekan Aksi).','Hadap penduduk pulau lalu tekan Aksi untuk ngobrol. Tiap orang memberi 2 Umpan Cacing sekali sehari.','Akuarium kaca di dekat tempat mulai: hadap lalu tekan Aksi untuk memajang sampai 4 ikan favoritmu. Ikan yang dipajang terkunci dari penjualan.']],
+['🎮 Dasar',['Geser joystick untuk jalan (keyboard: WASD atau panah).','Hadap air lalu TAHAN Aksi untuk mengisi kekuatan lempar. Makin lama ditahan makin jauh (dan makin dalam airnya). Lepas saat bar emas penuh = PERFECT, gigitan datang lebih cepat.','Saat ikan menggigit, tekan Aksi (Tarik) dengan cepat.','Lalu TAHAN Aksi untuk menaikkan bar hijau agar menutupi ikan, sampai bar kuning penuh.','Di ujung dermaga air lebih dalam, jadi ikan langka lebih sering.','Gubuk merah = upgrade pancing, umpan, skill, dan perahu. Jual ikan di Lapak pasar (hadap lapak, tekan Aksi).','Hadap penduduk pulau lalu tekan Aksi untuk ngobrol. Tiap orang memberi 2 Umpan Cacing sekali sehari.','Akuarium kaca di dekat tempat mulai: hadap lalu tekan Aksi untuk memajang sampai 4 ikan favoritmu. Ikan yang dipajang terkunci dari penjualan.']],
 ['🌊 Perairan',['Kolam: di samping tempat mulai.','Laut: di pesisir.','Laut Dalam: lewat jembatan mercusuar di timur, butuh pancing Fiber, ikan sampai Legendary.','Samudra: naik perahu dari dermaga selatan (beli Kapal Samudra di toko, tab Perahu). Ikan Divine dan Secret hanya di sini.','Ikan tiap perairan berbeda. Beberapa ikan hanya muncul saat malam, hujan, atau badai.','Pulau Karang: di sana butuh Joran Terumbu (toko, tab Pancing) atau joran gacha Legend/Mythic. Ikan karang '+KPR+'x lebih mahal dan punya tab sendiri di Buku.']],
 ['🎣 Pancing, Umpan, Hotbar',['Hotbar bawah: slot paling kiri = pancing yang dipakai. Ketuk atau tekan Q untuk ganti. Tiap pancing punya skin berbeda.','Slot 1-4 = ikan hasil pancingan, terisi otomatis. Ketuk slot atau tekan angka 1-4 untuk memegang ikannya. Kalau penuh, ikan masuk Tas.','Tiap tingkat ikan butuh pancing minimal: Common Bambu, Rare Fiber, Epic Karbon, Legendary Petir (Legendary raksasa seperti Megalodon butuh Dewa), Divine Kraken, Secret hanya Semesta (paling mahal). Lihat syarat tiap ikan di Buku. Pancing Gacha (Gubuk Upgrade > Gacha) bisa lebih kuat dari pancing toko.','Pasif pancing (kumulatif): Fiber waktu menarik +0,5 dtk, Karbon bar turun lebih lambat, Petir ikan lebih cepat menggigit, Dewa Hentakan pertama otomatis sempurna.','Umpan (toko, tab Umpan) menambah hoki, mutasi, dan nilai jual. Pilih yang dipakai lewat tombol Pakai. Tombol 🛒 di atas slot umpan (hotbar) langsung membeli +5 umpan yang sedang dipakai, di mana saja.']],
 ['💪 Tarikan dan Hentakan',['Gaya tarik beda per rarity: Common santai, Rare melesat, Epic zigzag, Legendary melawan (zona tertekan), Divine menghilang, Secret kontrol terbalik.','Ikan Legendary ke atas punya notif khusus dan minigame Hentakan: tekan Aksi saat penanda ada di zona emas. Hasil sempurna menambah nilai ikan.','Zona hijau hampir sama lebar di semua ikan (makin langka hanya sedikit lebih sempit). Yang beda adalah lamanya menarik: sekitar 3 detik untuk Common, 5 Rare, 8,5 Epic, 14 Legendary, 20 Divine, dan 32 detik untuk Secret (kalau kamu menahan tombol dengan lancar).','Pancing yang lebih bagus melebarkan zona hijau, jadi tarikan makin cepat.']],
@@ -1251,7 +1252,7 @@ function draw(){if(HOME){homeDraw();return}
  if(sail)ob.push([P.vy+.45,drawSailBoat]);{const m=S.mb&&S.mb[ISL];if(!sail&&m&&!HOME)ob.push([m[1]+.45,()=>drawMB(m)])}chests().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawChest(c)])});{const sx=832-camX,sy=484-camY;if(ISL===1&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([31.9,()=>drawStall(656,384)])}if(ISL===2){{const sx=KS[0]*T-camX,sy=KS[1]*T-camY;if(sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KS[1]+.9,()=>drawStall(KS[0]*T-176,KS[1]*T-112)])}{const sx=KB[0]*T-camX,sy=KB[1]*T-camY;if(!sail&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KB[1]+.6,()=>drawBoat(KB[0],KB[1])])}}if(ISL===2)ob.push([KBD[1]+.9,()=>drawBoard(KBD[0]*T,KBD[1]*T)]);ob.sort((a,b)=>a[0]-b[0]).forEach(o=>o[1]());
  drawSea();drawCritters();if(GFX>1)for(let i=0;i<3;i++){const cx=((time*6+i*230)%(WW+160))-80,cy=70+i*130;g.fillStyle='rgba(0,20,40,.09)';g.fillRect(Math.round(cx-36),cy-8,72,16);g.fillRect(Math.round(cx-24),cy-14,48,28);g.fillRect(Math.round(cx-44),cy-3,88,6)}
  if(wx<2)for(let i=0;i<3;i++){const gx=Math.round(((time*16+i*170)%(WW+60))-30),gy=Math.round(24+i*70+Math.sin(time*.8+i)*6),w=Math.floor(time*6+i)%2?1:0;g.fillStyle='#fff';g.fillRect(gx,gy,3,1);g.fillRect(gx-2,gy-w,2,1);g.fillRect(gx+3,gy-w,2,1)}
- if(st==='walk'&&!HOME&&castSel()>1&&facingWater()){const q=castTarget(),X=q[0]*T,Y=q[1]*T;g.fillStyle='rgba(255,255,255,'+(.6+.25*Math.sin(time*6)).toFixed(2)+')';[[0,0],[T-4,0],[0,T-1],[T-4,T-1]].forEach(o=>g.fillRect(X+o[0],Y+o[1],4,1));[[0,0],[T-1,0],[0,T-4],[T-1,T-4]].forEach(o=>g.fillRect(X+o[0],Y+o[1],1,4))}
+ if(CHG.on)chgDraw();if(CHG.on&&st==='walk'&&!HOME&&facingWater()){const q=castTarget(),X=q[0]*T,Y=q[1]*T;g.fillStyle='rgba(255,255,255,'+(.6+.25*Math.sin(time*6)).toFixed(2)+')';[[0,0],[T-4,0],[0,T-1],[T-4,T-1]].forEach(o=>g.fillRect(X+o[0],Y+o[1],4,1));[[0,0],[T-1,0],[0,T-4],[T-1,T-4]].forEach(o=>g.fillRect(X+o[0],Y+o[1],1,4))}
   HS.forEach(h=>{const cx=h.x*T+8,cy=h.y*T+8,pp=(time*.8)%1,RW=(HR+.5)*T,RH=RW*.62;g.fillStyle='rgba(255,226,122,'+(.13+.05*Math.sin(time*3)).toFixed(2)+')';g.beginPath();g.ellipse(cx,cy,RW,RH,0,0,6.2832);g.fill();g.fillStyle='rgba(255,226,122,'+(.85-.65*pp).toFixed(2)+')';for(let k=0;k<40;k++){const a=k*.157,rr=RW*(.45+.55*pp);g.fillRect(Math.round(cx+Math.cos(a)*rr),Math.round(cy+Math.sin(a)*rr*.62),1,1)}g.fillStyle='rgba(255,226,122,.55)';for(let k=0;k<44;k++){const a=k*.1428;g.fillRect(Math.round(cx+Math.cos(a)*RW),Math.round(cy+Math.sin(a)*RH),1,1)}for(let b=0;b<6;b++){const q=(time*.9+b*.17)%1;g.fillStyle='rgba(255,255,255,'+(1-q).toFixed(2)+')';g.fillRect(Math.round(cx-RW*.7+b*RW*.28+Math.sin(time*3+b)*2),Math.round(cy+RH*.5-q*14),2,2)}if(Math.sin(time*6+h.x)>.7){g.fillStyle='#ffe27a';const sx=cx+(h.x%2?1:-1)*RW*.6;g.fillRect(sx,cy-RH*.4-3,1,3);g.fillRect(sx-1,cy-RH*.4-2,3,1)}});
  RP.forEach(r=>{const rd=r.t*14;g.fillStyle='rgba(255,255,255,'+(.75*(1-r.t)).toFixed(2)+')';for(let k=0;k<16;k++)g.fillRect(Math.round(r.x+Math.cos(k*.393)*rd),Math.round(r.y+Math.sin(k*.393)*rd*.45),1,1)});
  if(st==='show'&&card&&show>2.55){const u=Math.min(1,(3-show)/.45),bx=tx*T+8,by=ty*T+8,px=P.vx*T+8,py=P.vy*T-4;fishSpr(g,card,Math.round(bx+(px-bx)*u)-7,Math.round(by+(py-by)*u-Math.sin(u*Math.PI)*28))}
@@ -1300,7 +1301,7 @@ document.querySelectorAll('.pad button').forEach(b=>{
  b.addEventListener('pointerdown',e=>{e.preventDefault();const v={u:[0,-1],d:[0,1],l:[-1,0],r:[1,0]}[b.dataset.d];setMove(v[0],v[1])});
  ['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>{if(dir===b.dataset.d)setMove(0,0)}))});
 $('act').addEventListener('pointerdown',e=>{e.preventDefault();hold=true;act()});
-['pointerup','pointercancel','pointerleave'].forEach(ev=>$('act').addEventListener(ev,()=>{hold=false}));
+['pointerup','pointercancel','pointerleave'].forEach(ev=>$('act').addEventListener(ev,()=>{hold=false;if(ev==='pointercancel')chgCancel();else chgRelease()}));
 $('bag').addEventListener('pointerdown',e=>{e.preventDefault();openPanel(false,'tas')});$('shp').addEventListener('pointerdown',e=>{e.preventDefault();openPanel(true,'hadiah')});
 $('bk').addEventListener('pointerdown',e=>{e.preventDefault();bz=ISL===2?4:cz>=0&&cz<=3?cz:0;openPanel(false,'ikan')});
 $('snd').addEventListener('pointerdown',e=>{e.preventDefault();openPanel(false,'set')});
@@ -1309,7 +1310,7 @@ const KD={ArrowUp:'u',KeyW:'u',ArrowDown:'d',KeyS:'d',ArrowLeft:'l',KeyA:'l',Arr
 function kbMove(){let dx=0,dy=0;for(const c in KP){const d=KD[c];if(d==='l')dx--;else if(d==='r')dx++;else if(d==='u')dy--;else dy++}setMove(dx,dy)}
 addEventListener('blur',()=>{for(const c in KP)delete KP[c];setMove(0,0)});
 addEventListener('keydown',e=>{if(e.target&&/^(TEXTAREA|INPUT)$/.test(e.target.tagName))return;RUNK=e.shiftKey?1:0;if(e.code==='Escape'){$('panel').style.display='none';return}if(e.code==='KeyM'&&st==='walk'&&$('panel').style.display!=='block'){openPanel(false,'peta');return}if(e.code==='KeyT'&&(MP.st==='on'||AU)&&$('panel').style.display!=='block'){e.preventDefault();chToggle(true);return}if(e.code==='KeyH'&&st==='walk'&&$('panel').style.display!=='block'){openPanel(false,'help');return}if(/^Digit[1-4]$/.test(e.code)){pickSlot(+e.code[5]-1)}else if(e.code==='KeyQ'){cycleRod()}else if(e.code==='KeyE'){cycleBait()}else if(e.code==='KeyR'){castCycle()}else if(KD[e.code]){e.preventDefault();KP[e.code]=1;kbMove()}else if(e.code==='Space'||e.code==='Enter'){e.preventDefault();hold=true;if(!e.repeat)act()}});
-addEventListener('keyup',e=>{RUNK=e.shiftKey?1:0;if(e.code==='Space'||e.code==='Enter')hold=false;if(KD[e.code]){delete KP[e.code];kbMove()}});
+addEventListener('keyup',e=>{RUNK=e.shiftKey?1:0;if(e.code==='Space'||e.code==='Enter'){hold=false;chgRelease()}if(KD[e.code]){delete KP[e.code];kbMove()}});
 
 // ---------- mabar (WebRTC, tanpa server: tukar kode lewat chat)
 /* ===== Pulau bersama: login Firebase Auth + presence RTDB ===== */
@@ -2091,13 +2092,45 @@ function sesRows(rw){const mn=Math.max(1,(Date.now()-SES.t)/6e4),e=(S.earn|0)-SE
 
 /* ===== v25: lempar jauh + titik ikan lebih luas ===== */
 var HR=2;
+/* ===== v26: lempar tahan-lepas. Makin lama ditahan makin jauh, lepas di puncak (emas) = PERFECT ===== */
+function chgPow(t){const c=CHG_UP+CHG_TOP+CHG_DN,u=t%c;return u<CHG_UP?u/CHG_UP:u<CHG_UP+CHG_TOP?1:1-(u-CHG_UP-CHG_TOP)/CHG_DN}
+function chgDist(p){const m=castMax();if(p>=CHG_PF)return m;return Math.max(1,Math.min(m,Math.ceil(p*m-1e-6)))}
+function chgStart(){
+ if(CHG.on||st!=='walk'||HOME||!facingWater())return false;
+ if(bagUsed()>=bagCap())return false;
+ if(ISL===2&&!reefOK())return false;
+ if(ISL!==2&&gOn()&&gOn().reef)return false;
+ CHG.on=true;CHG.t0=performance.now();CHG.p=0;CHG.ov=1;CHG.lo=0;CHG.pf=false;CHG.perf=false;
+ if(CHGN++<2)say('🎣 Tahan Aksi: makin lama makin jauh. Lepas saat bar emas penuh = PERFECT!');
+ snd(260,.08,'triangle');
+ return true}
+function chgRelease(){
+ if(!CHG.on)return;
+ const p=chgPow((performance.now()-CHG.t0)/1000);
+ CHG.on=false;CHG.ov=chgDist(p);CHG.perf=p>=CHG_PF;CHG.go=true;
+ try{act()}finally{CHG.go=false;CHG.ov=0;CHG.perf=false;cdUpd()}}
+function chgCancel(){CHG.on=false;CHG.ov=0;CHG.perf=false;cdUpd()}
+function chgDraw(){
+ if(st!=='walk'||HOME){CHG.on=false;cdUpd();return}
+ const p=chgPow((performance.now()-CHG.t0)/1000),d=chgDist(p),pf=p>=CHG_PF;
+ CHG.p=p;CHG.ov=d;
+ if(d!==CHG.lo){CHG.lo=d;snd(280+d*55,.03,'square',0,.02)}
+ if(pf&&!CHG.pf){snd(1175,.08,'triangle',0,.05);snd(1568,.1,'triangle',.07,.04);try{vib(25)}catch(e){}}
+ CHG.pf=pf;
+ const x=Math.round(P.vx*T+8),y=Math.round(P.vy*T-20),w=30,h=5,x0=x-15,zx=Math.round(w*CHG_PF);
+ g.fillStyle='rgba(8,20,26,.88)';g.fillRect(x0-1,y-1,w+2,h+2);
+ g.fillStyle='rgba(255,210,63,.4)';g.fillRect(x0+zx,y,w-zx,h);
+ g.fillStyle=pf?'#ffd23f':'#4fd1ff';g.fillRect(x0,y,Math.round(w*p),h);
+ g.fillStyle='#fff';g.fillRect(x0+zx,y-2,1,h+4);
+ if(pf&&Math.sin(time*30)>0){g.fillStyle='#fff';g.fillRect(x-1,y-6,3,1);g.fillRect(x,y-7,1,3)}
+ cdUpd()}
 function castMax(){const t=Math.max(0,Math.min(6,eq()|0));return [2,4,5,6,7,8,9][t]+Math.floor(enL(rkOf())/5)}
-function castSel(){const m=castMax();return(S.cd|0)>0?Math.min(S.cd|0,m):m}
-function castTarget(){let x=P.x+P.fx,y=P.y+P.fy;if(!(M[y]&&(M[y][x]===0||M[y][x]===4)))return[x,y];const n=castSel();for(let k=1;k<n;k++){const nx=x+P.fx,ny=y+P.fy;if(nx<0||ny<0||nx>=MW||ny>=MH)break;const t=M[ny][nx];if(t!==0&&t!==4)break;x=nx;y=ny}return[x,y]}
+function castSel(){return castMax()}
+function castTarget(){let x=P.x+P.fx,y=P.y+P.fy;if(!(M[y]&&(M[y][x]===0||M[y][x]===4)))return[x,y];const n=CHG.ov>0?CHG.ov:castSel();for(let k=1;k<n;k++){const nx=x+P.fx,ny=y+P.fy;if(nx<0||ny<0||nx>=MW||ny>=MH)break;const t=M[ny][nx];if(t!==0&&t!==4)break;x=nx;y=ny}return[x,y]}
 function castFar(){const q=castTarget();tx=q[0];ty=q[1]}
-function castCycle(){if(st!=='walk')return;const m=castMax(),n=castSel();S.cd=n-1<1?m:n-1;save();say('🎯 Jarak lempar: '+S.cd+' petak (maks '+m+'). Makin jauh, makin dalam airnya.');snd(660,.06,'triangle');cdUpd()}
+function castCycle(){if(st!=='walk')return;say('🎯 Jarak lempar diatur dengan menahan tombol Aksi: makin lama makin jauh, lepas di zona emas = PERFECT.');snd(660,.06,'triangle')}
 var cdb=null;
-function cdUpd(){if(!cdb)return;const on=st==='walk'&&!HOME&&!document.getElementById('splash')&&$('panel').style.display!=='block'&&facingWater();cdb.style.display=on?'block':'none';if(on)cdb.textContent='🎯 '+castSel()+'/'+castMax()}
+function cdUpd(){if(!cdb)return;const on=CHG.on&&st==='walk'&&!HOME;cdb.style.display=on?'block':'none';if(on)cdb.textContent='🎯 '+CHG.ov+'/'+castMax()+(CHG.pf?' ★':'')}
 (function(){const st0=document.createElement('style');st0.textContent='#cdb{position:fixed;right:calc(env(safe-area-inset-right,0px) + 112px);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);z-index:12;display:none;padding:9px 12px;font-size:14px;font-weight:800;border-radius:999px;border:2px solid rgba(255,255,255,.85);background:rgba(8,20,26,.82);color:#fff;box-shadow:0 2px 8px #0008;touch-action:manipulation}#cdb:active{transform:scale(.95)}';document.head.appendChild(st0);
  cdb=document.createElement('button');cdb.id='cdb';cdb.type='button';cdb.setAttribute('aria-label','Atur jarak lempar (tombol R)');cdb.addEventListener('click',e=>{e.stopPropagation();castCycle()});document.body.appendChild(cdb);setInterval(cdUpd,250)})();
 requestAnimationFrame(loop);
