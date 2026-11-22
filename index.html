@@ -1373,7 +1373,7 @@ async function auSign(reg,u,p){if(!FB_KEY)return 'Kunci API (FB_KEY) belum diisi
 var GM=null,GCF=null,GCU={},GON={};function nameCol(l){l=+l||0;return l>=100?'#ff5d5d':l>=75?'#ffb02e':l>=50?'#c77dff':l>=25?'#4aa3ff':l>=10?'#5fe08a':'#ffffff'}
 const CATCH_MIN=3;/* 3 = Legendary ke atas */
 window.PM_VER='v2026.11.22-m';
-(function(){let busy=0;const PCF=(()=>{try{return matchMedia('(pointer:fine)').matches&&!/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)?1:0}catch(e){return 0}})();window.__PC=PCF;const base=()=>FB_URL?FB_URL.replace(/\/$/,'')+'/island':'';
+(function(){let busy=0;const PCF=(()=>{try{const ud=navigator.userAgent||'',h=navigator.userAgentData,mm=q=>matchMedia(q).matches;if(h&&h.mobile===true)return 0;if(/Android|iPhone|iPad|iPod|Mobile|Windows Phone|Opera Mini/i.test(ud))return 0;if(/Macintosh/i.test(ud)&&navigator.maxTouchPoints>1)return 0;if(mm('(pointer:coarse)')&&!mm('(any-pointer:fine)'))return 0;return(/Windows NT|Macintosh|X11|CrOS|Linux/i.test(ud)||mm('(any-pointer:fine)'))?1:0}catch(e){return 0}})();window.__PC=PCF;const base=()=>FB_URL?FB_URL.replace(/\/$/,'')+'/island':'';
 
  let lastJ='',lastS=0,ES=null,ESD={},ESAt=0,ESErr=0,ESk=0;const SA={};
  function ghPut(url,o){const t=o.t;delete o.t;const j=JSON.stringify(o),n=Date.now();if(j===lastJ&&n-lastS<2500)return;lastJ=j;lastS=n;o.t=t;window.__LU=url;const st=(r,x)=>{window.__MPS={ok:r.ok,c:r.status,t:Date.now(),x:x}};if(window.__noX&&n-window.__noX<60000){delete o.sl;delete o.bu;delete o.hl;delete o.bc;delete o.pl}fetch(url,{method:'PUT',body:JSON.stringify(o)}).then(r=>{if(!r.ok&&!(window.__noX&&n-window.__noX<60000)){window.__noX=Date.now();lastJ='';delete o.sl;delete o.bu;delete o.hl;delete o.bc;delete o.pl;fetch(url,{method:'PUT',body:JSON.stringify(o)}).then(r2=>st(r2,1)).catch(()=>{window.__MPS={ok:false,c:0,t:Date.now()}})}else st(r,window.__noX&&n-window.__noX<60000?1:0)}).catch(()=>{window.__MPS={ok:false,c:0,t:Date.now()}})}
@@ -2295,7 +2295,7 @@ requestAnimationFrame(loop);
 /* ===== Musik bersama (file audio, diputar serempak ke semua pemain online) ===== */
 (function(){
 /* DAFTAR LAGU: tambah di sini, contoh {n:'Judul lagu',f:'musik/lagu1.mp3'} */
-const TRACKS=[{n:'Multo',f:'lagu1.m4a'},{n:'Killswitch Lullaby (slowed + reverb)',f:'lagu2.mp3'},{n:'8 Lagu Ajaib',f:'lagu3.mp3'}];
+const TRACKS=[{n:'Multo',f:'lagu1.m4a'},{n:'Killswitch Lullaby (slowed + reverb)',f:'lagu2.mp3'},{n:'Lagu 3',f:'lagu4.m4a'}];
 const dk=document.getElementById('sdock');if(!dk||typeof AQB==='undefined')return;
 const E=(t,x,c)=>{const e=document.createElement(t);if(x!==undefined)e.textContent=x;if(c)e.style.cssText=c;return e};
 const B=()=>AQB()+'/music';
