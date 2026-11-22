@@ -447,7 +447,7 @@ function skExtra(p){const st=p.querySelector('.stk');if(!st)return;const own=S.s
 const GMC='admin123';
 function gmHTML(full){const inp='padding:6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)';if(!S.gm)return '<div class="sec">🛠 GM</div><div class="row"><span>Kode GM</span><input id="gmc" type="password" autocomplete="off" placeholder="masukkan kode" style="flex:1;min-width:0;max-width:50%;'+inp+'"><button data-gml="1">Masuk</button></div>';
  if(!full)return '<div class="sec">🛠 Mode GM</div><div class="row"><span>Menu GM aktif. Letaknya di kanan bawah: ketuk tombol GM (ungu) di samping tombol 💬 dan 😀.</span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>';
- return '<div class="sec">🛠 Mode GM</div><div class="row"><span>💜 Gem Ungu: <b>∞ (tak terbatas)</b><br><small>Hanya GM yang memilikinya.</small></span></div><div class="row"><span>Tukar 💜 jadi 💎</span><span><button data-gm="1">+100 rb</button> <button data-gm="2">+1 juta</button></span></div><div class="row"><span>Buka semua skin</span><button data-gm="3">Buka</button></div>'+gmFish()+'<div class="row"><span>Pindah pulau</span><span><button data-gm="4">Rumah</button> <button data-gm="5">Karang</button></span></div><div class="row"><span>Perahu Karang gratis</span><button data-gm="6">Buka</button></div><div class="row"><span>Joran Terumbu gratis</span><button data-gm="26">Buka</button></div><div class="row"><span>Reset minigame awal</span><button data-gm="7">Reset</button></div><div class="row"><span>Level +10 (dapat skill point)</span><span><button data-gm="8">+10</button> </span></div><div class="row"><span>Semua joran terbuka</span><span><button data-gm="9">Buka</button> </span></div><div class="row"><span>Umpan semua jenis +50</span><span><button data-gm="10">+50</button> </span></div><div class="row"><span>Buka Kapal samudra</span><span><button data-gm="11">Buka</button> </span></div><div class="row"><span>Lengkapi buku ikan</span><span><button data-gm="12">Isi</button> </span></div><div class="row"><span>Ganti cuaca (siklus)</span><span><button data-gm="13">Ganti</button> </span></div><div class="row"><span>Waktu</span><span><button data-gm="14">Siang</button> <button data-gm="15">Malam</button> <button data-gm="16">Normal</button> </span></div><div class="row"><span>Reset misi, login, lomba, peti harian</span><span><button data-gm="17">Reset</button> </span></div><div class="row"><span>Hapus SEMUA progres (tes pemain baru)</span><span><button data-gm="18">Hapus</button> </span></div><div class="row"><span><b>⏱ Event 30 menit</b><br><small>Hanya di perangkat ini</small></span></div><div class="row"><span><button data-gm="20">🌟 Emas</button> <button data-gm="21">🧬 Mutasi</button> <button data-gm="22">💰 Cuan</button> <button data-gm="23">Stop</button></span></div><div class="row"><span>Atur level</span><span><input id="gmLv" type="number" inputmode="numeric" min="1" max="9999" placeholder="Lv" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="24">Set</button></span></div><div class="row"><span>Atur gem 💎</span><span><input id="gmGm" type="number" inputmode="numeric" min="0" placeholder="jumlah" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="25">Set</button></span></div><div class="row"><span><b>🎁 Kirim gem ke pemain</b><br><small>UID akunmu: '+(typeof AU!=='undefined'&&AU?AU.uid:'belum login')+'</small></span></div><div class="row"><span><input id="gmGu" placeholder="username" maxlength="14" autocapitalize="off" autocomplete="off" style="width:96px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <input id="gmGa" type="number" inputmode="numeric" min="1" placeholder="gem" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="27">Kirim</button></span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>'}
+ return '<div class="sec">🛠 Mode GM</div><div class="row"><span>💜 Gem Ungu: <b>∞ (tak terbatas)</b><br><small>Hanya GM yang memilikinya.</small></span></div><div class="row"><span>Tukar 💜 jadi 💎</span><span><button data-gm="1">+100 rb</button> <button data-gm="2">+1 juta</button></span></div><div class="row"><span>Buka semua skin</span><button data-gm="3">Buka</button></div>'+gmFish()+'<div class="row"><span>Pindah pulau</span><span><button data-gm="4">Rumah</button> <button data-gm="5">Karang</button></span></div><div class="row"><span>Perahu Karang gratis</span><button data-gm="6">Buka</button></div><div class="row"><span>Joran Terumbu gratis</span><button data-gm="26">Buka</button></div><div class="row"><span>Reset minigame awal</span><button data-gm="7">Reset</button></div><div class="row"><span>Level +10 (dapat skill point)</span><span><button data-gm="8">+10</button> </span></div><div class="row"><span>Semua joran terbuka</span><span><button data-gm="9">Buka</button> </span></div><div class="row"><span>Umpan semua jenis +50</span><span><button data-gm="10">+50</button> </span></div><div class="row"><span>Buka Kapal samudra</span><span><button data-gm="11">Buka</button> </span></div><div class="row"><span>Lengkapi buku ikan</span><span><button data-gm="12">Isi</button> </span></div><div class="row"><span>Ganti cuaca (siklus)</span><span><button data-gm="13">Ganti</button> </span></div><div class="row"><span>Waktu</span><span><button data-gm="14">Siang</button> <button data-gm="15">Malam</button> <button data-gm="16">Normal</button> </span></div><div class="row"><span>Reset misi, login, lomba, peti harian</span><span><button data-gm="17">Reset</button> </span></div><div class="row"><span>Hapus SEMUA progres (tes pemain baru)</span><span><button data-gm="18">Hapus</button> </span></div><div class="row"><span><b>⏱ Event 30 menit</b><br><small>Hanya di perangkat ini</small></span></div><div class="row"><span><button data-gm="20">🌟 Emas</button> <button data-gm="21">🧬 Mutasi</button> <button data-gm="22">💰 Cuan</button> <button data-gm="23">Stop</button></span></div><div class="row"><span>Atur level</span><span><input id="gmLv" type="number" inputmode="numeric" min="1" max="9999" placeholder="Lv" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="24">Set</button></span></div><div class="row"><span>Atur gem 💎</span><span><input id="gmGm" type="number" inputmode="numeric" min="0" placeholder="jumlah" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="25">Set</button></span></div><div class="row"><span><b>🎁 Kirim gem ke pemain</b><br><small>UID akunmu: '+(typeof AU!=='undefined'&&AU?AU.uid:'belum login')+'</small></span></div><div class="row"><span><input id="gmGu" placeholder="username" maxlength="14" autocapitalize="off" autocomplete="off" style="width:96px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <input id="gmGa" type="number" inputmode="numeric" min="1" placeholder="gem" style="width:72px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit"> <button data-gm="27">Kirim</button></span></div><div class="row"><span><b>🎁 Kirim umpan / skin</b><br><small>Pakai username di kolom kirim gem di atas</small></span></div><div class="row"><span>'+gmItemSel()+'</span><button data-gm="39">Kirim</button></div><div class="row"><span><b>🌐 Event SEMUA pemain (30 mnt)</b><br><small>Teman yang online dapat dalam ±1 menit</small></span></div><div class="row"><span><button data-gm="35">🌟 Emas</button> <button data-gm="36">🧬 Mutasi</button> <button data-gm="37">💰 Cuan</button> <button data-gm="38">Stop</button></span></div><div class="row"><span><b>🌈 Efek langit</b><br><small>Aurora &amp; lentera otomatis bikin malam cerah</small></span></div><div class="row"><span><button data-gm="28">🌈 Pelangi</button> <button data-gm="29">🌌 Aurora</button> <button data-gm="30">🏮 Lentera</button></span></div><div class="row"><span><b>☁️ Pilih cuaca (5 mnt)</b></span></div><div class="row"><span><button data-gm="31">☀️</button> <button data-gm="32">⛅</button> <button data-gm="33">🌧️</button> <button data-gm="34">⛈️</button></span></div><div class="row"><span>Keluar dari mode GM</span><button data-gml="0">Keluar</button></div>'}
 function cardFx(f,R){const c=$('card'),hi=f.r>=2;c.style.borderColor=hi?R.c:'';c.style.boxShadow=hi?'0 0 '+(18+f.r*8)+'px '+R.c+',0 18px 50px rgba(0,0,0,.55)':'';c.style.background=hi?'radial-gradient(120% 100% at 50% 0%,'+R.c+'66,#0a1c28 72%)':'';}
 function hud(){
  let kI=0;try{kI=ISL}catch(e){}const gs=kI===2?'K|'+fmt(S.prl|0)+'|'+fmt(S.gems)+'|'+kxChip():'💎 '+fmt(S.gems)+(S.gm?' · 💜 ∞':'');if($('gems').dataset.k!==gs){$('gems').dataset.k=gs;if(kI===2)$('gems').innerHTML='🦪 '+fmt(S.prl|0)+'<small style="font-size:11px;opacity:.85;margin-left:6px">💎 '+fmt(S.gems)+' · 💱 '+kxChip()+'</small>';else $('gems').textContent=gs;const e=$('gems');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
@@ -597,10 +597,10 @@ function drawLH(){shd(424,126,22);g.drawImage(LHC,414,64);
  const lit=(NT>.5||wx===3)&&GFX>0;if(!lit)return;const a=time*1.2,gr=g.createRadialGradient(424,76,2,424,76,40);gr.addColorStop(0,'rgba(255,230,140,.8)');gr.addColorStop(1,'rgba(255,230,140,0)');g.fillStyle=gr;g.fillRect(384,36,80,80);
  g.fillStyle='rgba(255,240,170,.16)';g.beginPath();g.moveTo(424,76);g.lineTo(424+Math.cos(a-.12)*150,76+Math.sin(a-.12)*90);g.lineTo(424+Math.cos(a+.12)*150,76+Math.sin(a+.12)*90);g.fill();
  for(let x=28;x<=34;x+=2){g.fillStyle='rgba(255,220,120,.35)';g.fillRect(x*T+4,8*T-4,8,8);g.fillStyle='#ffe27a';g.fillRect(x*T+7,8*T,2,2)}}
-function nightLights(a){g.save();g.translate(-Math.round(camX),-Math.round(camY));g.globalCompositeOperation='lighter';
+function nightLights(a){if(GFX>=2){const px=P.vx*T+8-Math.round(camX),py=P.vy*T+6-Math.round(camY),R=Math.max(W,H)*.85,k2=Math.min(1,a*1.6),q=g.createRadialGradient(px,py,22,px,py,R);q.addColorStop(0,'rgba(4,8,34,0)');q.addColorStop(.35,'rgba(4,8,34,'+(.12*k2).toFixed(3)+')');q.addColorStop(1,'rgba(4,8,34,'+(.46*k2).toFixed(3)+')');g.fillStyle=q;g.fillRect(0,0,W,H)}g.save();g.translate(-Math.round(camX),-Math.round(camY));g.globalCompositeOperation='lighter';
  const gl=(x,y,r,c)=>{const q=g.createRadialGradient(x,y,1,x,y,r);q.addColorStop(0,c);q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(x-r,y-r,2*r,2*r)},k=Math.min(1,a*2);
  gl(424,76,50,'rgba(255,220,120,'+.55*k+')');for(let x=28;x<=34;x+=2)gl(x*T+8,8*T+2,16,'rgba(255,200,100,'+.5*k+')');
- HOUSES.forEach(([x,y])=>gl(x*T+7,y*T+20,14,'rgba(255,190,90,'+.5*k+')'));LAMPS.forEach(([x,y])=>gl(x*T+8,y*T+3,24,'rgba(255,200,100,'+.5*k+')'));gl(P.vx*T+8,P.vy*T+6,26,'rgba(255,230,170,'+.35*k+')');g.restore()}
+ HOUSES.forEach(([x,y])=>gl(x*T+7,y*T+20,14,'rgba(255,190,90,'+.5*k+')'));LAMPS.forEach(([x,y])=>gl(x*T+8,y*T+3,24,'rgba(255,200,100,'+.5*k+')'));gl(P.vx*T+8,P.vy*T+6,30+(NFL()?0:Math.sin(time*5.3)*1.4+Math.sin(time*11.7)*.7),'rgba(255,226,160,'+.42*k+')');g.restore()}
 function drawN(a,k){if(a.lo===undefined){const c=a[0];let l=0,r=0;if(walkable(c,a[1])){while(l<3&&walkable(c-l-1,a[1]))l++;while(r<3&&walkable(c+r+1,a[1]))r++}a.lo=c-l;a.hi=c+r}
  const x=Math.round(((a.lo+a.hi)/2+Math.sin(time*.35+k*1.7)*(a.hi-a.lo)/2)*T)+3,y=Math.round(a[1]*T)+1,NH=k===4?NPH4:NPH[k%4],o=[PAL.r,PAL.c,PAL.C,PAL.h];PAL.r=a[2];PAL.c=NH[0];PAL.C=NH[1];PAL.h=NH[2];shd(x+5,y+14,10);spr(NH[3]?PDH:PD,x,y,false);[PAL.r,PAL.c,PAL.C,PAL.h]=o;g.fillStyle=PAL.p;g.fillRect(x+3,y+11,2,3);g.fillRect(x+5,y+11,2,3);if(a.bu>time){g.fillStyle='#fff';g.fillRect(x-1,y-10,12,8);g.fillRect(x+4,y-2,2,2);g.fillStyle='#17302b';for(let i=0;i<3;i++)g.fillRect(x+1+i*3,y-7-(Math.floor(time*5)%3===i?1:0),2,2)}}
 function drawBoat(ax,ay){const bx=(ax===undefined?9:ax)*T+2,by=(ay===undefined?11:ay)*T+8+Math.round(Math.sin(time*2));g.fillStyle='rgba(255,255,255,.35)';g.fillRect(bx-2,by+6,17,1);g.fillStyle='#2a1a10';g.fillRect(bx-1,by,15,6);g.fillStyle=hullC();g.fillRect(bx,by+1,13,3);g.fillStyle=(S.hul|0)>=3?'#6fd3ff':'#d44a3d';g.fillRect(bx,by+1,13,1);g.fillStyle='#7c5129';g.fillRect(bx+1,by+4,11,1);if((S.bup|0)>=2){g.fillStyle='#3a3f4a';g.fillRect(bx+13,by+1,3,5)}if((S.bup|0)>=5){g.fillStyle='#ffd23f';g.fillRect(bx-1,by,15,1)}g.fillStyle='#4a2f17';g.fillRect(bx+6,by-12,1,12);g.fillStyle=sailC();for(let i=0;i<9;i++)g.fillRect(bx+7,by-11+i,1+Math.round(i*.7),1);g.fillStyle='#e4572e';g.fillRect(bx+7,by-13,3,2)}
@@ -683,11 +683,11 @@ const WX=[{n:'Cerah',i:'☀️',l:0,m:0},{n:'Berawan',i:'⛅',l:.1,m:0},{n:'Huja
 function wxUpdate(dt){wxT-=dt;if(wxT<=0){const r=Math.random();wx=r<.4?0:r<.7?1:r<.92?2:3;wxT=50+Math.random()*70;if(wx>=2)stormChests();if(st==='walk')say(WX[wx].i+' '+WX[wx].n+(WX[wx].l?': hoki +'+Math.round(WX[wx].l*100)+'%, mutasi +'+Math.round(WX[wx].m*100)+'%':''))}
  if(wx>=2&&RN.length<[80,160,260,420,620][GFX])for(let i=0,n=wx===3?5:2;i<n;i++)RN.push({x:Math.random()*(W+60),y:-4});
  for(let i=RN.length-1;i>=0;i--){const r=RN[i];r.y+=240*dt;r.x-=55*dt;if(r.y>H)RN.splice(i,1)}
- if(wx===3&&Math.random()<dt*.18){flash=.3;snd(90,.5,'sawtooth',.15,.07);nz(1.8,320,.7,.14,.25,'lowpass',60);vib([70,50,90])}flash=Math.max(0,flash-dt);
+ if(wx===3&&Math.random()<dt*.18){flash=.3;{const w=.3+Math.random()*2.2;if(window.thunderNow)window.thunderNow(.8+Math.random()*.4,undefined,w,(w-.3)/2.2);else{snd(90,.5,'sawtooth',.15,.07);nz(1.8,320,.7,.14,.25,'lowpass',60)}setTimeout(()=>vib([70,50,90]),w*1000)}}flash=Math.max(0,flash-dt);
  const tx0=cam(P.vx*T+8-W/2,W,WW),ty0=cam(P.vy*T+8-H/2,H,WH);camX+=(tx0-camX)*Math.min(1,dt*8);camY+=(ty0-camY)*Math.min(1,dt*8)}
 function weatherFx(){if(wx>=1){g.fillStyle='rgba(35,48,70,'+[0,.1,.2,.32][wx]+')';g.fillRect(0,0,W,H)}
  g.fillStyle='rgba(205,230,255,.65)';RN.forEach(r=>g.fillRect(Math.round(r.x),Math.round(r.y),1,3));
- if(flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.7,flash*2.5)+')';g.fillRect(0,0,W,H)}}
+ if(flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.7,flash*2.5)*(NFL()?.18:1)+')';g.fillRect(0,0,W,H)}}
 const mtof=m=>440*Math.pow(2,(m-69)/12);
 const TR={sun:{b:96,w:'triangle',v:.05,sc:[0,4,7,12,7,4],ch:[60,65,67,64]},cloud:{b:80,w:'sine',v:.055,sc:[0,4,7,11,7,4],ch:[57,53,60,55]},
  rain:{b:66,w:'sine',v:.055,sc:[0,3,7,10,7,3],ch:[57,53,55,52]},storm:{b:120,w:'sawtooth',v:.025,sc:[0,3,7,12,7,3,0,-5],ch:[45,41,43,40]},
@@ -858,7 +858,7 @@ $('panel').addEventListener('click',window.PCLK=e=>{
  if(d.glq!==undefined){if(gqClaim(+d.glq)){openPanel(shopMode,tab);mysOpen('img'+GALQ[+d.glq].im)}return}if(d.gal!==undefined){mysOpen('img'+d.gal);return}if(d.t){openPanel(shopMode,d.t);return}
  if(d.mmz!==undefined){MMZ=MMZ?0:1;openPanel(shopMode,'peta');return}if(d.wp!==undefined){const i=+d.wp;WP=WP===i?-1:i;$('panel').style.display='none';say(WP<0?'Penanda dihapus.':'Penanda: '+PL[WP][0].split(' ').slice(1).join(' '));return}if(d.go!==undefined){travel(+d.go);return}if(d.tm!==undefined){startTM();$('panel').style.display='none';return}
  if(d.exp!==undefined)doExport();if(d.dl!==undefined)doDownload();if(d.imp!==undefined){doImport();return}if(d.gs!==undefined){goto_(hsQ(+d.gs));return}
- if(d.cj!==undefined){S.jsz=+d.cj;rs();save()}if(d.chap!==undefined){S.hap=S.hap===0?1:0;save();if(S.hap!==0)vib(30)}if(d.clefty!==undefined){S.lefty=S.lefty?0:1;applySet();rs();save()}if(d.cbat!==undefined){S.bat=S.bat?0:1;applySet();save()}
+ if(d.cj!==undefined){S.jsz=+d.cj;rs();save()}if(d.chap!==undefined){S.hap=S.hap===0?1:0;save();if(S.hap!==0)vib(30)}if(d.clefty!==undefined){S.lefty=S.lefty?0:1;applySet();rs();save()}if(d.cnfl!==undefined){S.nfl=NFL()?0:1;save();toast(S.nfl?'👁 Kilatan dikurangi':'👁 Kilatan normal')}if(d.cbat!==undefined){S.bat=S.bat?0:1;applySet();save()}
  
   if(d.gfx!==undefined){S.gfx=+d.gfx;GFXA=0;S.gfxa=0;applySet();save()}
  if(d.ctg!==undefined){const k=d.ctg;if(k==='fpsd')S.fpsd=S.fpsd===1?0:1;else S[k]=S[k]===0?1:0;if(k==='abat')BCHK();if(k==='wl'&&S.wl===0)wlSet(false);save()}if(d.fps!==undefined){S.fps=+d.fps;applySet();save()}
@@ -898,6 +898,10 @@ $('panel').addEventListener('click',window.PCLK=e=>{
  else if(k===24){const L=Math.max(1,Math.min(9999,Math.floor(+(($('gmLv')||{}).value)||0)));if(L){const df=L-S.lvl;if(df>0){S.sp+=df;S.spt+=df}S.lvl=L;S.exp=0;t='Level diatur ke Lv '+L}else t='Isi angka level dulu'}
  else if(k===27){if(window.gmGift){window.gmGift();t='Mengirim hadiah...'}else t='Fitur kirim belum siap'}
   else if(k===25){const v=(($('gmGm')||{}).value||'').trim();const G=Math.max(0,Math.min(1e12,Math.floor(+v)));if(v!==''&&isFinite(G)){S.gems=G;t='Gem diatur ke '+fmt(G)}else t='Isi jumlah gem dulu'}
+  else if(k>=28&&k<=30){const P=window.PMX;if(!P)t='Efek belum siap';else{if(k>=29){if(NT<=.6)GMN=1;if(wx>=2){wx=0;wxT=300}}try{[P.rainbow,P.aurora,P.lantern][k-28]()}catch(e){}t=['Pelangi muncul','Aurora muncul','Festival lentera dimulai'][k-28]+(k>=29&&GMN===1?' · waktu dikunci malam, tekan Normal untuk balik':'')+(k===29&&GFX<2?' · butuh grafik Sedang ke atas di Setelan':'')}}
+  else if(k>=31&&k<=34){wx=k-31;wxT=300;t='Cuaca: '+['cerah','berawan','hujan','badai'][wx]+' (5 menit)'}
+  else if(k>=35&&k<=38){if(window.gmEventAll)window.gmEventAll(k===38?-1:k-35);t=k===38?'Menghentikan event semua pemain...':'Memulai event 30 menit untuk semua pemain...'}
+  else if(k===39){const v=String((($('gmGi')||{}).value)||''),pr=v.split(':'),i=+pr[1];if(window.gmGift&&v){if(pr[0]==='b'&&BAIT[i]){const n=Math.max(1,Math.min(999,Math.floor(+(($('gmGn')||{}).value)||10)));window.gmGift({b:[i,n],label:n+'x umpan '+BAIT[i].n});t='Mengirim umpan...'}else if(pr[0]==='s'&&SKINS[i]){window.gmGift({s:i,label:'skin '+SKINS[i].n});t='Mengirim skin...'}else t='Pilih item dulu'}else t='Pilih item dulu'}
  if(t)toast('💜 GM: '+t);save();hud()}
 if(d.gm!==undefined&&S.gm&&+d.gm<4){const k=+d.gm;if(k===1)S.gems+=1e5;else if(k===2)S.gems+=1e6;else if(k===3)S.skins=SKINS.map((_,i)=>i);toast('💜 GM: '+(k===3?'semua skin terbuka':'+'+fmt(k===1?1e5:1e6)+' 💎'));snd(988,.08)}
  if(d.bsort!==undefined){bsort=+d.bsort;snd(660,.05,'triangle')}
@@ -1011,7 +1015,7 @@ function wfr(){if(sail)return 1;if(time-wfT>.7||time<wfT){wfT=time;let n=0;for(l
 function amb(dt){if(!AC||mute)return;const va=S.va??1;if(va<=0)return;
  if(HOME){bubT-=dt;hmT-=dt;if(bubT<=0){bubT=.35+Math.random()*1.1;snd(260+Math.random()*420,.07,'sine',0,.012,va);if(Math.random()<.4)snd(520+Math.random()*500,.05,'sine',.07,.008,va)}if(hmT<=0){hmT=1.6;nz(1.7,700,.5,.01,0,'lowpass',420,va)}return}
  try{window.PMX&&PMX.amb&&PMX.amb(dt,va)}catch(e){}ambT-=dt;if(ambT<=0){ambT=2.4+Math.random()*1.6;nz(2,500,.5,.008+.02*wfr(),0,'lowpass',180,va)}
- if(wx>=2){rainT-=dt;if(rainT<=0){rainT=.22;nz(.3,6500,.4,wx===3?.022:.012,0,'highpass',0,va)}}
+ if(wx>=2){if(!window.RAINX){rainT-=dt;if(rainT<=0){rainT=.22;nz(.3,6500,.4,wx===3?.022:.012,0,'highpass',0,va)}}}
  else if(NT>.58&&!sail){crT-=dt;if(crT<=0){crT=.55+Math.random()*.25;for(let i=0;i<3;i++)snd(4200+(i%2)*200,.035,'sine',i*.06,.006,va)}}
  else if(NT<.4&&!sail){brT-=dt;if(brT<=0){brT=7+Math.random()*10;const f=2200+Math.random()*900;snd(f,.07,'sine',0,.012,va);snd(f*1.25,.09,'sine',.09,.012,va);snd(f*1.1,.07,'sine',.2,.01,va)}}}
 const NN=['Budi','Sari','Pak Tua','Dina','Sosok Misterius','Kak Kerang','Kak Tanya','Pak Joko','Bu Wati','Rio','Kapten Bayu','Pak Ujang'],LN=[()=>wx>=2?'Hujan begini hoki dan mutasi naik. Ayo mancing!':'Cuaca cerah. Tunggu sore, ikan mulai ramai.',()=>NT>.55?'Malam begini ikan langka muncul. Jangan pulang dulu!':'Ada ikan yang hanya muncul setelah gelap.',()=>'Hentakan sempurna menambah nilai ikan. Fokus ya!',()=>S.rod<1?'Beli pancing Fiber di gubuk merah untuk ke Laut Dalam.':'Ujung dermaga airnya paling dalam.',()=>'Kunci ikan bagus dengan ★ biar tidak ikut terjual.',()=>'Ikan Raksasa itu langka. Sabar ya.'];
@@ -1109,7 +1113,7 @@ function setHTMLraw(){const m=Math.round((S.vm??1)*100),v=Math.round((S.vs??1)*1
  seg=(k,vals,cur)=>'<div class="seg">'+vals.map(x=>'<button data-'+k+'="'+x[1]+'"'+(cur===x[1]?' class="on"':'')+'>'+x[0]+'</button>').join('')+'</div>';
  return '<div class="sec">🔊 Suara</div><div class="row"><span>🎵 Musik <b>'+m+'%</b></span>'+r('m',m)+'</div><div class="row"><span>💥 Efek <b>'+v+'%</b></span>'+r('s',v)+'</div><div class="row"><span>🌊 Suara lingkungan <b>'+av+'%</b></span>'+r('a',av)+'</div><div class="row"><span>Bisukan semua</span><button data-mute="1">'+(mute?'Aktifkan':'Bisukan')+'</button></div>'
  +'<div class="sec">🖼️ Grafik</div><div class="row">'+seg('gfx',[['Low',0],['Medium',1],['High',2],['Ultra',3],['Max',4]],GFX)+'</div><p class="hint">Low: efek air, bayangan awan, hewan, dan cahaya malam dimatikan (paling ringan). Medium: efek dikurangi separuh. High: semua efek. Max: Ultra + refleksi perahu di air, lens flare, butiran film, riak hujan, dan hujan terlebat (paling berat). Ultra: tambahan sinar matahari, debu cahaya, kunang-kunang, pewarnaan sinematik, hujan lebih lebat (butuh HP kuat; otomatis turun kalau FPS drop).</p>'
- +'<div class="sec">⏱ FPS</div><div class="row">'+seg('fps',[['30',30],['60',60],['90',90],['120',120]],FPS)+'</div><p class="hint">FPS rendah menghemat baterai. 90 dan 120 FPS hanya terasa di layar 90 Hz atau 120 Hz ke atas; di layar 60 Hz tetap berjalan 60. FPS tinggi lebih boros baterai.</p>'+'<div class="sec">🎮 Kontrol</div><div class="row"><span>Ukuran joystick</span></div><div class="row">'+seg('cj',[['Auto',0],['Kecil',96],['Sedang',128],['Besar',160]],S.jsz||0)+'</div><div class="row"><span>Getar (haptic)</span><button data-chap="1">'+(S.hap===0?'Mati':'Nyala')+'</button></div><div class="row"><span>Mode kidal (tukar posisi joystick dan menu)</span><button data-clefty="1">'+(S.lefty?'Nyala':'Mati')+'</button></div>'
+ +'<div class="sec">⏱ FPS</div><div class="row">'+seg('fps',[['30',30],['60',60],['90',90],['120',120]],FPS)+'</div><p class="hint">FPS rendah menghemat baterai. 90 dan 120 FPS hanya terasa di layar 90 Hz atau 120 Hz ke atas; di layar 60 Hz tetap berjalan 60. FPS tinggi lebih boros baterai.</p>'+'<div class="sec">🎮 Kontrol</div><div class="row"><span>Ukuran joystick</span></div><div class="row">'+seg('cj',[['Auto',0],['Kecil',96],['Sedang',128],['Besar',160]],S.jsz||0)+'</div><div class="row"><span>Getar (haptic)</span><button data-chap="1">'+(S.hap===0?'Mati':'Nyala')+'</button></div><div class="row"><span>Mode kidal (tukar posisi joystick dan menu)</span><button data-clefty="1">'+(S.lefty?'Nyala':'Mati')+'</button></div><div class="sec">👁 Tampilan</div><div class="row"><span>Kurangi kilatan (petir tidak menyilaukan)</span><button data-cnfl="1">'+(NFL()?'Nyala':'Mati')+'</button></div>'
  +perfHTML()+dataHTML()+gmHTML()+'<div class="bar"><button data-x="1">Tutup</button></div>'}
 const aqFish=i=>S.inv.find(f=>f.id===S.aq[i])||null,fdesc=f=>chip(f)+' '+(f.sz?SZ[f.sz].n+' ':'')+(MUT[f.m].n?MUT[f.m].n+' ':'')+wtxt(f)+' 💎 '+f.v;
 function aqHTML(){S.aq=S.aq.filter(id=>S.inv.some(f=>f.id===id));const cap=aqCap(),nx=aqNext(),rt=aqRate(),pd=aqPend(),bn=aqBonus();if(AQO.bag===undefined&&!S.aq.length)AQO.bag=1;
@@ -1309,7 +1313,7 @@ function draw(){if(HOME){homeDraw();return}
  if(sail&&S.bsn&&st==='walk'){let bb=null,bd=1e9;chests().forEach(c=>{if(!c.sea)return;const dx=c.x*T-P.vx*T,dy=c.y*T-P.vy*T,d=dx*dx+dy*dy;if(d<bd){bd=d;bb=[c,dx,dy]}});if(bb){const sx=bb[0].x*T+8-camX,sy=bb[0].y*T+8-camY;if(sx<W*.2||sy<30||sx>W*.8||sy>H-50){const a=Math.atan2(bb[2],bb[1]),ex=Math.max(W*.22,Math.min(W*.78,W/2+Math.cos(a)*W)),ey=Math.max(36,Math.min(H-56,H/2+Math.sin(a)*H));g.fillStyle='rgba(255,226,122,.92)';g.beginPath();g.moveTo(ex+Math.cos(a)*8,ey+Math.sin(a)*8);g.lineTo(ex+Math.cos(a+2.5)*7,ey+Math.sin(a+2.5)*7);g.lineTo(ex+Math.cos(a-2.5)*7,ey+Math.sin(a-2.5)*7);g.fill();g.font='10px sans-serif';g.textAlign='center';g.fillStyle='#fff';g.fillText('📦 '+Math.round(Math.sqrt(bd)/T)+' m',ex,ey-10);g.textAlign='start'}}}
  if(HS.length&&st==='walk'){let bb=null,bd=1e9;HS.forEach(h=>{const dx=h.x*T-P.vx*T,dy=h.y*T-P.vy*T,d=dx*dx+dy*dy;if(d<bd){bd=d;bb=[h,dx,dy]}});const sx=bb[0].x*T+8-camX,sy=bb[0].y*T+8-camY;if(sx<W*.2||sy<30||sx>W*.8||sy>H-50){const a=Math.atan2(bb[2],bb[1]),ex=Math.max(W*.22,Math.min(W*.78,W/2+Math.cos(a)*W)),ey=Math.max(36,Math.min(H-56,H/2+Math.sin(a)*H));g.fillStyle='rgba(255,226,122,.92)';g.beginPath();g.moveTo(ex+Math.cos(a)*8,ey+Math.sin(a)*8);g.lineTo(ex+Math.cos(a+2.5)*7,ey+Math.sin(a+2.5)*7);g.lineTo(ex+Math.cos(a-2.5)*7,ey+Math.sin(a-2.5)*7);g.fill();g.font='10px sans-serif';g.fillText('✨',ex-5,ey-9)}}
  if(GFX>0){const vg=g.createRadialGradient(W/2,H/2,H*.42,W/2,H/2,H*.98);vg.addColorStop(0,'rgba(0,25,45,0)');vg.addColorStop(1,'rgba(0,25,45,.4)');g.fillStyle=vg;g.fillRect(0,0,W,H);if(GFX>1){const sg=g.createLinearGradient(0,0,W*.7,H*.7);sg.addColorStop(0,'rgba(255,214,140,.16)');sg.addColorStop(.6,'rgba(255,214,140,0)');g.fillStyle=sg;g.fillRect(0,0,W,H)}}
- const nt=NT=realNT();if(GFX>0){const du=Math.max(0,1-Math.abs(nt-.4)/.12);if(du>0){g.fillStyle='rgba(255,120,50,'+(du*.17).toFixed(3)+')';g.fillRect(0,0,W,H)}if(wx===3){g.fillStyle='rgba(10,24,48,.22)';g.fillRect(0,0,W,H);if(Math.random()<.004)FLS=.7;if(FLS>0){g.fillStyle='rgba(235,245,255,'+FLS.toFixed(2)+')';g.fillRect(0,0,W,H);FLS-=.07}}}if(nt>.45){const al=Math.min(.65,(nt-.45)*1.8);g.fillStyle='rgba(8,14,50,'+al.toFixed(2)+')';g.fillRect(0,0,W,H);if(GFX>0)nightLights(al)}
+ const nt=NT=realNT();if(GFX>0){const du=Math.max(0,1-Math.abs(nt-.4)/.12);if(du>0){g.fillStyle='rgba(255,120,50,'+(du*.17).toFixed(3)+')';g.fillRect(0,0,W,H)}if(wx===3){g.fillStyle='rgba(10,24,48,.22)';g.fillRect(0,0,W,H);if(Math.random()<.004)FLS=.7;if(FLS>0){g.fillStyle='rgba(235,245,255,'+(FLS*(NFL()?.18:1)).toFixed(2)+')';g.fillRect(0,0,W,H);FLS-=.07}}}if(nt>.45){const al=Math.min(.65,(nt-.45)*1.8);g.fillStyle='rgba(8,14,50,'+al.toFixed(2)+')';g.fillRect(0,0,W,H);if(GFX>0)nightLights(al)}
  try{window.PMX&&PMX.top()}catch(e){}if(GFX>=3)ultraFx();if(GFX>=4)maxFx();if(st==='reel')reelUI();bhBadges();
 }
 let last=performance.now(),hf=0;
@@ -1327,8 +1331,9 @@ addEventListener('visibilitychange',()=>{try{if(document.hidden){if(AC&&AC.state
 async function wlSet(on){try{if(on&&!WL&&navigator.wakeLock&&!document.hidden){WL=await navigator.wakeLock.request('screen');WL.addEventListener('release',()=>{WL=null})}else if(!on&&WL){const w=WL;WL=null;await w.release()}}catch(e){WL=null}}
 setInterval(()=>wlSet(S.wl!==0&&(st==='wait'||st==='bite'||st==='reel')&&!document.hidden),2000);
 try{if(navigator.getBattery)navigator.getBattery().then(b=>{BCHK=()=>{const low=!b.charging&&b.level<=.2;if(S.abat!==0&&low&&!BATA&&!S.bat){BATA=1;applySet();toast('🔋 Baterai 20% ke bawah: mode hemat dinyalakan otomatis')}else if(BATA&&(b.charging||b.level>.3||S.abat===0)){BATA=0;applySet();toast('🔌 Mode hemat otomatis dimatikan')}};['levelchange','chargingchange'].forEach(e=>b.addEventListener(e,BCHK));BCHK()}).catch(()=>{})}catch(e){}
+function NFL(){try{return S.nfl===undefined?matchMedia('(prefers-reduced-motion:reduce)').matches:!!S.nfl}catch(e){return false}}
 function rs(){const dpr=window.devicePixelRatio||1,port=matchMedia('(orientation:portrait)').matches,mid=document.querySelector('.mid');
- PORT=port;if(port){W=256;H=192;const k=Math.max(1,Math.floor((mid.clientWidth-6)*dpr/W*4)/4);cv.style.width=(W*k/dpr+6)+'px';cv.style.height=(H*k/dpr+6)+'px'}
+ PORT=port;if(port){H=192;const av=Math.max(256,Math.floor((mid.clientWidth-6)*dpr));let k=Math.max(1,Math.round(av/256));if(k>1&&Math.floor(av/k)<224)k--;W=Math.floor(av/k);cv.style.width=(W*k/dpr+6)+'px';cv.style.height=(H*k/dpr+6)+'px'}
  else{const kd=Math.max(1,Math.round(innerHeight/200*dpr))/dpr;W=Math.ceil(innerWidth/kd);H=Math.ceil(innerHeight/kd);cv.style.width='';cv.style.height=''}
  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}g.imageSmoothingEnabled=false;
  const cw=port?cv.clientWidth:innerWidth*.6,r=document.documentElement.style;r.setProperty('--sl',Math.max(28,Math.min(44,Math.floor((cw-30)/6.6)))+'px');r.setProperty('--js',(S.jsz>0?Math.min(S.jsz,Math.floor(innerHeight*.5)):Math.max(96,Math.min(136,Math.floor(innerHeight*.32))))+'px')}
@@ -1373,7 +1378,7 @@ async function auSign(reg,u,p){if(!FB_KEY)return 'Kunci API (FB_KEY) belum diisi
   AU={u,uid:d.localId,rt:d.refreshToken,tok:d.idToken,exp:Date.now()+(+d.expiresIn||3600)*1000};auSave();return ''}catch(e){return 'Gagal: '+((e&&(e.name+' '+e.message))||e)+(navigator.onLine?'':' (HP offline)')+' | '+location.protocol+'//'+(location.host||'-')}}
 var GM=null,GCF=null,GCU={},GON={};function nameCol(l){l=+l||0;return l>=100?'#ff5d5d':l>=75?'#ffb02e':l>=50?'#c77dff':l>=25?'#4aa3ff':l>=10?'#5fe08a':'#ffffff'}
 const CATCH_MIN=3;/* 3 = Legendary ke atas */
-window.PM_VER='v2026.11.22-m';
+window.PM_VER='v2026.11.22-n';
 (function(){let busy=0;const PCF=(()=>{try{const ud=navigator.userAgent||'',h=navigator.userAgentData,mm=q=>matchMedia(q).matches;if(h&&h.mobile===true)return 0;if(/Android|iPhone|iPad|iPod|Mobile|Windows Phone|Opera Mini/i.test(ud))return 0;if(/Macintosh/i.test(ud)&&navigator.maxTouchPoints>1)return 0;if(mm('(pointer:coarse)')&&!mm('(any-pointer:fine)'))return 0;return(/Windows NT|Macintosh|X11|CrOS|Linux/i.test(ud)||mm('(any-pointer:fine)'))?1:0}catch(e){return 0}})();window.__PC=PCF;const base=()=>FB_URL?FB_URL.replace(/\/$/,'')+'/island':'';
 
  let lastJ='',lastS=0,ES=null,ESD={},ESAt=0,ESErr=0,ESk=0;const SA={};
@@ -1959,7 +1964,16 @@ const AQB=()=>FB_URL?FB_URL.replace(/\/$/,''):'';
   else{if(last){last='';EVT.lk=EVT.ml=EVT.vb=0;EVT.id='';if(!document.getElementById('splash'))toast('Event selesai. Sampai jumpa di event berikutnya!')}chip.style.display='none'}};
  setInterval(run,1000);window.gmEvent=i=>{if(i<0){OV=null;run();return}OV=Object.assign({id:'g'+Date.now(),until:Date.now()+18e5,gm:1},EV[i]);run()};
  async function ovPoll(){try{if(!AU||!FB_URL)return;const tok=await auToken();if(!tok)return;const r=await fetch(FB_URL.replace(/\/$/,'')+'/event.json?auth='+encodeURIComponent(tok)),d=await r.json();if(d&&typeof d.until==='number'&&d.until>Date.now()&&typeof d.n==='string'){OV={id:'o'+d.until,n:String(d.n).slice(0,24),d:String(d.d||'').slice(0,40),lk:Math.min(3,+d.lk||0),ml:Math.min(3,+d.ml||0),vb:Math.min(2,+d.vb||0),until:d.until}}else if(!(OV&&OV.gm))OV=null}catch(e){}}
- setInterval(ovPoll,60000);setTimeout(ovPoll,5000)})();
+ setInterval(ovPoll,60000);setTimeout(ovPoll,5000);
+ window.gmEventAll=async function(i){try{
+  if(!S.gm)return;
+  if(!AU||!FB_URL){toast('💜 GM: masuk akun online dulu');return}
+  const tok=await auToken();if(!tok){toast('💜 GM: sesi login habis, masuk akun lagi');return}
+  const u=FB_URL.replace(/\/$/,'')+'/event.json?auth='+encodeURIComponent(tok),e=EV[i];
+  const r=i<0?await fetch(u,{method:'DELETE'}):await fetch(u,{method:'PUT',body:JSON.stringify({n:e.n,d:e.d,lk:e.lk||0,ml:e.ml||0,vb:e.vb||0,until:Date.now()+DUR})});
+  if(r.ok){if(i<0){OV=null;run()}else await ovPoll()}
+  else toast(r.status===401||r.status===403?'💜 GM: ditolak. Cek rules /event dan gm/'+AU.uid:'💜 GM: gagal ('+r.status+')');
+ }catch(x){toast('💜 GM: gagal (cek koneksi)')}}})();
 
 /* ===== Chat global ===== */
 (function(){const b=document.createElement('button');b.textContent='🌐';b.setAttribute('aria-label','Chat global');b.style.cssText='position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 260px);z-index:11;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(8,20,26,.75);color:#fff;font-size:17px;line-height:1;display:none';document.body.appendChild(b);
@@ -2046,6 +2060,7 @@ pgb.addEventListener('click',pgShow);
 
 setInterval(()=>{const on=!HOME&&st==='walk'&&!KM&&$('panel').style.display!=='block'&&!document.getElementById('lbm');lbb.style.display=on?'block':'none'},400);
 let GMN=null;const GMF={i:-1,m:-1,sz:-1};
+function gmItemSel(){const st='padding:6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);max-width:56%';return '<select id="gmGi" style="'+st+'"><optgroup label="Umpan">'+BAIT.map((b,i)=>'<option value="b:'+i+'">'+b.i+' '+b.n+'</option>').join('')+'</optgroup><optgroup label="Skin">'+SKINS.map((k,i)=>'<option value="s:'+i+'">'+k.n+'</option>').join('')+'</optgroup></select> <input id="gmGn" type="number" inputmode="numeric" min="1" max="999" value="10" placeholder="jml" style="width:60px;padding:4px;border-radius:8px;border:1px solid #fff6;background:#0003;color:inherit">'}
 function gmFish(){const st='padding:6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);max-width:58%',o=(a,sel)=>a.map(([v,t])=>'<option value="'+v+'"'+(String(sel)===String(v)?' selected':'')+'>'+t+'</option>').join(''),on=GMF.i>=0||GMF.m>=0||GMF.sz>=0;
  return '<div class="row"><span><b>🎣 Atur tangkapan</b><br><small>'+(on?'AKTIF: tiap tangkapan sesuai pilihan':'Mati: tangkapan acak normal')+'</small></span><button data-gm="19">Acak lagi</button></div>'
  +'<div class="row"><span>Ikan</span><select id="gmf" style="'+st+'">'+o([['','🎲 Acak']].concat(SP.map((f,i)=>[i,f.n+' (R'+f.r+' · z'+f.z+')'])),GMF.i)+'</select></div>'
@@ -2480,8 +2495,8 @@ function top(){try{
   if(shoot){const u=(time-shoot.t)/.8;if(u>1)shoot=null;else{g.globalCompositeOperation='lighter';const hx=shoot.x+shoot.dx*u*110,hy=shoot.y+shoot.dy*u*110;for(let i=0;i<9;i++){const a=(1-i/9)*Math.sin(u*3.14),px=hx-shoot.dx*i*3.2,py=hy-shoot.dy*i*3.2;g.fillStyle=rg('225,240,255',a*(i?.55:1));g.fillRect(Math.round(px),Math.round(py),i<2?2:1,1)}g.globalCompositeOperation='source-over'}}}
 
  /* petir */
- if(wx===3){if(FLS>lastFls+.3){bolt={x:W*(.15+Math.random()*.7),p:[],b:[]};let x=bolt.x,y=-2;while(y<H*(.5+Math.random()*.3)){x+=(Math.random()-.5)*16;y+=7+Math.random()*9;bolt.p.push([x,y]);if(Math.random()<.2)bolt.b.push([x,y,(Math.random()-.5)*34,10+Math.random()*14])}boltT=time;thunderAt=time+.3+Math.random()*1.1}
-  if(bolt&&time-boltT<.3&&Math.floor((time-boltT)*60)%3!==2){g.globalCompositeOperation='lighter';[[5,.12],[3,.28],[1.4,.9]].forEach(s=>{g.lineWidth=s[0];g.strokeStyle='rgba(215,230,255,'+s[1]+')';g.beginPath();g.moveTo(bolt.x,-2);bolt.p.forEach(q=>g.lineTo(q[0],q[1]));g.stroke();bolt.b.forEach(b=>{g.beginPath();g.moveTo(b[0],b[1]);g.lineTo(b[0]+b[2],b[1]+b[3]);g.stroke()})});g.globalCompositeOperation='source-over'}}
+ if(wx===3){if(FLS>lastFls+.3){bolt={x:W*(.15+Math.random()*.7),p:[],b:[]};let x=bolt.x,y=-2;while(y<H*(.5+Math.random()*.3)){x+=(Math.random()-.5)*16;y+=7+Math.random()*9;bolt.p.push([x,y]);if(Math.random()<.2)bolt.b.push([x,y,(Math.random()-.5)*34,10+Math.random()*14])}boltT=time;thunderAt=time+.25+Math.pow(Math.random(),1.5)*2.8}
+  if(bolt&&time-boltT<.3&&(NFL()||Math.floor((time-boltT)*60)%3!==2)){g.globalCompositeOperation='lighter';[[5,.12],[3,.28],[1.4,.9]].forEach(s=>{g.lineWidth=s[0];g.strokeStyle='rgba(215,230,255,'+s[1]+')';g.beginPath();g.moveTo(bolt.x,-2);bolt.p.forEach(q=>g.lineTo(q[0],q[1]));g.stroke();bolt.b.forEach(b=>{g.beginPath();g.moveTo(b[0],b[1]);g.lineTo(b[0]+b[2],b[1]+b[3]);g.stroke()})});g.globalCompositeOperation='source-over'}}
  lastFls=FLS;
  /* pelangi setelah hujan reda & aurora malam cerah */
  if(lastWx>=2&&wx<2&&L.d>.25){rb={t:time,d:48+Math.random()*20};chimeAt=time+.3}lastWx=wx;
@@ -2620,7 +2635,7 @@ function aurora(){const age=time-au.t;if(age>au.d){au=null;return}const env=clam
 /* ---------- SUARA SUASANA tambahan (dipanggil dari amb bawaan, ikut slider suara lingkungan) ---------- */
 function amb(dt,va){try{
  const d=NT<.4,n=NT>.58,cl=wx<2,nr=typeof wfr==='function'?wfr():.5,sl=typeof sail!=='undefined'&&sail;
- if(thunderAt&&time>=thunderAt){thunderAt=0;const k=.7+Math.random()*.5;nz(3.4,320,.6,.1*k,0,'lowpass',55,va);nz(1.6,160,.7,.08*k,.12,'lowpass',45,va);snd(52,1.5,'sine',0,.1*k,va);snd(38,2.2,'sine',.1,.08*k,va);for(let i=0;i<4;i++)nz(.07+Math.random()*.08,2600,.8,.03*k,i*.09+Math.random()*.05,'bandpass',900,va)}
+ if(thunderAt&&time>=thunderAt){thunderAt=0;const k=.7+Math.random()*.5;if(window.thunderNow)window.thunderNow(k,va,0,Math.min(1,Math.max(0,(time-boltT-.25)/2.8)));else{nz(3.4,320,.6,.1*k,0,'lowpass',55,va);nz(1.6,160,.7,.08*k,.12,'lowpass',45,va);snd(52,1.5,'sine',0,.1*k,va);snd(38,2.2,'sine',.1,.08*k,va);for(let i=0;i<4;i++)nz(.07+Math.random()*.08,2600,.8,.03*k,i*.09+Math.random()*.05,'bandpass',900,va)}}
  if(chimeAt&&time>=chimeAt){chimeAt=0;[659,784,988,1319].forEach((f,i)=>{snd(f,.9,'sine',i*.12,.014,va);snd(f*2,.6,'sine',i*.12,.004,va)})}
  cN-=dt;if(cN<=0){cN=6+Math.random()*8;if(nr>.15){nz(1.5,1500,.4,.02*nr,0,'lowpass',280,va);nz(1.2,4200,.3,.007*nr,.35,'highpass',0,va)}}
  wN-=dt;if(wN<=0){wN=(wx>=2?3:7)+Math.random()*7;if(wx>=1||Math.random()<.4){const s=wx===3?.032:wx===2?.022:wx===1?.014:.009;nz(2.6,350,.9,s,0,'bandpass',950,va)}}
@@ -2641,31 +2656,121 @@ window.PMX={water,ground,top,amb,lantern:()=>{lnForce=time+120},rainbow:()=>{rb=
 <script>
 /* ===== GM: kirim gem ke pemain (lewat node gift/ di Firebase; butuh rules baru) ===== */
 (function(){
- window.gmGift=async function(){try{
+ window.gmGift=async function(it){try{
   if(!S.gm)return;
-  const un=String((($('gmGu')||{}).value)||'').trim().toLowerCase(),amt=Math.floor(+((($('gmGa')||{}).value)||0));
+  const un=String((($('gmGu')||{}).value)||'').trim().toLowerCase(),amt=it?0:Math.floor(+((($('gmGa')||{}).value)||0));
   if(!/^[a-z0-9_]{3,14}$/.test(un)){toast('💜 GM: isi username pemain (3-14 huruf kecil/angka/_)');return}
-  if(!(amt>=1&&amt<=1e9)){toast('💜 GM: jumlah gem 1 sampai 1.000.000.000');return}
+  if(!it&&!(amt>=1&&amt<=1e9)){toast('💜 GM: jumlah gem 1 sampai 1.000.000.000');return}
   if(!AU){toast('💜 GM: masuk akun online dulu');return}
   const tok=await auToken();if(!tok){toast('💜 GM: sesi login habis, masuk akun lagi');return}
   const q='?auth='+encodeURIComponent(tok),r1=await fetch(AQB()+'/an/'+encodeURIComponent(un)+'.json'+q),uid=await r1.json();
   if(!uid||typeof uid!=='string'){toast('💜 GM: pemain "'+un+'" tidak ditemukan');return}
-  const gid=Date.now().toString(36)+Math.random().toString(36).slice(2,7),r2=await fetch(AQB()+'/gift/'+uid+'/'+gid+'.json'+q,{method:'PUT',body:JSON.stringify({g:amt,f:AU.u.slice(0,14),t:Date.now()})});
-  if(r2.ok){toast('🎁 GM: '+fmt(amt)+' 💎 terkirim ke '+un);snd(988,.08);snd(1319,.12,'triangle',.08)}
+  const gid=Date.now().toString(36)+Math.random().toString(36).slice(2,7),r2=await fetch(AQB()+'/gift/'+uid+'/'+gid+'.json'+q,{method:'PUT',body:JSON.stringify(Object.assign({g:amt,f:AU.u.slice(0,14),t:Date.now()},it&&it.b?{b:it.b}:{},it&&it.s!==undefined?{s:it.s}:{}))});
+  if(r2.ok){toast('🎁 GM: '+(it?it.label:fmt(amt)+' 💎')+' terkirim ke '+un);snd(988,.08);snd(1319,.12,'triangle',.08)}
   else toast(r2.status===401||r2.status===403?'💜 GM: ditolak. Daftarkan UID akunmu di Firebase: gm/'+AU.uid+' = true':'💜 GM: gagal mengirim ('+r2.status+')');
  }catch(e){toast('💜 GM: gagal mengirim (cek koneksi)')}};
  let busy=0;
  async function poll(){
   if(busy||typeof AU==='undefined'||!AU||typeof AQB==='undefined'||!AQB())return;busy=1;
   try{const tok=await auToken();if(!tok)return;const q='?auth='+encodeURIComponent(tok),base=AQB()+'/gift/'+AU.uid,r=await fetch(base+'.json'+q);if(!r.ok)return;const d=await r.json();if(!d||typeof d!=='object')return;
-   let sum=0;const from=[];
-   for(const id of Object.keys(d)){const x=d[id];if(!x||typeof x.g!=='number'||!(x.g>0))continue;
+   let sum=0;const from=[],items=[];
+   for(const id of Object.keys(d)){const x=d[id];if(!x||typeof x.g!=='number'||x.g<0||!(x.g>0||Array.isArray(x.b)||typeof x.s==='number'))continue;
     if(x.c){fetch(base+'/'+id+'.json'+q,{method:'DELETE'}).catch(()=>{});continue}
     const c=await fetch(base+'/'+id+'/c.json'+q,{method:'PUT',body:'true'});
-    if(c.ok){const g=Math.floor(x.g);S.gems+=g;sum+=g;if(x.f&&!from.includes(x.f))from.push(x.f);save();fetch(base+'/'+id+'.json'+q,{method:'DELETE'}).catch(()=>{})}}
-   if(sum){hud();toast('🎁 Hadiah dari '+(from.join(', ')||'GM')+': +'+fmt(sum)+' 💎');snd(988,.1);snd(1319,.15,'triangle',.1)}
+    if(c.ok){const g=Math.floor(x.g);S.gems+=g;sum+=g;
+    if(Array.isArray(x.b)&&Array.isArray(S.bait)){const bi=Math.floor(+x.b[0]),bn=Math.floor(+x.b[1]);if(BAIT[bi]&&bn>=1&&bn<=999){S.bait[bi]=(S.bait[bi]|0)+bn;items.push(bn+'x umpan '+BAIT[bi].n)}}
+    if(typeof x.s==='number'&&Number.isInteger(x.s)&&SKINS[x.s]){S.skins=S.skins||[0];if(!S.skins.includes(x.s)){S.skins.push(x.s);items.push('skin '+SKINS[x.s].n)}else items.push('skin '+SKINS[x.s].n+' (sudah punya)')}
+    if(x.f&&!from.includes(x.f))from.push(x.f);save();fetch(base+'/'+id+'.json'+q,{method:'DELETE'}).catch(()=>{})}}
+   if(sum||items.length){hud();toast('🎁 Hadiah dari '+(from.join(', ')||'GM')+': '+[sum?'+'+fmt(sum)+' 💎':''].concat(items).filter(Boolean).join(', '));snd(988,.1);snd(1319,.15,'triangle',.1)}
   }catch(e){}finally{busy=0}}
  setTimeout(poll,6000);setInterval(poll,25000);
+})();
+</script>
+<script>
+/* ===== Suara hujan & petir realistis (ikut slider suara lingkungan) ===== */
+(function(){
+ const PI2=Math.PI*2;
+ const AX=()=>{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC};
+ const idle=f=>window.requestIdleCallback?requestIdleCallback(f,{timeout:4000}):setTimeout(f,2000);
+
+ /* Hujan: 6 detik stereo, loop mulus. Dasar desis noise merah muda + gemuruh rendah + tetesan acak */
+ function rainJob(kind){
+  const a=AC,sr=a.sampleRate,len=Math.floor(sr*6),b=a.createBuffer(2,len,sr),
+   hp=1-Math.exp(-PI2*320/sr),lp=1-Math.exp(-PI2*(kind?8500:6800)/sr);
+  const ch=c=>()=>{
+   const d=b.getChannelData(c);let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0,hv=0,lv=0,bn=0;
+   for(let i=0;i<len;i++){const w=Math.random()*2-1;
+    b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;
+    const p=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11;b6=w*.115926;
+    hv+=(p-hv)*hp;lv+=((p-hv)-lv)*lp;bn=(bn+.02*w)/1.02;
+    const t=i/sr,gust=1+.16*Math.sin(PI2*t/6+c*1.7)+.1*Math.sin(PI2*t/6*3+c*.6)+.06*Math.sin(PI2*t/6*7+c*2.3);
+    d[i]=(lv*(kind?1.5:1.1)+bn*(kind?1.1:.6))*gust}
+   let ss=0,n2=0;for(let i=0;i<len;i+=5){ss+=d[i]*d[i];n2++}
+   const sg=Math.sqrt(ss/n2)||.05,dr=Math.floor(len/sr*(kind?170:75)),sp=Math.floor(len/sr*(kind?16:8));
+   for(let n=0;n<dr+sp;n++){
+    const big=n>=dr,i0=Math.floor(Math.random()*len),f=big?700+Math.random()*1300:1800+Math.random()*(kind?5200:4200),
+     A=sg*(big?1.6+Math.random()*2.2:.25+Math.pow(Math.random(),3)*2.2)*(kind?1.25:1),
+     tau=(big?.011:.003+Math.random()*.005)*sr,L=Math.min(len,Math.floor(tau*5)),ph=Math.random()*PI2,w2=PI2*f/sr;
+    for(let j=0;j<L;j++){const k=(i0+j)%len;d[k]+=A*Math.exp(-j/tau)*Math.sin(ph+w2*j)}}
+  };
+  const fin=()=>{let ss=0,cnt=0;for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i+=7){ss+=d[i]*d[i];cnt++}}
+  const m=.16/(Math.sqrt(ss/cnt)||1);
+  for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=Math.tanh(d[i]*m*1.1)*.9}};
+  return{b,steps:[ch(0),ch(1),fin]}}
+ function makeRain(kind){const j=rainJob(kind);j.steps.forEach(f=>f());return j.b}
+
+ const R={},BF={};let pre=0;
+ function tick(){try{
+  if(!AC)return;
+  if(!pre){pre=1;const run=(kind,done)=>{const j=rainJob(kind);let i=0;const nx=()=>{try{j.steps[i++]()}catch(e){}if(i<j.steps.length)idle(nx);else{BF[kind]=j.b;if(done)done()}};idle(nx)};run(0,()=>run(1))}
+  const va=(S.va??1),w=(typeof wx==='number'?wx:0),home=(typeof HOME!=='undefined'&&HOME),
+   on=!mute&&!document.hidden&&!home&&AC.state==='running'&&w>=2;
+  [0,1].forEach(k=>{
+   const t=on&&((k===0&&w===2)||(k===1&&w>=3))?(k?.46:.32)*va:0;let o=R[k];
+   if(t>0&&!o&&BF[k]){const s=AC.createBufferSource(),g=AC.createGain();s.buffer=BF[k];s.loop=true;g.gain.value=0;s.connect(g);g.connect(bus()||AC.destination);s.start(0,Math.random()*5);o=R[k]={s,g,idle:0}}
+   if(!o)return;
+   o.g.gain.setTargetAtTime(t,AC.currentTime,(mute||document.hidden||home)?.12:1.4);
+   if(t===0){if(++o.idle>40){try{o.s.stop()}catch(e){}try{o.g.disconnect()}catch(e){}R[k]=null}}else o.idle=0});
+ }catch(e){}}
+ setInterval(tick,250);
+
+ /* Petir: retakan tajam (kalau dekat) + gemuruh bergulung dengan gema panjang + dentuman rendah */
+ let WB=null,IR=null,thBusy=0;
+ const wbuf=()=>{const a=AC;if(!WB||WB.sampleRate!==a.sampleRate){WB=a.createBuffer(1,Math.floor(a.sampleRate*2),a.sampleRate);const d=WB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return WB};
+ const irb=()=>{const a=AC;if(!IR||IR.sampleRate!==a.sampleRate){const n=Math.floor(a.sampleRate*3.2);IR=a.createBuffer(2,n,a.sampleRate);for(let c=0;c<2;c++){const d=IR.getChannelData(c);for(let i=0;i<n;i++){const t=i/a.sampleRate;d[i]=(Math.random()*2-1)*Math.exp(-t*1.7)*(1-Math.exp(-t*30))}}}return IR};
+ window.thunderNow=function(k,va,wait,dist){try{
+  if(mute)return;const a=AX(),v=(va==null?(S.va??1):va);if(v<=0)return;
+  const near=1-Math.min(1,Math.max(0,dist==null?.3:dist)),t0=a.currentTime+(wait||0)+.02;
+  if(t0<thBusy&&Math.random()<.75)return;
+  const dur=3.4+(1-near)*3.4+Math.random()*1.2,M=.42*(k||1)*v,out=bus()||a.destination;
+  thBusy=t0+dur*.5;
+  const pn=a.createStereoPanner?a.createStereoPanner():null;if(pn){pn.pan.value=(Math.random()*2-1)*.7;pn.connect(out)}
+  const dst=pn||out,wb=wbuf();
+  const src=(t,d)=>{const s=a.createBufferSource();s.buffer=wb;s.loop=true;s.start(t,Math.random()*1.5);s.stop(t+d);return s};
+  const bq=(ty,f,q)=>{const x=a.createBiquadFilter();x.type=ty;x.frequency.value=f;if(q)x.Q.value=q;return x};
+  if(near>.25){
+   const s=src(t0,.6),hi=bq('highpass',160),lo=bq('lowpass',7500,.5),g=a.createGain();
+   lo.frequency.setValueAtTime(7500,t0);lo.frequency.exponentialRampToValueAtTime(600,t0+.5);
+   g.gain.setValueAtTime(.0001,t0);g.gain.linearRampToValueAtTime(.95*M*near,t0+.003);g.gain.exponentialRampToValueAtTime(.0001,t0+.5);
+   s.connect(hi);hi.connect(lo);lo.connect(g);g.connect(dst);
+   const nb=3+Math.floor(Math.random()*5);
+   for(let i=0;i<nb;i++){const tt=t0+.02+Math.random()*.4,dd=.03+Math.random()*.07,s2=src(tt,dd+.02),b2=bq('bandpass',700+Math.random()*2200,.9),g2=a.createGain();
+    g2.gain.setValueAtTime(.0001,tt);g2.gain.linearRampToValueAtTime((.25+Math.random()*.35)*M*near,tt+.004);g2.gain.exponentialRampToValueAtTime(.0001,tt+dd);
+    s2.connect(b2);b2.connect(g2);g2.connect(dst)}
+  }
+  const rs=src(t0,dur+.2),lp=bq('lowpass',240+near*420,.8),ls=bq('lowshelf',110),rg=a.createGain(),cv=a.createConvolver(),wg=a.createGain();
+  ls.gain.value=7;lp.frequency.setValueAtTime(240+near*420,t0);lp.frequency.exponentialRampToValueAtTime(60,t0+dur);
+  rg.gain.setValueAtTime(.0001,t0);
+  const pk=[];let tp=.06+(near>.25?.05:.3)+Math.random()*.15;while(tp<dur*.88){pk.push(tp);tp+=.32+Math.random()*.85}
+  pk.forEach((x,i)=>{const amp=(.4+Math.random()*.6)*(1-x/dur)*(.45+near*.65)*M,nx=pk[i+1]!==undefined?pk[i+1]:dur;
+   rg.gain.linearRampToValueAtTime(amp,t0+x);rg.gain.linearRampToValueAtTime(amp*.3,t0+x+(nx-x)*.65)});
+  rg.gain.linearRampToValueAtTime(.0001,t0+dur);
+  cv.buffer=irb();wg.gain.value=.5;
+  rs.connect(lp);lp.connect(ls);ls.connect(rg);rg.connect(dst);rg.connect(cv);cv.connect(wg);wg.connect(dst);
+  if(near>.35){const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.setValueAtTime(72,t0);o.frequency.exponentialRampToValueAtTime(34,t0+1.5);
+   g.gain.setValueAtTime(.0001,t0);g.gain.linearRampToValueAtTime(.55*M*near,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+1.8);o.connect(g);g.connect(dst);o.start(t0);o.stop(t0+1.9)}
+ }catch(e){}};
+ window.RAINX={make:makeRain};
 })();
 </script>
 </body>
