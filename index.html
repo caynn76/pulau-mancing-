@@ -928,7 +928,7 @@ function hdMM(){const c=$('mm');if(!c)return;const K=16,full=!MMZ,vw=full?MW:36,
 /* ---------- HD CUACA (hujan tipis miring, langit bergradasi, kilat dari atas) ---------- */
 function hdWeather(){try{g.save();g.lineCap='round';
  if(wx>=1){const a=[0,.1,.2,.32][wx],q=g.createLinearGradient(0,0,0,H);q.addColorStop(0,'rgba(30,42,66,'+(a*1.35).toFixed(3)+')');q.addColorStop(1,'rgba(40,56,80,'+(a*.7).toFixed(3)+')');g.fillStyle=q;g.fillRect(0,0,W,H)}
- const sl=wx===3?-.7:-.35;g.lineWidth=.55;g.strokeStyle='rgba(205,230,255,.62)';g.beginPath();RN.forEach(r=>{g.moveTo(r.x,r.y);g.lineTo(r.x+sl*1.2,r.y+3.4)});g.stroke();
+ const sl=wx===3?-.7:-.35;g.lineWidth=.55;g.strokeStyle=RQC();g.beginPath();RN.forEach(r=>{g.moveTo(r.x,r.y);g.lineTo(r.x+sl*1.2,r.y+3.4)});g.stroke();
  if(flash>0){const al=Math.min(.7,flash*2.5)*(NFL()?.18:1),q=g.createRadialGradient(W*.5,0,4,W*.5,0,Math.max(W,H)*1.1);q.addColorStop(0,'rgba(255,255,255,'+al.toFixed(3)+')');q.addColorStop(1,'rgba(220,230,255,'+(al*.55).toFixed(3)+')');g.fillStyle=q;g.fillRect(0,0,W,H)}
  g.restore();return true}catch(e){try{g.restore()}catch(z){}return false}}
 /* ---------- HD IKON PANCING & PRATINJAU SKIN (hanya grafik HD) ---------- */
@@ -1002,7 +1002,7 @@ function seDraw(){if(SEV){if(Math.hypot(SEV.x-P.vx,SEV.y-P.vy)<1.7){seReward();r
 function reflect(vy,fn){try{g.save();g.globalAlpha=.22;g.translate(0,2*(vy*T+16)+1);g.scale(1,-1);fn();g.restore()}catch(e){try{g.restore()}catch(x){}}}
 function maxFx(){try{g.save();if(GFX>=5)g.imageSmoothingEnabled=true;const day=NT<.35&&wx<2;
  if(day){g.globalCompositeOperation='lighter';const sx=W*.92,sy=-H*.05,cx=W/2,cy=H/2,F=[[.25,10,'255,200,120',.1],[.45,16,'120,200,255',.07],[.7,24,'255,150,200',.06],[.95,12,'255,230,160',.09]];F.forEach(f=>{const x=sx+(cx-sx)*f[0]*1.5,y=sy+(cy-sy)*f[0]*1.5,rr=Math.max(2,Math.round(f[1]*(H/300))),sp=gcv('fl'+f[2]+'_'+rr,rr*2,rr*2,c=>{const q=c.createRadialGradient(rr,rr,0,rr,rr,rr);q.addColorStop(0,'rgba('+f[2]+',1)');q.addColorStop(1,'rgba('+f[2]+',0)');c.fillStyle=q;c.fillRect(0,0,rr*2,rr*2)});g.globalAlpha=f[3]*.7;g.drawImage(sp,x-rr,y-rr)});g.globalAlpha=1;g.globalCompositeOperation='source-over'}
- if(wx>=2){g.strokeStyle='rgba(255,255,255,.28)';g.lineWidth=1;for(let i=0;i<11;i++){const ph=(time*1.3+i*.37)%1,k=Math.floor(time*1.3+i*.37),h=Math.sin(i*12.9898+k*78.233)*43758.5453,u=h-Math.floor(h),h2=Math.sin(i*39.3468+k*11.135)*24634.6345,v=h2-Math.floor(h2);g.globalAlpha=1-ph;g.beginPath();g.ellipse(u*W,v*H,2+ph*7,1+ph*3,0,0,6.283);g.stroke()}g.globalAlpha=1}
+ if(wx>=2){g.strokeStyle='rgba(255,255,255,.28)';g.lineWidth=1;for(let i=0;i<Math.round(11*RQF());i++){const ph=(time*1.3+i*.37)%1,k=Math.floor(time*1.3+i*.37),h=Math.sin(i*12.9898+k*78.233)*43758.5453,u=h-Math.floor(h),h2=Math.sin(i*39.3468+k*11.135)*24634.6345,v=h2-Math.floor(h2);g.globalAlpha=1-ph;g.beginPath();g.ellipse(u*W,v*H,2+ph*7,1+ph*3,0,0,6.283);g.stroke()}g.globalAlpha=1}
  for(let i=0;i<25;i++){g.fillStyle=i&1?'rgba(255,255,255,.03)':'rgba(0,0,0,.04)';{const hd=GFX>=5;g.fillRect(hd?Math.random()*W:Math.random()*W|0,hd?Math.random()*H:Math.random()*H|0,hd?.5:1,hd?.5:1)}}
  g.restore()}catch(e){try{g.restore()}catch(x){}}}
 function drawGB(r,mx,my){ghWake(r);const a=P.vx,b=P.vy,u=S.bup,h=S.hul,c=S.bsc;P.vx=mx===undefined?r.vx:mx;P.vy=my===undefined?r.vy:my;S.bup=r.bu|0;S.hul=r.hl|0;S.bsc=r.bc|0;try{drawSailBoat()}finally{P.vx=a;P.vy=b;S.bup=u;S.hul=h;S.bsc=c}}
@@ -1032,15 +1032,16 @@ let BKt=0;const bk=(nx,ny)=>{if(!sail)return false;for(const k in GH){const g=GH
 const frOK=(x,y)=>{const hx=.27,t=y-.3,u=y+.4;return walkable(Math.round(x-hx),Math.round(t))&&walkable(Math.round(x+hx),Math.round(t))&&walkable(Math.round(x-hx),Math.round(u))&&walkable(Math.round(x+hx),Math.round(u))};
 function hideCard(){$('card').style.display='none'}
 let fin=0,hold=false,RUN=0,RUNK=0;var CHG={on:false,t0:0,p:0,ov:0,go:false,perf:false,lo:0,pf:false},CHGN=0;const CHG_UP=1.1,CHG_TOP=.3,CHG_DN=1.1,CHG_PF=.9;
+const RQV=()=>S.rq===undefined?1:S.rq,RQF=()=>[0,.35,1][RQV()]??.35,RQS=()=>[0,.4,1][RQV()]??.4,RQC=()=>RQV()===2?'rgba(205,230,255,.65)':'rgba(205,230,255,.26)';
 const PT=[];let BV=.4,SB=0,DBT=null;const BOAT_V=3.4;let held=null,sail=false,shake=0,camX=0,camY=0,NT=.5,wx=0,wxT=40,flash=0,zbs='';const RN=[];
 const WX=[{n:'Cerah',i:'☀️',l:0,m:0},{n:'Berawan',i:'⛅',l:.1,m:0},{n:'Hujan',i:'🌧️',l:.25,m:.2},{n:'Badai',i:'⛈️',l:.4,m:.6}];
 function wxUpdate(dt){wxT-=dt;if(wxT<=0){const r=Math.random();wx=r<.4?0:r<.7?1:r<.92?2:3;wxT=50+Math.random()*70;if(wx>=2)stormChests();if(st==='walk')say(WX[wx].i+' '+WX[wx].n+(WX[wx].l?': hoki +'+Math.round(WX[wx].l*100)+'%, mutasi +'+Math.round(WX[wx].m*100)+'%':''))}
- if(wx>=2&&RN.length<[80,160,260,420,620][GFX])for(let i=0,n=wx===3?5:2;i<n;i++)RN.push({x:Math.random()*(W+60),y:-4});
+ if(wx>=2&&RN.length<[80,160,260,420,620][GFX]*RQF())for(let i=0,n=wx===3?5:2;i<n;i++)RN.push({x:Math.random()*(W+60),y:-4});
  for(let i=RN.length-1;i>=0;i--){const r=RN[i];r.y+=240*dt;r.x-=55*dt;if(r.y>H)RN.splice(i,1)}
  if(wx===3&&Math.random()<dt*.18){flash=.3;{const w=.3+Math.random()*2.2;if(window.thunderNow)window.thunderNow(.8+Math.random()*.4,undefined,w,(w-.3)/2.2);else{snd(90,.5,'sawtooth',.15,.07);nz(1.8,320,.7,.14,.25,'lowpass',60)}setTimeout(()=>vib([70,50,90]),w*1000)}}flash=Math.max(0,flash-dt);
  const tx0=cam(P.vx*T+8-W/2,W,WW),ty0=cam(P.vy*T+8-H/2,H,WH);camX+=(tx0-camX)*Math.min(1,dt*8);camY+=(ty0-camY)*Math.min(1,dt*8)}
 function weatherFx(){if(GFX>=5&&hdWeather())return;if(wx>=1){g.fillStyle='rgba(35,48,70,'+[0,.1,.2,.32][wx]+')';g.fillRect(0,0,W,H)}
- g.fillStyle='rgba(205,230,255,.65)';RN.forEach(r=>g.fillRect(Math.round(r.x),Math.round(r.y),1,3));
+ g.fillStyle=RQC();RN.forEach(r=>g.fillRect(Math.round(r.x),Math.round(r.y),1,3));
  if(flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.7,flash*2.5)*(NFL()?.18:1)+')';g.fillRect(0,0,W,H)}}
 const mtof=m=>440*Math.pow(2,(m-69)/12);
 const TR={sun:{b:96,w:'triangle',v:.05,sc:[0,4,7,12,7,4],ch:[60,65,67,64]},cloud:{b:80,w:'sine',v:.055,sc:[0,4,7,11,7,4],ch:[57,53,60,55]},
@@ -1219,7 +1220,7 @@ $('panel').addEventListener('click',window.PCLK=e=>{
  if(d.glq!==undefined){if(gqClaim(+d.glq)){openPanel(shopMode,tab);mysOpen('img'+GALQ[+d.glq].im)}return}if(d.gal!==undefined){mysOpen('img'+d.gal);return}if(d.t){openPanel(shopMode,d.t);return}
  if(d.mmz!==undefined){MMZ=MMZ?0:1;openPanel(shopMode,'peta');return}if(d.wp!==undefined){const i=+d.wp;WP=WP===i?-1:i;$('panel').style.display='none';say(WP<0?'Penanda dihapus.':'Penanda: '+PL[WP][0].split(' ').slice(1).join(' '));return}if(d.go!==undefined){travel(+d.go);return}if(d.tm!==undefined){startTM();$('panel').style.display='none';return}
  if(d.exp!==undefined)doExport();if(d.dl!==undefined)doDownload();if(d.imp!==undefined){doImport();return}if(d.gs!==undefined){goto_(hsQ(+d.gs));return}
- if(d.cj!==undefined){S.jsz=+d.cj;rs();save()}if(d.chap!==undefined){S.hap=S.hap===0?1:0;save();if(S.hap!==0)vib(30)}if(d.clefty!==undefined){S.lefty=S.lefty?0:1;applySet();rs();save()}if(d.cnfl!==undefined){S.nfl=NFL()?0:1;save();toast(S.nfl?'👁 Kilatan dikurangi':'👁 Kilatan normal')}if(d.cbat!==undefined){S.bat=S.bat?0:1;applySet();save()}
+ if(d.cj!==undefined){S.jsz=+d.cj;rs();save()}if(d.crq!==undefined){S.rq=+d.crq;save()}if(d.chap!==undefined){S.hap=S.hap===0?1:0;save();if(S.hap!==0)vib(30)}if(d.clefty!==undefined){S.lefty=S.lefty?0:1;applySet();rs();save()}if(d.cnfl!==undefined){S.nfl=NFL()?0:1;save();toast(S.nfl?'👁 Kilatan dikurangi':'👁 Kilatan normal')}if(d.cbat!==undefined){S.bat=S.bat?0:1;applySet();save()}
  
   if(d.gfx!==undefined){S.gfx=+d.gfx;GFXA=0;S.gfxa=0;applySet();save()}
  if(d.ctg!==undefined){const k=d.ctg;if(k==='fpsd')S.fpsd=S.fpsd===1?0:1;else S[k]=S[k]===0?1:0;if(k==='abat')BCHK();if(k==='wl'&&S.wl===0)wlSet(false);save()}if(d.fps!==undefined){S.fps=+d.fps;applySet();save()}
@@ -1472,7 +1473,7 @@ function perfHTML(){const tg=(k,t,d,on)=>'<div class="row"><span>'+t+'<br><small
  +tg('fpsd','Tampilkan FPS','Pojok kiri atas, untuk memantau performa.',S.fpsd===1)}
 function setHTMLraw(){const m=Math.round((S.vm??1)*100),v=Math.round((S.vs??1)*100),av=Math.round((S.va??1)*100),r=(k,x)=>'<input type="range" min="0" max="100" value="'+x+'" data-v="'+k+'" style="flex:1;max-width:55%">',
  seg=(k,vals,cur)=>'<div class="seg">'+vals.map(x=>'<button data-'+k+'="'+x[1]+'"'+(cur===x[1]?' class="on"':'')+'>'+x[0]+'</button>').join('')+'</div>';
- return '<div class="sec">🔊 Suara</div><div class="row"><span>🎵 Musik <b>'+m+'%</b></span>'+r('m',m)+'</div><div class="row"><span>💥 Efek <b>'+v+'%</b></span>'+r('s',v)+'</div><div class="row"><span>🌊 Suara lingkungan <b>'+av+'%</b></span>'+r('a',av)+'</div><div class="row"><span>Bisukan semua</span><button data-mute="1">'+(mute?'Aktifkan':'Bisukan')+'</button></div>'
+ return '<div class="sec">🔊 Suara</div><div class="row"><span>🎵 Musik <b>'+m+'%</b></span>'+r('m',m)+'</div><div class="row"><span>💥 Efek <b>'+v+'%</b></span>'+r('s',v)+'</div><div class="row"><span>🌊 Suara lingkungan <b>'+av+'%</b></span>'+r('a',av)+'</div><div class="row"><span>Bisukan semua</span><button data-mute="1">'+(mute?'Aktifkan':'Bisukan')+'</button></div><div class="sec">🌧 Hujan</div><div class="row">'+seg('crq',[['Mati',0],['Lembut',1],['Normal',2]],RQV())+'</div><p class="hint">Lembut: tetesan lebih sedikit dan samar, suara lebih teredam dan pelan. Mati: tanpa hujan dan suara hujan (petir tetap ada).</p>'
  +'<div class="sec">🖼️ Grafik</div><div class="row">'+seg('gfx',[['Low',0],['Medium',1],['High',2],['Ultra',3],['Max',4],['HD',5]],GFX)+'</div><p class="hint">Low: efek air, bayangan awan, hewan, dan cahaya malam dimatikan (paling ringan). Medium: efek dikurangi separuh. High: semua efek. Max: Ultra + refleksi perahu di air, lens flare, butiran film, riak hujan, dan hujan terlebat (paling berat). Ultra: tambahan sinar matahari, sedikit debu cahaya dan kunang-kunang, pewarnaan sinematik, hujan lebih lebat (butuh HP kuat; otomatis turun kalau FPS drop). HD: semua efek Max ditambah resolusi render 2x (teks, gradasi cahaya, dan butiran film lebih tajam dan halus) serta air dan daratan lebih detail (ombak mulus, riak tipis, kilau lembut, busa pantai bergelombang, rumput halus bergoyang, butir pasir, pasir basah, bayangan pohon lembut), serta karakter dan perahu (bayangan lembut, ombak buritan halus, tali pancing mulus, riak pelampung). Karakter digambar baru secara halus (kepala, topi, baju, tangan, dan kaki beranimasi), sedangkan sprite lain dan rumah dihaluskan otomatis (Scale2x). Paling berat, hanya untuk HP atau PC yang sangat kuat; turunkan ke Max kalau patah-patah.</p>'
  +'<div class="sec">⏱ FPS</div><div class="row">'+seg('fps',[['30',30],['60',60],['90',90],['120',120]],FPS)+'</div><p class="hint">FPS rendah menghemat baterai. 90 dan 120 FPS hanya terasa di layar 90 Hz atau 120 Hz ke atas; di layar 60 Hz tetap berjalan 60. FPS tinggi lebih boros baterai.</p>'+'<div class="sec">🎮 Kontrol</div><div class="row"><span>Ukuran joystick</span></div><div class="row">'+seg('cj',[['Auto',0],['Kecil',96],['Sedang',128],['Besar',160]],S.jsz||0)+'</div><div class="row"><span>Getar (haptic)</span><button data-chap="1">'+(S.hap===0?'Mati':'Nyala')+'</button></div><div class="row"><span>Mode kidal (tukar posisi joystick dan menu)</span><button data-clefty="1">'+(S.lefty?'Nyala':'Mati')+'</button></div><div class="sec">👁 Tampilan</div><div class="row"><span>Kurangi kilatan (petir tidak menyilaukan)</span><button data-cnfl="1">'+(NFL()?'Nyala':'Mati')+'</button></div>'
  +perfHTML()+dataHTML()+gmHTML()+'<div class="bar"><button data-x="1">Tutup</button></div>'}
@@ -2661,7 +2662,7 @@ function chgDraw(){
  g.fillStyle='#fff';g.fillRect(x0+zx,y-2,1,h+4);
  if(pf&&Math.sin(time*30)>0){g.fillStyle='#fff';g.fillRect(x-1,y-6,3,1);g.fillRect(x,y-7,1,3)}
  cdUpd()}
-function castMax(){const t=Math.max(0,Math.min(6,eq()|0));return [2,4,5,6,7,8,9][t]+Math.floor(enL(rkOf())/5)}
+function castMax(){return 3}
 function castSel(){return castMax()}
 function castTarget(){let x=P.x+P.fx,y=P.y+P.fy;if(!(M[y]&&(M[y][x]===0||M[y][x]===4)))return[x,y];const n=CHG.ov>0?CHG.ov:castSel();for(let k=1;k<n;k++){const nx=x+P.fx,ny=y+P.fy;if(nx<0||ny<0||nx>=MW||ny>=MH)break;const t=M[ny][nx];if(t!==0&&t!==4)break;x=nx;y=ny}return[x,y]}
 function castFar(){const q=castTarget();tx=q[0];ty=q[1]}
@@ -2916,7 +2917,7 @@ function water(){try{
    const a=clamp((v-thr)/(1-thr),0,1)*(.3+.7*w)*clear*(w<.31&&night?.85:1);if(a<.05)continue;
    const gx=x*T+2+Math.floor(hs(x,y,k+13)*12),gy=y*T+2+Math.floor(hs(x,y,k+17)*12);g.fillStyle=rg(lc,a);g.fillRect(gx,gy,1,1);
    if(a>.55){g.fillStyle=rg(lc,a*.55);g.fillRect(gx-1,gy,3,1);g.fillRect(gx,gy-1,1,3);if(a>.85&&w>.5){g.fillStyle=rg(lc,a*.3);g.fillRect(gx-2,gy,5,1);g.fillRect(gx,gy-2,1,5)}}}}
- if(wx>=2){const n=Math.round(16*Q*(wx===3?1.4:1));g.globalCompositeOperation='source-over';for(let i=0;i<n;i++){const sp=2.6,pv=time*sp+hs(i,0,3)*7,ph=pv%1,kk=Math.floor(pv),gx=Math.floor(camX+hs(i,kk,1)*W),gy=Math.floor(camY+hs(i,kk,2)*H),tx2=Math.floor(gx/T),ty2=Math.floor(gy/T);if(!M[ty2]||M[ty2][tx2]!==0)continue;
+ if(wx>=2){const n=Math.round(16*Q*(wx===3?1.4:1)*RQF());g.globalCompositeOperation='source-over';for(let i=0;i<n;i++){const sp=2.6,pv=time*sp+hs(i,0,3)*7,ph=pv%1,kk=Math.floor(pv),gx=Math.floor(camX+hs(i,kk,1)*W),gy=Math.floor(camY+hs(i,kk,2)*H),tx2=Math.floor(gx/T),ty2=Math.floor(gy/T);if(!M[ty2]||M[ty2][tx2]!==0)continue;
    const r=1+ph*5;g.fillStyle='rgba(225,240,255,'+((1-ph)*.55).toFixed(2)+')';for(let a=0;a<10;a++){g.fillRect(Math.round(gx+Math.cos(a*.628)*r),Math.round(gy+Math.sin(a*.628)*r*.45),1,1)}if(ph<.25)g.fillRect(gx,gy-2-Math.round(ph*8),1,2)}}
  g.restore();try{marine()}catch(e){}}catch(e){try{g.restore()}catch(x){}}}
 
@@ -3314,9 +3315,10 @@ window.PMX={water,ground,top,amb,hdWater,hdLand,lantern:()=>{lnForce=time+120},r
   const va=(S.va??1),w=(typeof wx==='number'?wx:0),home=(typeof HOME!=='undefined'&&HOME),
    on=!mute&&!document.hidden&&!home&&AC.state==='running'&&w>=2;
   [0,1].forEach(k=>{
-   const t=on&&((k===0&&w===2)||(k===1&&w>=3))?(k?.2:.14)*va:0;let o=R[k];
-   if(t>0&&!o&&BF[k]){const s=AC.createBufferSource(),g=AC.createGain();s.buffer=BF[k];s.loop=true;g.gain.value=0;s.connect(g);g.connect(bus()||AC.destination);s.start(0,Math.random()*5);o=R[k]={s,g,idle:0}}
+   const t=on&&((k===0&&w===2)||(k===1&&w>=3))?(k?.2:.14)*va*RQS():0;let o=R[k];
+   if(t>0&&!o&&BF[k]){const s=AC.createBufferSource(),g=AC.createGain();s.buffer=BF[k];s.loop=true;g.gain.value=0;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=20000;s.connect(lp);lp.connect(g);g.connect(bus()||AC.destination);s.start(0,Math.random()*5);o=R[k]={s,g,lp,idle:0}}
    if(!o)return;
+   if(o.lp)o.lp.frequency.setTargetAtTime(RQV()===2?20000:1500,AC.currentTime,.3);
    o.g.gain.setTargetAtTime(t,AC.currentTime,(mute||document.hidden||home)?.12:1.4);
    if(t===0){if(++o.idle>40){try{o.s.stop()}catch(e){}try{o.g.disconnect()}catch(e){}R[k]=null}}else o.idle=0});
  }catch(e){}}
