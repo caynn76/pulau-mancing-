@@ -2093,7 +2093,7 @@ function draw(){if(HOME){homeDraw();return}if(window.FPV&&FPV.on()){FPV.draw();r
  if(sail&&(wx|0)>=2&&GFX){const st2=wx===3,n=st2?46:24;for(let i=0;i<n;i++){const xx=camX+((i*97+time*(st2?34:20)*(1+i%3*.3))%(W+40))-20,yy=camY+((i*53)%H)+Math.sin(time*1.8+i)*3,l=7+(i%3)*3;g.fillStyle='rgba(255,255,255,'+(st2?.4:.28)+')';g.fillRect(Math.round(xx),Math.round(yy),l,1);g.fillStyle='rgba(255,255,255,.16)';g.fillRect(Math.round(xx)+2,Math.round(yy)+1,l-3,1)}}}catch(e){}
  g.drawImage(land,0,0);try{window.PMX&&PMX.ground()}catch(e){}try{if(GFX>=5&&window.PMX&&PMX.hdLand)PMX.hdLand()}catch(e){}POND.forEach(([x,y],i)=>{const v=Math.sin(time*2+i*1.7);if(v>.3){g.fillStyle='rgba(255,255,255,'+(v*.5).toFixed(2)+')';g.fillRect(x*T+3+Math.round(v*3),y*T+5+(i%2)*5,4,1)}});
  const ob=TREES.map(t=>[t[1]+.9,()=>{if(t[0]*T<camX-34||t[0]*T>camX+W+34||t[1]*T<camY-30||t[1]*T>camY+H+46)return;const hit=st==='walk'&&P.vy+.5<t[1]+.9&&Math.abs(P.vx*T+8-(t[0]*T+9))<18&&P.vy*T+8>t[1]*T-14;if(hit)g.globalAlpha=.4;L3(t[0]*T+9,t[1]*T+16,44,()=>palm(t[0],t[1]));g.globalAlpha=1}]);
- ob.push([4.9,()=>{if(ISL===1){shd(128,80,30);L3(128,80,36,()=>hdImg(hut,112,44))}}],[5.9,()=>{if(ISL===1&&window.drawBnr)window.drawBnr()}],[P.vy+.5,drawP]);if(MP.r)ob.push([MP.r.vy+.5,drawR]);for(const k in GH){const r=GH[k];if(r.mb)ob.push([r.mb[1]+.45,()=>drawMB(r.mb,r)]);if(r.sl)ob.push([r.vy+.43,()=>{if(GFX>=4)reflect(r.vy,()=>drawGB(r))}],[r.vy+.45,()=>drawGB(r)],[r.vy+.56,()=>bridgeOver(r.vx,r.vy)]);ob.push([r.vy+.5,()=>drawG(r)])}if(petOn())ob.push([PET.y+.5,drawPet]);
+ ob.push([4.9,()=>{if(ISL===1){shd(128,80,30);L3(128,80,36,()=>hdImg(hut,112,44))}}],[5.9,()=>{if(ISL===1&&window.drawBnr)window.drawBnr()}],[P.vy+.5,drawP]);if(MP.r)ob.push([MP.r.vy+.5,drawR]);for(const k in GH){const r=GH[k];if(r.mb)ob.push([r.mb[1]+.45,()=>drawMB(r.mb,r)]);if(r.sl)ob.push([r.vy+.45,()=>drawGB(r)],[r.vy+.56,()=>bridgeOver(r.vx,r.vy)]);ob.push([r.vy+.5,()=>drawG(r)])}if(petOn())ob.push([PET.y+.5,drawPet]);
  HOUSES.forEach(([x,y,k])=>ob.push([y+1.9,()=>{shd(x*T+16,y*T+32,30);L3(x*T+16,y*T+32,36,()=>hdImg(HU[k],x*T,y*T-4))}]));
  NPC.forEach((a,k)=>ob.push([a[1]+.5,()=>{drawN(a,k);ioMark(a,k);if(ISL===2)return;nqMark(a,k);if(k===4)mysMark(a);if(k===5)sgMark(a);if(k===6)tqMark(a)}]));ob.push([6.9,drawTank],[7.9,drawStall],[7.5,drawBoard]);LAMPS.forEach(l=>ob.push([l[1]+.9,()=>L3(l[0]*T+8,l[1]*T+15,16,()=>drawLamp(l))]));PROPS.forEach(p=>{const sx=p[1]*T-camX,sy=p[2]*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([p[2]+.9,()=>L3(p[1]*T+8,p[2]*T+16,22,()=>drawProp(p))])});ob.push([8,()=>L3(424,126,64,drawLH)],[19.9,drawShip],[11.6,()=>{if(!sail&&ISL===1)drawBoat()}]);
  if(sail)ob.push([P.vy+.4,drawWake],[P.vy+.45,drawSailBoat],[P.vy+.56,()=>bridgeOver(P.vx,P.vy)]);{const m=S.mb&&S.mb[ISL];if(!sail&&m&&!HOME)ob.push([m[1]+.45,()=>drawMB(m)])}chests().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawChest(c)])});clamPts().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawClam(c)])});{const sx=832-camX,sy=484-camY;if(ISL===1&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([31.9,()=>drawStall(656,384)])}if(ISL===2){{const sx=KS[0]*T-camX,sy=KS[1]*T-camY;if(sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KS[1]+.9,()=>drawStall(KS[0]*T-176,KS[1]*T-112)])}{const sx=KB[0]*T-camX,sy=KB[1]*T-camY;if(!sail&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KB[1]+.6,()=>drawBoat(KB[0],KB[1])])}}if(ISL===2)ob.push([KBD[1]+.9,()=>drawBoard(KBD[0]*T,KBD[1]*T)]);ob.sort((a,b)=>a[0]-b[0]).forEach(o=>o[1]());
@@ -3691,7 +3691,7 @@ requestAnimationFrame(loop);
    out.sort((a,b)=>b.d-a.d);return out}
 
  function drawObjects(){
-  const list=objects();window.FPP3D=null;
+  const list=objects();window.FPP3D=window.FP3D===false?null:(r,x,y,fr)=>{g.setTransform(HDS,0,0,HDS,0,0);fpPlayer3D(r,x,y-(r.sl?4:0),fr)};
   for(let i=0;i<list.length;i++){const o=list[i];
    try{g.save();g.setTransform(HDS*o.s,0,0,HDS*o.s,HDS*(o.sx-o.s*o.ax),HDS*(o.gy-o.s*o.ay));g.globalAlpha=1-.85*fogT(o.d);g.imageSmoothingEnabled=false;o.fn()}catch(e){}finally{g.restore()}}
   window.FPP3D=null;g.setTransform(HDS,0,0,HDS,0,0);g.globalAlpha=1}
@@ -3989,10 +3989,10 @@ requestAnimationFrame(loop);
     fq([Q(A[0],A[1],BR-1.6),Q(B[0],B[1],BR-1.6),Q(B[0],B[1],BR),Q(A[0],A[1],BR)],shc(st,Math.min(1.2,kk+.15)));
     if(bu>=5)fq([Q(A[0],A[1],BR-2.6),Q(B[0],B[1],BR-2.6),Q(B[0],B[1],BR-2.05),Q(A[0],A[1],BR-2.05)],'#ffd23f')}
    fq(BOUT.map(q=>Q(q[0],q[1],BR)),'rgba(0,0,0,0)',st);
-   if(bu>=1){fq([Q(6,0,3),Q(6,0,25)],'rgba(0,0,0,0)','#4a2f17');
-    fq([Q(6,0,24),Q(6,0,8),Q(-6,0,8)],bx,HINK);
-    fq([Q(6.8,0,22),Q(6.8,0,9),Q(16,0,9)],shc(bx,.9),HINK);
-    fq([Q(6,0,8),Q(-6,0,8)],'rgba(0,0,0,0)','#4a2f17')}
+   if(bu>=1){fq([Q(6,0,3),Q(6,0,19)],'rgba(0,0,0,0)','#4a2f17');
+    fq([Q(6,0,18),Q(6,0,8),Q(-3.5,0,8)],bx,HINK);
+    fq([Q(6.8,0,16.5),Q(6.8,0,9),Q(13,0,9)],shc(bx,.9),HINK);
+    fq([Q(6,0,8),Q(-3.5,0,8)],'rgba(0,0,0,0)','#4a2f17')}
   })}
 
  let tx_=0,ty_=0;
