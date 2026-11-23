@@ -2069,32 +2069,41 @@ const kcSets=()=>{const K=SP.filter(o=>o.k2),o=[];[0,1,2,3,4,5].forEach(r=>{cons
 function kcHTML(){S.kcs=S.kcs||[];let h='<div class="row"><b>🪸 Set Koleksi Karang</b><span>Lengkapi, lalu klaim</span></div>';kcSets().forEach(s=>{const n=s.l.filter(f=>S.dex[f.n]).length,ok=n===s.l.length,cl=S.kcs.includes(s.k);h+='<div class="row"><span><b>Set '+s.n+'</b> '+n+'/'+s.l.length+'<br>🦪 '+fmt(s.p)+(s.g?' + 💎 '+fmt(s.g):'')+'</span><button data-kc="'+s.k+'"'+(ok&&!cl?'':' disabled')+'>'+(cl?'✔ Diklaim':'Klaim')+'</button></div>'});return h}
 setTimeout(()=>{PB.addEventListener('click',e=>{const b=e.target.closest('button[data-kc]');if(!b||tab!=='ikan')return;e.stopPropagation();S.kcs=S.kcs||[];const s=kcSets().find(x=>x.k===b.dataset.kc);if(!s||S.kcs.includes(s.k)||s.l.some(f=>!S.dex[f.n]))return;S.kcs.push(s.k);S.prl=(S.prl|0)+s.p;if(s.g){S.gems+=s.g;S.earn=(S.earn|0)+s.g}save();hud();toast('🪸 Set '+s.n+' lengkap! +'+fmt(s.p)+' Mutiara'+(s.g?' +'+fmt(s.g)+' Gem':''));try{snd(880,.1,'triangle');snd(1319,.2,'triangle',.12)}catch(x){}openPanel(false,'ikan')})},0);
 /* ---- Mic / voice chat: (1) room Mabar dengan 1 teman, (2) voice sekitar untuk semua pemain online ---- */
-const VC={on:false,st:null,out:null,au:null,mute:false,cd:0};
+const VC={on:false,st:null,out:null,au:null,mute:false,cd:0,m:null,rm:null};
 const VG={peer:null,calls:{},mm:{},cd:{},R:10,MAX:4,err:'',busy:0};
 try{VG.mm=JSON.parse(localStorage.getItem('pm-vmute')||'{}')||{}}catch(e){}
+/* indikator "sedang bicara": ukur volume stream pakai AnalyserNode */
+const VM={ctx:null,list:[]};
+function vmAdd(stream){try{const C=(typeof AC!=='undefined'&&AC)?AC:(VM.ctx||(VM.ctx=new (window.AudioContext||window.webkitAudioContext)()));try{if(C.state==='suspended')C.resume()}catch(x){}const src=C.createMediaStreamSource(stream),an=C.createAnalyser();an.fftSize=256;src.connect(an);const m={src,an,buf:new Uint8Array(an.fftSize),t:0};VM.list.push(m);return m}catch(e){return null}}
+function vmDel(m){if(!m)return;try{m.src.disconnect()}catch(e){}const i=VM.list.indexOf(m);if(i>=0)VM.list.splice(i,1)}
+function vmSpk(m){return !!m&&Date.now()-m.t<350}
+setInterval(()=>{const n=Date.now();for(const m of VM.list){try{m.an.getByteTimeDomainData(m.buf);let s=0;for(let i=0;i<m.buf.length;i++){const v=(m.buf[i]-128)/128;s+=v*v}if(Math.sqrt(s/m.buf.length)>.03)m.t=n}catch(e){}}},120);
+function vcPre(){try{return VC.on?(vmSpk(VC.m)?'🗣 ':'🎤 '):''}catch(e){return ''}}
+function vcPreR(){try{return vmSpk(VC.rm)?'🗣 ':''}catch(e){return ''}}
+function vcPreG(k){try{const e=VG.calls[k];return e&&vmSpk(e.m)?'🗣 ':''}catch(e){return ''}}
 function vcBtn(){const b=document.getElementById('mcb');if(!b)return;b.classList.toggle('on',(MP.st==='on'&&!!MP.peer)||!!AU);b.classList.toggle('live',VC.on)}
 function vcUI(){vcBtn();if(mpPanelOpen())openPanel(false,'mab')}
-function vcPlay(s){if(!VC.au){const a=document.createElement('audio');a.autoplay=true;a.setAttribute('playsinline','');a.style.display='none';document.body.appendChild(a);VC.au=a}VC.au.srcObject=s;VC.au.muted=VC.mute;const p=VC.au.play();if(p&&p.catch)p.catch(()=>{})}
+function vcPlay(s){if(!VC.au){const a=document.createElement('audio');a.autoplay=true;a.setAttribute('playsinline','');a.style.display='none';document.body.appendChild(a);VC.au=a}VC.au.srcObject=s;vmDel(VC.rm);VC.rm=vmAdd(s);VC.au.muted=VC.mute;const p=VC.au.play();if(p&&p.catch)p.catch(()=>{})}
 function vcAttach(peer){peer.on('call',c=>{if(MP.peer!==peer||MP.st!=='on'||c.peer!==MP.rpid){try{c.close()}catch(e){}return}try{c.answer()}catch(e){return}c.on('stream',s=>vcPlay(s));toast('🎤 '+(MP.r?MP.r.n:'Teman')+' menyalakan mic')})}
 function vcCallRoom(){if(!VC.on||!VC.st||VC.out||MP.st!=='on'||!MP.peer||!MP.rpid||Date.now()<VC.cd)return;VC.cd=Date.now()+10000;try{const c=MP.peer.call(MP.rpid,VC.st);if(!c)return;VC.out=c;c.on('close',()=>{if(VC.out===c)VC.out=null});c.on('error',()=>{if(VC.out===c)VC.out=null})}catch(e){VC.out=null}}
-function vcRoomOff(){try{if(VC.out)VC.out.close()}catch(e){}VC.out=null;if(VC.au){try{VC.au.srcObject=null}catch(e){}}}
+function vcRoomOff(){try{if(VC.out)VC.out.close()}catch(e){}VC.out=null;vmDel(VC.rm);VC.rm=null;if(VC.au){try{VC.au.srcObject=null}catch(e){}}}
 async function vcOn(){if(VC.on)return;const room=MP.st==='on'&&MP.peer&&MP.rpid;if(!room&&!AU){toast('🎤 Masuk akun online untuk bicara dengan pemain sekitar, atau sambungkan Mabar dulu');return}
  if(AU){let ok='';try{ok=localStorage.getItem('pm-vok')}catch(e){}if(!ok){try{localStorage.setItem('pm-vok','1')}catch(e){}toast('🎤 Voice sekitar: pemain di dekatmu bisa mendengar suaramu dan alamat IP-mu bisa terlihat oleh mereka (teknologi WebRTC). Tap 🎤 lagi untuk lanjut.');return}}
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('🎤 Mic tidak didukung di perangkat/browser ini');return}
  let s;try{s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false})}catch(e){toast('🎤 Izin mic ditolak atau mic tidak ada');return}
  if(VC.on){s.getTracks().forEach(x=>x.stop());return}
- VC.st=s;VC.on=true;VC.cd=0;vcCallRoom();if(AU)vgStart();
+ VC.st=s;VC.m=vmAdd(s);VC.on=true;VC.cd=0;vcCallRoom();if(AU)vgStart();
  toast(AU?'🎤 Mic nyala. Pemain dalam jarak dekat bisa mendengarmu':'🎤 Mic nyala');vcUI()}
-function vcOff(){vcRoomOff();for(const u in VG.calls){const e=VG.calls[u];try{if(e.out)e.out.close()}catch(x){}e.out=null}if(VC.st){try{VC.st.getTracks().forEach(x=>x.stop())}catch(e){}VC.st=null}const was=VC.on;VC.on=false;vcBtn();if(was)toast('🎤 Mic mati')}
+function vcOff(){vcRoomOff();for(const u in VG.calls){const e=VG.calls[u];try{if(e.out)e.out.close()}catch(x){}e.out=null}if(VC.st){try{VC.st.getTracks().forEach(x=>x.stop())}catch(e){}VC.st=null}vmDel(VC.m);VC.m=null;const was=VC.on;VC.on=false;vcBtn();if(was)toast('🎤 Mic mati')}
 function vcToggle(){if(VC.on){vcOff();vcUI()}else vcOn()}
 function vcSpk(){VC.mute=!VC.mute;if(VC.au)VC.au.muted=VC.mute;for(const u in VG.calls){const e=VG.calls[u];if(e.au)e.au.muted=VC.mute}vcUI()}
 /* voice sekitar: tiap pemain online punya Peer id 'pmv-'+uid. Yang mic-nya nyala menelpon max 4 pemain terdekat (di pulau yang sama), yang lain hanya menjawab. */
 const vgDist=g=>Math.hypot(P.vx-g.vx,P.vy-g.vy);
-function vgDrop(u){const e=VG.calls[u];if(!e)return;try{if(e.out)e.out.close()}catch(x){}try{if(e.in)e.in.close()}catch(x){}if(e.au){try{e.au.srcObject=null;e.au.remove()}catch(x){}}delete VG.calls[u]}
+function vgDrop(u){const e=VG.calls[u];if(!e)return;vmDel(e.m);try{if(e.out)e.out.close()}catch(x){}try{if(e.in)e.in.close()}catch(x){}if(e.au){try{e.au.srcObject=null;e.au.remove()}catch(x){}}delete VG.calls[u]}
 function vgIn(c){try{const id=String(c.peer||''),u=id.slice(4),g=GH[u];if(id.indexOf('pmv-')!==0||!g||VG.mm[u]||vgDist(g)>VG.R+4||Object.keys(VG.calls).length>=8){c.close();return}
  const e=VG.calls[u]||(VG.calls[u]={});if(e.in){try{e.in.close()}catch(x){}}c.answer();e.in=c;
- c.on('stream',s=>{if(!e.au){const a=document.createElement('audio');a.autoplay=true;a.setAttribute('playsinline','');a.style.display='none';document.body.appendChild(a);e.au=a}e.au.srcObject=s;e.au.muted=VC.mute;e.au.volume=.6;const p=e.au.play();if(p&&p.catch)p.catch(()=>{})});
- c.on('close',()=>{if(e.in===c){e.in=null;if(e.au){try{e.au.srcObject=null}catch(x){}}}});c.on('error',()=>{})}catch(x){}}
+ c.on('stream',s=>{if(!e.au){const a=document.createElement('audio');a.autoplay=true;a.setAttribute('playsinline','');a.style.display='none';document.body.appendChild(a);e.au=a}e.au.srcObject=s;vmDel(e.m);e.m=vmAdd(s);e.au.muted=VC.mute;e.au.volume=.6;const p=e.au.play();if(p&&p.catch)p.catch(()=>{})});
+ c.on('close',()=>{if(e.in===c){e.in=null;vmDel(e.m);e.m=null;if(e.au){try{e.au.srcObject=null}catch(x){}}}});c.on('error',()=>{})}catch(x){}}
 async function vgStart(){if(VG.peer||VG.busy||!AU||!AU.uid)return;VG.busy=1;VG.err='';
  try{await mpLoadPeer();let tries=0;const mk=()=>{const peer=new window.Peer('pmv-'+AU.uid,{config:{iceServers:MPICE}});VG.peer=peer;
   peer.on('open',()=>{VG.err='';toast('🎙 Voice sekitar aktif');vcUI()});
@@ -2187,7 +2196,7 @@ function nmLayer(){
  nmv.style.width=cw+'px';nmv.style.height=ch+'px';
  nxc.setTransform(dpr,0,0,dpr,0,0);nxc.clearRect(0,0,cw,ch);nmOn=true;
  const sx=cw/W,sy=ch/H,cx=Math.round(camX),cy=Math.round(camY),now=performance.now(),FT='"Baloo 2",Nunito,system-ui,sans-serif';
- const lab=(wx,wy,name,col,bt)=>{let X=(wx-cx)*sx,Y=(wy-cy)*sy;if(X<-80||X>cw+80||Y<-50||Y>ch+50)return;X=Math.max(8,Math.min(cw-8,X));Y=Math.max(16,Math.min(ch-6,Y));
+ const lab=(wx,wy,name,col,bt,dn)=>{let X=(wx-cx)*sx,Y=(wy-cy)*sy+(dn?28*sy:0);if(X<-80||X>cw+80||Y<-50||Y>ch+50)return;X=Math.max(8,Math.min(cw-8,X));Y=Math.max(16,Math.min(ch-6,Y));
   nxc.textAlign='center';nxc.textBaseline='alphabetic';nxc.lineJoin='round';
   if(name){nxc.font='700 12px '+FT;nxc.lineWidth=3.5;nxc.strokeStyle='rgba(0,0,0,.78)';nxc.strokeText(name,X,Y);nxc.fillStyle=col;nxc.fillText(name,X,Y)}
   if(bt&&bt.u>now){nxc.font=(bt.e?'400 24px ':'600 12px ')+FT;const ln=bt.e?[bt.t]:nmWrap(bt.t,150),lh=bt.e?28:15,bw=Math.min(166,Math.max.apply(null,ln.map(q=>nxc.measureText(q).width))+14),bh=ln.length*lh+8;let bx=Math.max(4,Math.min(cw-bw-4,X-bw/2));const by=Math.max(4,Y-(name?15:4)-bh-6);
@@ -2203,8 +2212,8 @@ function nmLayer(){
   const AX=Math.max(bx+10,Math.min(bx+bw-10,PX));nxc.beginPath();nxc.moveTo(AX-5,by+bh);nxc.lineTo(AX+5,by+bh);nxc.lineTo(AX,by+bh+6);nxc.closePath();nxc.fillStyle='rgba(10,24,34,.9)';nxc.fill();
   nxc.textAlign='center';nxc.font='700 12px '+FT;nxc.fillStyle=R.c;nxc.fillText(l1,X,by+15);nxc.font='600 11px '+FT;nxc.fillStyle='#e8f1ee';nxc.fillText(l2,X,by+28);nxc.fillStyle='#ffd23f';nxc.fillText(l3,X,by+40);return{bx,by,bw,bh}};
  {const r0=MP.r;let t1=null;if(r0&&r0.hf&&r0.nx!==undefined)t1=tag(r0.nx,r0.ny-14,r0.hf,CH.bub.r);if(held&&st!=='reel')tag(Math.round(P.vx*T)+8,Math.round(P.vy*T)-2,held,CH.bub.me,t1)}
- const r=MP.r;if(r&&r.nx!==undefined)lab(r.nx,r.ny,((r._m&&performance.now()-r._m>3000)?'📶 ':'')+r.n,'#7dffa0',CH.bub.r);for(const k in GH){const g=GH[k];if(g.nx!==undefined){if(g.hf)tag(g.nx,g.ny-14,g.hf,g.bub);lab(g.nx,g.ny,((g.lu&&Date.now()-g.lu>3500)?'📶 ':'')+(g.pl?'🖥 ':'📱 ')+(g.sl?'⛵ ':'')+g.n,nameCol(g.lv),g.bub)}}
- {const nm=(AU?(window.__PC?'🖥 ':'📱 '):'')+mpClean(AU?AU.u:MP.name);lab(Math.round(P.vx*T)+8,Math.round(P.vy*T)-2,nm,AU?nameCol(S.lvl):'#ffffff',CH.bub.me)}}
+ const r=MP.r;if(r&&r.nx!==undefined)lab(r.nx,r.ny,vcPreR()+((r._m&&performance.now()-r._m>3000)?'📶 ':'')+r.n,'#7dffa0',CH.bub.r,!!(r.hf&&!(CH.bub.r&&CH.bub.r.u>now)));for(const k in GH){const g=GH[k];if(g.nx!==undefined){if(g.hf)tag(g.nx,g.ny-14,g.hf,g.bub);lab(g.nx,g.ny,vcPreG(k)+((g.lu&&Date.now()-g.lu>3500)?'📶 ':'')+(g.pl?'🖥 ':'📱 ')+(g.sl?'⛵ ':'')+g.n,nameCol(g.lv),g.bub,!!(g.hf&&!(g.bub&&g.bub.u>now)))}}
+ {const nm=vcPre()+(AU?(window.__PC?'🖥 ':'📱 '):'')+mpClean(AU?AU.u:MP.name);lab(Math.round(P.vx*T)+8,Math.round(P.vy*T)-2,nm,AU?nameCol(S.lvl):'#ffffff',CH.bub.me,!!(held&&st!=='reel'&&!(CH.bub.me&&CH.bub.me.u>now)))}}
 function mabAdv(){const ta='width:100%;height:64px;font-size:10px;border-radius:10px;padding:6px;font-family:monospace;resize:none;background:var(--card);color:var(--ink);border:1px solid var(--line)';
  if(MP.st==='on')return '<div class="row"><b>🟢 Tersambung: '+(MP.r?MP.r.n:'teman')+'</b></div><div class="row"><span>'+(MP.link==='direct'?'📶 Koneksi langsung (lancar)':MP.link==='relay'?'🔁 Lewat server relay (bisa agak delay)':'⏳ Mengecek jenis koneksi...')+'</span></div><div class="row"><span>Kalian bisa saling lihat di pulau. Tas, uang, dan ikan tetap punya masing-masing. Pesan muncul saat teman dapat ikan Epic ke atas. Chat: tombol 💬 di layar atau tekan T.</span></div>'+chPanelHTML()+'<div class="bar"><button data-mp="off">Putus</button></div>';
  return '<div class="row"><span><b>Host:</b> buat undangan, kirim kodenya ke teman lewat chat, lalu tempel kode jawaban dari teman.</span></div>'
