@@ -197,6 +197,14 @@ button{border:0;border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,.22)}button:act
 .stabs{display:flex;gap:4px;margin-bottom:2px}.stabs button{flex:1 1 0;min-width:0;padding:6px 2px;font-size:12px;line-height:1.25;box-shadow:none;border-width:2px;border-radius:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stabs .on{background:var(--accent);color:var(--ai)}
 .accb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;margin:8px 0 2px;font-size:13px;box-shadow:none;border:2px solid var(--line);border-radius:12px;background:rgba(127,127,127,.12);text-align:left}.accb span:last-child{font-weight:500;opacity:.75;font-size:12px}.accv{padding:0 2px 4px}
 
+
+#edg{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;overflow:hidden;background:radial-gradient(ellipse at 50% 58%,rgba(150,170,190,0) 18%,rgba(95,115,135,.5) 62%,rgba(38,52,66,.93) 100%),rgba(70,92,112,.3)}
+#edg::after{content:"";position:absolute;top:-10%;bottom:-10%;left:0;width:calc(100% + 60px);background:repeating-linear-gradient(104deg,transparent 0 16px,rgba(255,255,255,.08) 16px 18px);animation:edgm .55s linear infinite}
+@keyframes edgm{to{transform:translateX(-34px)}}
+/* kompas laut + tombol Pulang */
+#cmp{position:absolute;top:40px;left:50%;transform:translateX(-50%);z-index:4;display:none;align-items:center;gap:7px;padding:3px 6px 3px 10px;border-radius:999px;font:800 11px Nunito,system-ui,sans-serif;color:#fff;background:rgba(6,28,40,.74);border:1px solid rgba(255,255,255,.3);box-shadow:0 3px 10px rgba(0,15,30,.3);white-space:nowrap;max-width:94%}
+#cmp i{font-style:normal;color:#ffd23f;display:inline-block;width:1.2em;text-align:center;font-size:13px}
+#cmp button{pointer-events:auto;font:800 11px Nunito,system-ui,sans-serif;color:#12303a;background:#ffd23f;border:0;border-radius:999px;padding:3px 10px;cursor:pointer}
 /* ===== Tampilan baru: laut tropis ===== */
 :root{--bg:#cfe8e4;--ink:#12303a;--mute:#4d7078;--card:#f7fffc;--line:#bcdcd6;--accent:#ff6b3d;--ai:#fff;--g1:#ffb347;--g2:#ff5e62;--sea1:#0f6e8c;--sea2:#0a3d5c}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06161f;--ink:#e6f6f3;--mute:#8dbcb6;--card:#0f2530;--line:#1f4350;--accent:#ff8a5c}}
@@ -433,12 +441,12 @@ input,textarea{-webkit-user-select:text;user-select:text}
 </div></section>
 <section class="mid"><div class="top" id="top"><div id="zb"></div><div id="gems">💎 0</div><div id="clk"></div></div>
 <div class="stage">
-<canvas id="c" width="256" height="192"></canvas><canvas id="egv"></canvas><canvas id="nmv"></canvas>
+<canvas id="c" width="256" height="192"></canvas><canvas id="egv"></canvas><canvas id="nmv"></canvas><div id="edg"></div>
 <div id="hbm" aria-label="Hotbar ikan"></div>
 <div id="bhb" aria-label="Sifat ikan"></div><div id="chi"><input id="chin" maxlength="80" placeholder="Ketik pesan..." autocomplete="off"><button id="chs" type="button">Kirim</button></div><div id="chf"></div><button id="chb" type="button" aria-label="Chat teman">💬</button><button id="emb" type="button" aria-label="Emot">😀</button><div id="emr"></div>
 <div id="card"><canvas id="fc" width="16" height="9"></canvas><div id="kn"></div><div id="kr"></div><div id="kw"></div><div id="kp"></div><div id="kx"></div></div>
 </div>
-<div id="msg" aria-live="polite"></div></section>
+<div id="cmp"><i id="cmpa">▲</i><span id="cmpt"></span><button id="cmpb" type="button">⚓ Pulang</button></div><div id="msg" aria-live="polite"></div></section>
 <section class="col colR"><div class="menu fold" id="menu"><button id="bag" class="m-bag" title="Tas: ikan, skill, pet, skin">🎒 Tas</button><button id="shp" class="m-shp" title="Toko: beli pancing, umpan, perahu, upgrade">🛒 Toko</button><button id="gch" class="m-gch" title="Gacha: skin, pancing, pet">🎰 Gacha</button><button id="bk" class="m-bk" title="Buku: koleksi ikan, mutasi, misi, rekor, galeri hadiah">📖 Buku</button><button id="map" class="m-map" title="Peta & teleport">🗺️ Peta</button><button id="qs" class="m-qs" title="Quest, misi harian, hadiah login & harian">🎁 Tugas</button><button id="sk" class="m-sk" title="Gacha skin & buff stat">👕 Skin</button><button id="snd" class="m-snd" aria-label="Setelan" title="Setelan">⚙️ Atur</button><button id="help" class="m-help" aria-label="Cara main" title="Cara main">❔ Bantuan</button><button id="mp" class="m-mp" title="Main bareng teman">👥 Mabar</button><button id="fs" class="m-fs" aria-label="Layar penuh" title="Layar penuh">⛶ Penuh</button><button id="more" class="m-more" aria-label="Menu lainnya">⋯ Lainnya</button></div><button id="act">Aksi</button></section>
 <div id="tm"></div><div id="fade"></div>
 <div id="toast"></div><div id="fpsb"></div>
@@ -473,7 +481,7 @@ function eggSpr(ctx,f,x,y){var E=EGG[f.n];if(!E||!E.im.complete||!E.im.naturalWi
 let ISL=1;
 const $=id=>document.getElementById(id);
 const cv=$('c'),g=cv.getContext('2d'),fcx=$('fc').getContext('2d');
-const T=16,MW=110,MH=80,WW=MW*T,WH=MH*T;let W=256,H=192;const cam=(v,w,ww)=>v;/* LAUT TAK TERBATAS: perahu boleh berlayar SEAPAD petak di luar peta, lalu mentok tembok tak terlihat */const SEAPAD=40,seaOut=(x,y)=>(x<0||y<0||x>=MW||y>=MH)&&x>=-SEAPAD-6&&y>=-SEAPAD-6&&x<MW+SEAPAD+6&&y<MH+SEAPAD+6;
+const T=16,MW=110,MH=80,WW=MW*T,WH=MH*T;let W=256,H=192;const cam=(v,w,ww)=>v;/* LAUT TAK TERBATAS: perahu boleh berlayar SEAPAD petak di luar peta, lalu mentok tembok tak terlihat */const SEAPAD=260,seaOut=(x,y)=>(x<0||y<0||x>=MW||y>=MH)&&x>=-SEAPAD-6&&y>=-SEAPAD-6&&x<MW+SEAPAD+6&&y<MH+SEAPAD+6;
 var KS=[42,35],KB=[28,38],KBD=[47,35];
 const RAR=[
  {n:'Common',c:'#9aa5b1',w:60,b:5,z:28,f:['Teri','Nila','Bandeng']},
@@ -523,9 +531,9 @@ function petB(){if(!petOn())return{lk:0,ml:0,vb:0};const p=PETS[S.pet],m=p.g?1+.
 function islB(){if(sail||P.y<22||!M[P.y]||!(M[P.y][P.x]>0))return{l:0,m:0,t:''};if(ISL===2){const td=tideN(),lg=(((P.x-92)/10)**2+((P.y-52)/6.5)**2)<1,bl=.3+(S.kpl|0)*.06+(td?.1:0)+(lg?.2:0),bm=.4+(S.kpm|0)*.08+(td?0:.12)+(lg?.3:0);return{l:bl,m:bm,t:(lg?'🌀 Laguna Mutiara + ':'')+'🪸 Berkah Karang '+(td?'🌊 Pasang':'🏖️ Surut')+': hoki +'+Math.round(bl*100)+'%, mutasi +'+Math.round(bm*100)+'%'}};if(P.x<33)return{l:.25,m:0,t:'🌴 Berkah Selatan: hoki +25%'};if(P.x>=40)return{l:0,m:.4,t:'🏝️ Berkah Timur: mutasi +40%'};return{l:0,m:0,t:''}} function stats(bi){const b0=bi>=0?BAIT[bi]:null,b=(b0&&b0.k&&ISL!==2)?Object.assign({},b0,{l:b0.l/2,m:b0.m/2,v:b0.v/2}):b0,R=RD(),pier=M[P.y][P.x]===3?.4:0;return{lk:R.l+enh().l+rodPas().l+(b?b.l:0)+pier+hulLk()+islB().l+WX[wx].l+S.sk[0]*.08+petB().lk+aqBonus().l+skB().lk+EVT.lk,ml:R.m+enh().m+rodPas().m+(b?b.m:0)+islB().m+WX[wx].m+S.sk[1]*.08+petB().ml+skB().ml+EVT.ml,vb:rodPas().v+(b?b.v:0)+S.sk[2]*.05+petB().vb+skB().vb+EVT.vb+(ISL===2?(S.kpv|0)*.05:0),b}}
 function roll2(){
  const s=stats(cb),hb=HSB>time?1:0,L=1+(s.lk+hb*.3)*.22;
- const ZS=SP.filter(o=>o.z===cz&&o.rq<=eq()&&cOK(COND[o.n])&&(!o.k2||ISL===2)),i=pickW(ZS.map(o=>({w:o.w*(o.r===5?.6*Math.pow(L,3.8):Math.pow(L,o.r))*(o.r>=1?1+(S.sk[7]|0)*.04:1)*[1,1,1,.9,3.5,5][o.r]}))),m=pickW(MUT.map((o,j)=>({w:j?o.w*(1+s.ml+hb*.5):o.w}))),f=ZS[i];
+ const ZS=SP.filter(o=>o.z===cz&&o.rq<=eq()&&cOK(COND[o.n])&&(!o.k2||ISL===2)),i=pickW(ZS.map(o=>({w:o.w*(o.r===5?.6*Math.pow(L,3.8):Math.pow(L,o.r))*(o.r>=1?1+(S.sk[7]|0)*.04:1)*[1,1,1,.9,3.5,5][o.r]*(cz===3?OC_W[SRG][o.r]:1)}))),m=pickW(MUT.map((o,j)=>({w:j?o.w*(1+s.ml+hb*.5):o.w}))),f=ZS[i];
  const WR=f.kr||[[.05,.9],[.5,4],[2,20],[10,120],[50,600],[200,3000]][f.r],kg=Math.round((WR[0]+(WR[1]-WR[0])*Math.pow(Math.random(),2))*100)/100;
- const sz=pickW(SZ.map((o,j)=>({w:j?o.w*(1+s.ml*.25):o.w})));return{n:f.n,r:f.r,z:cz,m,sz,kg:Math.round(kg*SZ[sz].x*100)/100,id:++UID,v:Math.round(f.b*MUT[m].x*SZ[sz].vm*(1+s.vb)*(.9+Math.random()*.2)*INC*1.2)}}
+ const sz=pickW(SZ.map((o,j)=>({w:j?o.w*(1+s.ml*.25):o.w})));return{n:f.n,r:f.r,z:cz,m,sz,kg:Math.round(kg*SZ[sz].x*100)/100,id:++UID,v:Math.round(f.b*MUT[m].x*SZ[sz].vm*(1+s.vb)*(.9+Math.random()*.2)*INC*1.2*(cz===3?OC_V[SRG]:1))}}
 let hbs='';
 function realNT(){const d=new Date(),h=d.getHours()+d.getMinutes()/60+d.getSeconds()/3600;return(1-Math.cos(2*Math.PI*(h-12)/24))/2}
 function updClk(){const d=new Date(),e=$('clk');if(e)e.textContent=(NT>.6?'🌙 ':NT>.4?(new Date().getHours()<12?'🌅 ':'🌆 '):'☀️ ')+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
@@ -1072,7 +1080,7 @@ function bobF(){return Math.round(Math.sin(time*(wx>=3?4.5:wx===2?3.2:2))*(wx>=3
 const WK=[];let WKt=0;
 function wakeDraw(){const n=time;for(let i=WK.length-1;i>=0;i--){const q=WK[i],a=n-q.t;if(a>.9||a<0){WK.splice(i,1);continue}const k=1-a/.9,w=2+Math.round(a*7);if(GFX<5){g.fillStyle='rgba(255,255,255,'+(k*.5).toFixed(2)+')';g.fillRect(Math.round(q.x-w/2),Math.round(q.y),w,1);if(a>.25){g.fillRect(Math.round(q.x-w/2-1),Math.round(q.y+1),1,1);g.fillRect(Math.round(q.x+w/2),Math.round(q.y+1),1,1)}}}}
 function drawWake(){try{if(sail&&P.mvg&&time-WKt>.05){WKt=time;const bk=P.fx<0?1:P.fx>0?-1:0;WK.push({x:P.vx*T+9+bk*12,y:P.vy*T+17+(P.fy>0?-4:P.fy<0?4:0),t:time});if(WK.length>40)WK.shift()}
- if(sail&&wx>=2&&Math.random()<(wx===3?.12:.05))burst(P.vx*T+9+(P.fx||0)*14,P.vy*T+12,3,'#ffffff',40);seDraw();wakeDraw();if(GFX>=5)hdWake()}catch(e){}}
+ if(sail&&wx>=2&&Math.random()<(wx===3?.12:.05))burst(P.vx*T+9+(P.fx||0)*14,P.vy*T+12,3,'#ffffff',40);seDraw();ocDraw2D();wakeDraw();if(GFX>=5)hdWake()}catch(e){}}
 function ghWake(r){try{if(Math.abs(r.x-r.vx)+Math.abs(r.y-r.vy)<.05)return;const bk=r.fx<0?1:r.fx>0?-1:0,n=time,f=(n*6)%1;for(let i=0;i<4;i++){const a=(f+i/4)%1,w=2+Math.round(a*7);g.fillStyle='rgba(255,255,255,'+((1-a)*.45).toFixed(2)+')';g.fillRect(Math.round(r.vx*T+9+bk*(10+a*12)-w/2),Math.round(r.vy*T+17),w,1)}}catch(e){}}
 function bridgeOver(vx,vy){try{const x0=Math.floor(vx)-2,x1=Math.floor(vx)+2,y0=Math.floor(vy)-2,y1=Math.floor(vy)+1;for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)if(M[y]&&M[y][x]===3)g.drawImage(land,x*T,y*T,T,T,x*T,y*T,T,T)}catch(e){}}
 const _gc={};function gcv(k,w,h,fn){w=Math.max(1,Math.ceil(w));h=Math.max(1,Math.ceil(h));let c=_gc[k];if(!c||c.width!==w||c.height!==h){c=_gc[k]=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'),w,h)}return c}
@@ -1132,7 +1140,7 @@ function roll(){let r=roll2();const G=GMF;if(G.i>=0||G.m>=0||G.sz>=0){const f=G.
 let castAt=0;const nearShop=()=>P.x>=6&&P.x<=9&&P.y>=2&&P.y<=5;
 const walkable=(x,y)=>sail?((x>=0&&y>=0&&x<MW&&y<MH)?(M[y][x]===0||M[y][x]===5||M[y][x]===3):(x>=-SEAPAD&&y>=-SEAPAD&&x<MW+SEAPAD&&y<MH+SEAPAD?true:(window.__wallHit=1,false))):(isL(x,y)&&M[y][x]!==4&&(!solid.has(x+','+y)||TS.has(x+','+y)));
 // gerak bebas 16 arah (kelipatan 22,5 derajat), posisi P.vx/P.vy kontinu, P.x/P.y = petak yang sedang diinjak
-function setMove(dx,dy){window.__rawMv=[dx,dy];const d=Math.hypot(dx,dy);if(d<.01){dir=null;mvx=0;mvy=0;RUN=0;return}if(window.FPV&&FPV.active()){const yw=FPV.yaw(),c=Math.cos(yw),sn=Math.sin(yw);mvx=(-dy*c-dx*sn)/d;mvy=(-dy*sn+dx*c)/d}else{const a=Math.round(Math.atan2(dy,dx)/(Math.PI/8))*(Math.PI/8);mvx=Math.cos(a);mvy=Math.sin(a)}if(Math.abs(mvx)<1e-6)mvx=0;if(Math.abs(mvy)<1e-6)mvy=0;dir=Math.abs(mvx)>=Math.abs(mvy)?(mvx>0?'r':'l'):(mvy>0?'d':'u')}
+function setMove(dx,dy){window.__rawMv=[dx,dy];const d=Math.hypot(dx,dy);if(OCAP.on){if(d<.01)return;OCAP.stop(1)}if(d<.01){dir=null;mvx=0;mvy=0;RUN=0;return}if(window.FPV&&FPV.active()){const yw=FPV.yaw(),c=Math.cos(yw),sn=Math.sin(yw);mvx=(-dy*c-dx*sn)/d;mvy=(-dy*sn+dx*c)/d}else{const a=Math.round(Math.atan2(dy,dx)/(Math.PI/8))*(Math.PI/8);mvx=Math.cos(a);mvy=Math.sin(a)}if(Math.abs(mvx)<1e-6)mvx=0;if(Math.abs(mvy)<1e-6)mvy=0;dir=Math.abs(mvx)>=Math.abs(mvy)?(mvx>0?'r':'l'):(mvy>0?'d':'u')}
 let BKt=0;const bk=(nx,ny)=>{if(!sail)return false;for(const k in GH){const g=GH[k];if(!g||!g.sl)continue;const dn=Math.hypot((nx-g.vx)/1.1,(ny-g.vy)/.7);if(dn<1&&dn<Math.hypot((P.vx-g.vx)/1.1,(P.vy-g.vy)/.7)){if(performance.now()-BKt>600){BKt=performance.now();try{snd(140,.07,'triangle');vib(15)}catch(e){}}return true}}return false};
 const frOK=(x,y)=>{const hx=.27,t=y-.3,u=y+.4;return walkable(Math.round(x-hx),Math.round(t))&&walkable(Math.round(x+hx),Math.round(t))&&walkable(Math.round(x-hx),Math.round(u))&&walkable(Math.round(x+hx),Math.round(u))};
 function hideCard(){$('card').style.display='none'}
@@ -1166,7 +1174,107 @@ function music(){if(mute||!AC||(S.vm??1)<=0)return;bus();const dk=!!window.__shm
  while(mNext<AC.currentTime+.25){const c=T.ch[Math.floor(mI/8)%T.ch.length];note(c+T.sc[mI%T.sc.length],mNext,d*1.6,T.w,T.v);if(mI%8===0)note(c-24,mNext,d*7,'sine',T.v*1.6);if(T.sh&&mI%4===2)note(c+T.sc[(mI+2)%T.sc.length]+12,mNext,d*3.2,'sine',T.v*.55);if(T.pd&&mI%8===0)note(c-5,mNext,d*8,'triangle',T.v*.5);mNext+=d;mI++}}
 ['pointerdown','keydown'].forEach(e=>addEventListener(e,()=>{if(!AC)snd(1,.01,'sine',0,.0002)},{once:true}));
 const ZNM=['🏞️ Kolam','🌊 Laut','🕳️ Laut Dalam','⛵ Samudra'];
-function zbar(){const a=P.x+P.fx,b=P.y+P.fy;let z;if(st!=='walk')z=ZNM[cz];else if((a>=0&&b>=0&&a<MW&&b<MH&&(M[b][a]===0||M[b][a]===4))||(sail&&seaOut(a,b)))z=ZNM[zoneAt(a,b)];else z='🏝️ Daratan';
+/* ===== Laut luas: cincin jarak, kompas, tombol Pulang (auto-sail) ===== */
+/* Ubah angka di sini untuk atur balance: jarak cincin (petak dari daratan), bobot rarity, pengali nilai jual */
+const OC_AT=[0,50,120,190],OC_N=['Samudra','Samudra Dalam','Samudra Gelap','Palung Abyss'],OC_I=['⛵','🌀','🌑','☠️'],
+ OC_W=[[1,1,1,1,1,1],[.8,1,1.1,1.3,1.5,1.6],[.5,.9,1.2,1.7,2.3,2.6],[.25,.7,1.3,2.2,3.5,4.5]],OC_V=[1,1.1,1.25,1.5],
+ OC_T=['','ikan langka lebih sering, nilai +10%','ikan Divine/Secret makin sering, nilai +25%','ikan terlangka, tarikan paling berat, nilai +50%'];
+let SRG=0,OC_K=-1,OC_D=null,OC_R=0,OC_EK=1,OC_EW=0,OC_HT=45,OC_DT=40,OC_FT=5,OCH=[1,0];
+const OC_EDGE=30,OCF=[];
+function ocBuild(){const n=MW*MH,D=new Int16Array(n).fill(-1),Q=new Int32Array(n);let h=0,t=0;
+ for(let y=0;y<MH;y++)for(let x=0;x<MW;x++){const v=M[y][x];if(v>0&&v!==3&&v!==5){D[y*MW+x]=0;Q[t++]=y*MW+x}}
+ if(!t){D.fill(30)}
+ while(h<t){const c=Q[h++],cx=c%MW,cy=(c/MW)|0,d=D[c]+1;for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++){const nx=cx+i,ny=cy+j;if(nx<0||ny<0||nx>=MW||ny>=MH)continue;const k=ny*MW+nx;if(D[k]>=0)continue;D[k]=d;Q[t++]=k}}
+ OC_D=D;OC_K=ISL}
+function ocDist(x,y){if(OC_K!==ISL||!OC_D)ocBuild();const cx=Math.max(0,Math.min(MW-1,Math.round(x))),cy=Math.max(0,Math.min(MH-1,Math.round(y)));return Math.max(0,OC_D[cy*MW+cx])+Math.hypot(x-cx,y-cy)}
+function ocRing(x,y){const d=ocDist(x,y);let r=0;for(let i=1;i<OC_AT.length;i++)if(d>=OC_AT[i])r=i;return r}
+function ocZn(z,r){return z===3&&r>0?OC_I[r]+' '+OC_N[r]:ZNM[z]}
+function ocDock(){return ISL===2?[KB[0],KB[1]]:[25,20]}
+const OC_N8=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+const OCAP={on:0,F:null,tx:0,ty:0,NX:0,
+ pass(x,y){if(x>=0&&y>=0&&x<MW&&y<MH){const v=M[y][x];return v===0||v===5||v===3}return x>=-SEAPAD&&y>=-SEAPAD&&x<MW+SEAPAD&&y<MH+SEAPAD},
+ build(tx,ty,strict){const NX=MW+2*SEAPAD,NY=MH+2*SEAPAD,N=NX*NY,pm=new Uint8Array(N),F=new Int16Array(N).fill(-1),Q=new Int32Array(N),id=(x,y)=>(y+SEAPAD)*NX+(x+SEAPAD);
+  for(let y=-SEAPAD;y<MH+SEAPAD;y++)for(let x=-SEAPAD;x<MW+SEAPAD;x++)if(this.pass(x,y))pm[id(x,y)]=1;
+  let ok=pm;if(strict){ok=new Uint8Array(N);for(let y=-SEAPAD+1;y<MH+SEAPAD-1;y++)for(let x=-SEAPAD+1;x<MW+SEAPAD-1;x++){const c=id(x,y);if(!pm[c])continue;if(Math.abs(x-tx)<=3&&Math.abs(y-ty)<=3){ok[c]=1;continue}let g=1;for(let j=-1;j<=1&&g;j++)for(let i=-1;i<=1;i++)if(!pm[c+j*NX+i]){g=0;break}ok[c]=g}}
+  let h=0,t=0;const s0=id(tx,ty);if(!ok[s0])return null;F[s0]=0;Q[t++]=s0;
+  while(h<t){const c=Q[h++],cx=c%NX-SEAPAD,cy=((c/NX)|0)-SEAPAD,d=F[c]+1;for(let k=0;k<8;k++){const dx=OC_N8[k][0],dy=OC_N8[k][1],nx=cx+dx,ny=cy+dy;if(nx<-SEAPAD||ny<-SEAPAD||nx>=MW+SEAPAD||ny>=MH+SEAPAD)continue;const n=id(nx,ny);if(!ok[n]||F[n]>=0)continue;if(dx&&dy&&(!ok[id(cx+dx,cy)]||!ok[id(cx,cy+dy)]))continue;F[n]=d;Q[t++]=n}}
+  this.NX=NX;return F},
+ start(){if(!sail||st!=='walk'){return}const g=ocDock();this.tx=g[0];this.ty=g[1];let F=this.build(g[0],g[1],1),id=(x,y)=>(y+SEAPAD)*this.NX+(x+SEAPAD);
+  if(!F||F[id(P.x,P.y)]<0){F=this.build(g[0],g[1],0);if(!F||F[id(P.x,P.y)]<0){toast('⚓ Jalur ke dermaga tidak ketemu');return}}
+  this.F=F;this.on=1;dir='r';say('⚓ Auto-sail menuju dermaga. Gerakkan perahu untuk membatalkan.');snd(520,.1,'triangle');this.btn()},
+ stop(manual){if(!this.on)return;this.on=0;this.F=null;dir=null;mvx=0;mvy=0;this.btn();if(manual)say('Auto-sail dibatalkan.')},
+ toggle(){if(this.on)this.stop(1);else this.start()},
+ btn(){const b=$('cmpb');if(b)b.textContent=this.on?'⏹ Batal':'⚓ Pulang'}};
+function ocStep(){if(!OCAP.on)return;if(!sail||st!=='walk'||HOME){OCAP.stop();return}
+ const A=OCAP,F=A.F,NX=A.NX,id=(x,y)=>(y+SEAPAD)*NX+(x+SEAPAD);
+ if(Math.hypot(P.vx-A.tx,P.vy-A.ty)<1.4){A.stop();toast('⚓ Sampai di dermaga');say('⚓ Sampai di dermaga. Hadap kemudi lalu tekan Aksi untuk pulang ke pulau.');snd(784,.12,'triangle');return}
+ const cx=P.x,cy=P.y;if(cx<-SEAPAD||cy<-SEAPAD||cx>=MW+SEAPAD||cy>=MH+SEAPAD){A.stop();return}
+ const cur=F[id(cx,cy)];if(cur<0){A.stop();toast('⚓ Auto-sail berhenti: perahu keluar jalur');return}
+ const gx=A.tx-P.vx,gy=A.ty-P.vy,gl=Math.hypot(gx,gy)||1;let bx=cx,by=cy,bd=cur,bs=-9;
+ for(let k=0;k<8;k++){const dx=OC_N8[k][0],dy=OC_N8[k][1],nx=cx+dx,ny=cy+dy;if(nx<-SEAPAD||ny<-SEAPAD||nx>=MW+SEAPAD||ny>=MH+SEAPAD)continue;const f=F[id(nx,ny)];if(f<0||f>=cur)continue;if(dx&&dy&&(F[id(cx+dx,cy)]<0||F[id(cx,cy+dy)]<0))continue;
+  const sc=(dx*gx+dy*gy)/(gl*Math.hypot(dx,dy));if(f<bd||(f===bd&&sc>bs)){bd=f;bx=nx;by=ny;bs=sc}}
+ if(bd===cur){A.stop();return}
+ const ex=bx-P.vx,ey=by-P.vy,el=Math.hypot(ex,ey)||1;mvx=ex/el;mvy=ey/el;dir=Math.abs(mvx)>=Math.abs(mvy)?(mvx>0?'r':'l'):(mvy>0?'d':'u')}
+function ocCmp(dt){const e=$('cmp'),ed=$('edg');if(!e)return;if(!sail||HOME){if(e.style.display!=='none'){e.style.display='none'}if(ed&&ed.style.opacity!=='0')ed.style.opacity='0';OC_R=0;OC_EK=1;OC_EW=0;OCF.length=0;return}
+ if(e.style.display!=='flex'){e.style.display='flex';OCAP.btn()}
+ const g=ocDock(),dx=g[0]-P.vx,dy=g[1]-P.vy,fwd=(window.FPV&&FPV.active())?FPV.yaw():-Math.PI/2,rot=(Math.atan2(dy,dx)-fwd)*180/Math.PI;
+ $('cmpa').style.transform='rotate('+rot.toFixed(0)+'deg)';
+ const r=ocRing(P.vx,P.vy),tx=Math.round(Math.hypot(dx,dy))+' m · '+OC_I[r]+' '+OC_N[r];if($('cmpt').textContent!==tx)$('cmpt').textContent=tx;
+ $('cmpb').style.display=st==='walk'?'':'none';
+ if(r!==OC_R){if(r>OC_R&&r>0){toast(OC_I[r]+' Memasuki '+OC_N[r]+': '+OC_T[r]);snd(330,.14,'sine');snd(247,.22,'sine',.14)}OC_R=r}
+ /* tepi laut: kabut tebal + arus, perahu melambat */
+ const m=Math.min(P.vx+SEAPAD,P.vy+SEAPAD,MW-1+SEAPAD-P.vx,MH-1+SEAPAD-P.vy),k=Math.max(0,Math.min(1,m/OC_EDGE));
+ OC_EK=.4+.6*k;const ea=(1-k)*(1-k*.3);if(ed){const o=Math.max(0,Math.min(.95,ea)).toFixed(2);if(ed.style.opacity!==o)ed.style.opacity=o}
+ if(m<OC_EDGE){if(!OC_EW){OC_EW=1;toast('🌫️ Kabut tebal dan arus kuat di tepi laut. Perahu melambat, putar balik atau tekan ⚓ Pulang.');snd(110,.4,'sawtooth',0,.04)}if(m<6)shake=Math.max(shake,.06)}else if(m>OC_EDGE+6)OC_EW=0;
+ /* kejadian laut di first person: hadiah kapal hantu / botol */
+ if(SEV&&window.FPV&&FPV.active()&&Math.hypot(SEV.x-P.vx,SEV.y-P.vy)<1.7)seReward();
+ ocFauna(dt||.016)}
+/* ---- isi perjalanan: lumba-lumba, ikan terbang, camar di atas kawanan ikan ---- */
+function ocWater(x,y){const tx=Math.round(x),ty=Math.round(y);if(tx>=0&&ty>=0&&tx<MW&&ty<MH){const v=M[ty][tx];return v===0||v===5||v===3}return true}
+function ocFauna(dt){
+ if(dir&&sail){const l=Math.hypot(mvx,mvy);if(l>.1){OCH[0]=OCH[0]*.9+mvx/l*.1;OCH[1]=OCH[1]*.9+mvy/l*.1}}
+ const hl=Math.hypot(OCH[0],OCH[1])||1,hx=OCH[0]/hl,hy=OCH[1]/hl,px=-hy,py=hx,moving=!!(dir&&P.mvg);
+ if(st==='walk'&&moving){
+  OC_DT-=dt;if(OC_DT<=0){OC_DT=80+Math.random()*70;if(!OCF.some(f=>f.k==='d')){const n=2+(Math.random()<.5?1:0);for(let i=0;i<n;i++){const sd=i%2?1:-1;OCF.push({k:'d',t0:time,life:16+Math.random()*4,oa:-1+Math.random()*4,ob:sd*(2+Math.random()*2.5),ph:Math.random()*3,per:2.2+Math.random()*1.2,x:P.vx+px*sd*8-hx*4,y:P.vy+py*sd*8-hy*4,lx:0,ly:0,vx:hx,vy:hy})}toast('🐬 Lumba-lumba menemani perjalananmu!');snd(900,.08,'sine');snd(1200,.1,'sine',.1)}}
+  OC_FT-=dt;if(OC_FT<=0){OC_FT=5+Math.random()*7;const n=1+(Math.random()<.5?1:0),sd=Math.random()<.5?1:-1;for(let i=0;i<n;i++){const L=3.5+Math.random()*3.5,ox=P.vx+hx*(2+Math.random()*4)+px*sd*(3+Math.random()*3),oy=P.vy+hy*(2+Math.random()*4)+py*sd*(3+Math.random()*3);OCF.push({k:'f',t0:time+i*.25,dur:1+Math.random()*.4,x0:ox,y0:oy,dx:-px*sd*.9+hx*.3,dy:-py*sd*.9+hy*.3,L,x:ox,y:oy,vx:-px*sd,vy:-py*sd})}}
+ }
+ OC_HT-=dt;if(OC_HT<=0&&st==='walk'){OC_HT=90+Math.random()*60;if(!HS.some(h=>h.far))ocHsFar()}
+ for(let i=OCF.length-1;i>=0;i--){const f=OCF[i];
+  if(f.k==='d'){const a=time-f.t0;if(a>f.life){OCF.splice(i,1);continue}const off=a>f.life-3?1+(a-(f.life-3))*.8:1,tx=P.vx+hx*f.oa+px*f.ob*off,ty=P.vy+hy*f.oa+py*f.ob*off,k=Math.min(1,dt*2.2),ox=f.x,oy=f.y;f.x+=(tx-f.x)*k;f.y+=(ty-f.y)*k;if(dt>0){const vx=(f.x-ox)/dt,vy=(f.y-oy)/dt;if(Math.hypot(vx,vy)>.2){f.vx=vx;f.vy=vy}}}
+  else{const u=(time-f.t0)/f.dur;if(u>1){OCF.splice(i,1);continue}if(u>=0){f.x=f.x0+f.dx*f.L*u;f.y=f.y0+f.dy*f.L*u}}}
+}
+function ocHsFar(){for(let n=0;n<40;n++){const a=Math.random()*6.283,d=24+Math.random()*34,x=Math.round(P.vx+Math.cos(a)*d),y=Math.round(P.vy+Math.sin(a)*d);
+  if(x<-SEAPAD+4||y<-SEAPAD+4||x>=MW+SEAPAD-4||y>=MH+SEAPAD-4)continue;if(x>=0&&y>=0&&x<MW&&y<MH&&!(M[y][x]===0||M[y][x]===5))continue;
+  HS.push({x,y,t:200,far:1});toast('🐦 Camar berkerumun di arah '+seDir(x-P.vx,y-P.vy)+' (± '+Math.round(d)+' m). Ada kawanan ikan di sana!');snd(784,.1,'triangle');snd(988,.14,'triangle',.1);return true}return false}
+/* gambar (koordinat dunia, dipakai tampilan atas dan first person) */
+function ocDolphin(gx,gy,h,fc,al,j){g.save();g.globalAlpha*=al;
+ if(h<1){g.fillStyle='rgba(255,255,255,.5)';g.fillRect(Math.round(gx-6),Math.round(gy+1),12,1);g.fillStyle='#5f7f99';g.fillRect(Math.round(gx-1),Math.round(gy-3),3,3);g.fillRect(Math.round(gx),Math.round(gy-5),1,2)}
+ else{g.translate(Math.round(gx),Math.round(gy-h-3));g.rotate(-fc*Math.cos(j*Math.PI)*.9);g.scale(fc,1);
+  g.fillStyle='#587a95';g.fillRect(-7,-2,14,4);g.fillRect(7,-1,3,2);g.fillRect(-9,-1,2,2);g.fillStyle='#4a6a84';g.fillRect(-1,-4,3,2);g.fillRect(0,-5,1,1);g.fillRect(-11,-3,2,1);g.fillRect(-11,2,2,1);
+  g.fillStyle='#dcebf3';g.fillRect(-6,1,12,1);g.fillRect(7,0,2,1);g.fillStyle='#fff';g.fillRect(5,-1,1,1);g.fillStyle='#10202c';g.fillRect(5,-1,1,1);g.fillStyle='#8fb0c6';g.fillRect(-4,-2,6,1)}
+ g.restore();
+ if(j<.12||(j>.28&&j<.4)){const w=2+Math.round((j<.12?j:(j-.28))*40);g.fillStyle='rgba(255,255,255,.7)';g.fillRect(Math.round(gx-w/2),Math.round(gy+1),w,1);g.fillRect(Math.round(gx-w/2-2),Math.round(gy+2),w+4,1)}}
+function ocFish(gx,gy,h,fc,fl){g.save();g.translate(Math.round(gx),Math.round(gy-h-2));g.scale(fc,1);g.fillStyle='rgba(255,255,255,.4)';g.fillRect(-3,h+2,6,1);g.fillStyle='#cfe3f0';g.fillRect(-3,0,6,2);g.fillStyle='#8fb0c6';g.fillRect(-3,1,6,1);g.fillStyle='#fff';g.fillRect(2,0,1,1);g.fillStyle='#e8f6ff';if(fl){g.fillRect(-2,-2,3,2)}else{g.fillRect(-2,2,3,1)}g.fillRect(-5,0,2,1);g.fillRect(-5,1,1,2);g.restore()}
+function ocGulls(hx,hy,al){g.save();g.globalAlpha*=al;for(let i=0;i<6;i++){const a=time*.9+i*1.05,r=12+(i%3)*6,gx=Math.round(hx+Math.cos(a)*r),gy=Math.round(hy+Math.sin(a)*r*.45-26-(i%2)*6),fl=Math.sin(time*8+i*2)>0;g.fillStyle='#f4f8fa';g.fillRect(gx,gy,2,1);g.fillStyle='#cfd8de';if(fl){g.fillRect(gx-2,gy-1,2,1);g.fillRect(gx+2,gy-1,2,1)}else{g.fillRect(gx-2,gy,2,1);g.fillRect(gx+2,gy,2,1)}}
+ for(let i=0;i<5;i++){const q=(time*1.3+i*.37)%1;if(q<.5){g.fillStyle='rgba(255,255,255,'+(1-q*2).toFixed(2)+')';const fx=Math.round(hx+Math.sin(i*7.3)*18),fy=Math.round(hy+Math.cos(i*5.1)*8);g.fillRect(fx-1,fy+1,3,1);g.fillStyle='#cfe3f0';g.fillRect(fx,fy-Math.round(Math.sin(q*6.283)*3),1,1)}}g.restore()}
+function ocSeBody(S0){if(!S0)return;const x=S0.x*T,y=S0.y*T+Math.round(Math.sin(time*2+S0.x)*1.5);
+ if(S0.k==='g'){g.save();g.globalAlpha=.5+.2*Math.sin(time*3);g.fillStyle='#b8f0ff';g.fillRect(x-2,y+8,22,2);g.fillRect(x,y+4,18,5);g.fillStyle='#8fbfd0';g.fillRect(x+1,y+5,16,2);g.fillStyle='#d8f6ff';g.fillRect(x+8,y-6,1,11);for(let i=0;i<6;i++)g.fillRect(x+9,y-5+i,1+(i>>1),1);g.restore()}
+ else{g.fillStyle='rgba(255,255,255,.35)';g.fillRect(x+1,y+12,12,1);g.fillStyle='#8fd3f0';g.fillRect(x+5,y+4,4,8);g.fillStyle='#c9a46a';g.fillRect(x+6,y+2,2,2);g.fillStyle='#fff';g.fillRect(x+6,y+6,1,3)}}
+function ocFade(f){return f.k==='d'?Math.max(0,Math.min(1,Math.min((time-f.t0)/1.5,(f.life-(time-f.t0))/1.5))):1}
+function ocJump(f){const u=(((time-f.t0+f.ph)%f.per)+f.per)%f.per/f.per;return u<.4?u/.4:-1}
+function ocDraw2D(){if(!sail)return;const vis=(x,y,m)=>x>camX-m&&x<camX+W+m&&y>camY-m&&y<camY+H+m;
+ HS.forEach(h=>{if(h.far&&vis(h.x*T,h.y*T,50))ocGulls(h.x*T+8,h.y*T+8,Math.min(1,h.t/6))});
+ OCF.forEach(f=>{const gx=f.x*T+8,gy=f.y*T+12;if(!vis(gx,gy,30)||!ocWater(f.x,f.y))return;
+  if(f.k==='d'){const j=ocJump(f),fc=f.vx>=0?1:-1;ocDolphin(gx,gy,j<0?0:Math.sin(j*Math.PI)*15,fc,ocFade(f),j<0?.5:j)}
+  else{const u=(time-f.t0)/f.dur;if(u<0||u>1)return;ocFish(gx,gy,Math.sin(u*Math.PI)*5+1,f.vx>=0?1:-1,Math.floor(time*14)%2)}})}
+function ocObjFP(add,F){if(!sail)return;
+ if(SEV)add(SEV.x*T+8,SEV.y*T+14,()=>ocSeBody(SEV));
+ HS.forEach(h=>{if(h.far)add(h.x*T+8,h.y*T+8,()=>ocGulls(h.x*T+8,h.y*T+8,Math.min(1,h.t/6)))});
+ OCF.forEach(f=>{if(!ocWater(f.x,f.y))return;const gx=f.x*T+8,gy=f.y*T+12,fc=(f.vx*F.rx+f.vy*F.ry)>=0?1:-1;
+  if(f.k==='d'){add(gx,gy,()=>{const j=ocJump(f);ocDolphin(gx,gy,j<0?0:Math.sin(j*Math.PI)*15,fc,ocFade(f),j<0?.5:j)})}
+  else{const u=(time-f.t0)/f.dur;if(u<0||u>1)return;add(gx,gy,()=>ocFish(gx,gy,Math.sin(u*Math.PI)*5+1,fc,Math.floor(time*14)%2))}})}
+
+function zbar(){const a=P.x+P.fx,b=P.y+P.fy;let z;if(st!=='walk')z=ocZn(cz,SRG);else if((a>=0&&b>=0&&a<MW&&b<MH&&(M[b][a]===0||M[b][a]===4))||(sail&&seaOut(a,b))){const zz=zoneAt(a,b);z=ocZn(zz,zz===3?ocRing(a,b):0)}else z='🏝️ Daratan';
  const h='<span>'+z+'</span><span>'+WX[wx].i+' '+WX[wx].n+'</span>'+(streak>=2?'<span>🔥 x'+streak+'</span>':'')+(HSB>time?'<span>✨ Berkah '+Math.ceil(HSB-time)+'s</span>':'')+(islB().t?'<span>'+islB().t+'</span>':'');if(h!==zbs){zbs=h;$('zb').innerHTML=h}dqCheck();updDots()}
 
 // ---------- efek tangkapan langka (kilat warna, sinar, banner, fanfare, getar)
@@ -1210,13 +1318,13 @@ function act(){
   if(!CHG.go&&chgStart())return;
   castFar();
   if((ty>=0&&tx>=0&&tx<MW&&ty<MH&&(M[ty][tx]===0||M[ty][tx]===4))||(sail&&seaOut(tx,ty))){
-   cz=zoneAt(tx,ty);if(bagUsed()>=bagCap()){say('Tas penuh! Jual ikan atau upgrade tas.');toast('🎒 Tas penuh '+bagUsed()+'/'+bagCap());snd(180,.2,'sawtooth');return}if(cz===2&&eq()<1){say('Kail bambu terlalu pendek untuk Laut Dalam. Upgrade ke Fiber di toko.');snd(180,.2,'sawtooth');return}if(ISL===2&&!reefOK()){say('🪸 Di Pulau Karang butuh Joran Terumbu (toko > Pancing) atau joran gacha Legend/Mythic. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}if(ISL!==2&&gOn()&&gOn().reef){say('🪸 Joran Terumbu khusus Pulau Karang. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}cb=-1;if(S.sel>=0&&S.bait[S.sel]>0){if(Math.random()>=(S.sk[8]|0)*.05)S.bait[S.sel]--;cb=S.sel;{const nb=cb;if(S.bait[nb]<=0)setTimeout(()=>toast('Umpan '+BAIT[nb].n+' habis'),700)}save();hud()}
+   cz=zoneAt(tx,ty);SRG=cz===3?ocRing(tx,ty):0;if(bagUsed()>=bagCap()){say('Tas penuh! Jual ikan atau upgrade tas.');toast('🎒 Tas penuh '+bagUsed()+'/'+bagCap());snd(180,.2,'sawtooth');return}if(cz===2&&eq()<1){say('Kail bambu terlalu pendek untuk Laut Dalam. Upgrade ke Fiber di toko.');snd(180,.2,'sawtooth');return}if(ISL===2&&!reefOK()){say('🪸 Di Pulau Karang butuh Joran Terumbu (toko > Pancing) atau joran gacha Legend/Mythic. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}if(ISL!==2&&gOn()&&gOn().reef){say('🪸 Joran Terumbu khusus Pulau Karang. Ganti joran di hotbar.');snd(180,.2,'sawtooth');return}cb=-1;if(S.sel>=0&&S.bait[S.sel]>0){if(Math.random()>=(S.sk[8]|0)*.05)S.bait[S.sel]--;cb=S.sel;{const nb=cb;if(S.bait[nb]<=0)setTimeout(()=>toast('Umpan '+BAIT[nb].n+' habis'),700)}save();hud()}
    st='wait';castAt=performance.now();held=null;burst(tx*T+8,ty*T+8,8,'#fff',50);wt=(1.5+Math.random()*3.5)*rodPas().bite*(eq()>=3?.6:1)*(CHG.perf?.5:1);say(CHG.perf?'🎯 PERFECT! Gigitan datang lebih cepat…':'Menunggu ikan menggigit…');if(CHG.perf){toast('🎯 PERFECT CAST!');burst(tx*T+8,ty*T+8,16,'#ffd23f',110);snd(1047,.1,'triangle');snd(1568,.16,'triangle',.09)}nz(.3,500,.8,.1,0,'bandpass',2400);snd(300,.14,'sine');snd(520,.1,'triangle',.1);ripple(tx*T+8,ty*T+8);burst(tx*T+8,ty*T+8,12,'#cfeeff',80);{const hi=HS.findIndex(h=>Math.abs(h.x-tx)<=HR&&Math.abs(h.y-ty)<=HR);if(hi>=0){HS.splice(hi,1);HSB=time+180;toast('✨ Berkah Titik Ikan! Hoki dan mutasi naik 3 menit');burst(tx*T+8,ty*T+8,24,'#ffe27a',110);snd(1047,.1,'triangle');snd(1568,.2,'triangle',.1);vib([40,30,80])}}}
   else say('Hadap ke air untuk melempar kail.');
  }else if(st==='wait'){if(performance.now()-castAt<700)return;st='walk';say('Terlalu cepat, ikan kabur.');snd(180,.2,'sawtooth')}
  else if(st==='bite'){
   fish=roll();const R=RARF(fish);
-  rb={fp:50,ft:50,tm:0,zp:60,zv:0,pr:.25,zw:([45,44,43,42,41,40][fish.r]+RD().z+enh().z+S.sk[3]+(fish.m===4?3:0))*DIF.zw,d:(.8+fish.r*.2+cz*.1)*DIF.d,t:0,dash:0,pl:0,pc:3,iv:0,ic:4,bn:fish.r>=3?2.2:0};rb.zb=rb.zw;rb.bh=SPB[fish.n]||[];rb.bc={};rb.ink=rb.stun=rb.cu=rb.tn=rb.jf=rb.dvf=0;
+  rb={fp:50,ft:50,tm:0,zp:60,zv:0,pr:.25,zw:([45,44,43,42,41,40][fish.r]+RD().z+enh().z+S.sk[3]+(fish.m===4?3:0))*DIF.zw,d:(.8+fish.r*.2+cz*.1+(cz===3?SRG:0)*.06)*DIF.d,t:0,dash:0,pl:0,pc:3,iv:0,ic:4,bn:fish.r>=3?2.2:0};rb.zb=rb.zw;rb.bh=SPB[fish.n]||[];rb.bc={};rb.ink=rb.stun=rb.cu=rb.tn=rb.jf=rb.dvf=0;
   st='reel';if(fish.sz>=2)bigAlert(fish.sz);{const tr=rb.bh.length?'  '+rb.bh.map(b=>BHI[b]+' '+BHN[b]).join(' · '):'';if(fish.r>=3)toast('✦ '+RARF(fish).n+' menggigit!'+tr);else if(tr)toast('Sifat:'+tr)}if(fish.r>=3){shake=.3;[0,4,7,12].forEach((k,i)=>snd(440*Math.pow(2,k/12),.16,'square',i*.08))}say('Ikan '+R.n+' ('+RM[fish.r]+(fish.m?', '+MUT[fish.m].n+': '+MD[fish.m]:'')+')! TAHAN tombol, jaga bar hijau menutupi ikan.');snd(700,.08)
  }else if(st==='reel'){
   if(rb.q&&!fin){qteHit(false);return}if(!fin)return;if(fin>0){
@@ -1812,13 +1920,13 @@ hsSpawn();hsSpawn();
 function update(dt){if(HOME){homeUpd(dt);return}
  time+=dt;wxUpdate(dt);sonar(dt);ptUpdate(dt);amb(dt);tmUpd(dt);hsUpd(dt);recTick(dt);for(let i=RP.length-1;i>=0;i--){RP[i].t+=dt*1.4;if(RP[i].t>=1)RP.splice(i,1)}tipT-=dt;if(tipT<=0&&st==='walk'&&!dir&&$('panel').style.display!=='block'){tipT=28;say('💡 '+TIPS[tipI++%TIPS.length])}shake=Math.max(0,shake-dt);
  if(P.x!==P.lx||P.y!==P.ly){const ex=P.x-P.vx,ey=P.y-P.vy;if(Math.abs(ex)<.03&&Math.abs(ey)<.03){P.vx=P.x;P.vy=P.y;P.lx=P.x;P.ly=P.y;P.lrp=0}else{P.lrp=1;const k=Math.min(1,dt*16);P.vx+=ex*k;P.vy+=ey*k}}else P.lrp=0;petUpd(dt);
- P.mvg=0;if(!dir||!sail)BV=.4;if(st==='walk'&&dir&&!P.lrp){if(Math.abs(mvx)>=Math.abs(mvy)){P.fx=mvx>0?1:-1;P.fy=0}else{P.fx=0;P.fy=mvy>0?1:-1}
-  if(sail)BV=Math.min(1,BV+dt*1.3);const rem=(sail?BOAT_V*boatMul()*BV*(RUN||RUNK?1.25:1):5*(RUN||RUNK?1.6:1))*dt,n=Math.max(1,Math.ceil(rem/.12)),sx=mvx*rem/n,sy=mvy*rem/n;let moved=0;
+ ocStep();ocCmp(dt);P.mvg=0;if(!dir||!sail)BV=.4;if(st==='walk'&&dir&&!P.lrp){if(Math.abs(mvx)>=Math.abs(mvy)){P.fx=mvx>0?1:-1;P.fy=0}else{P.fx=0;P.fy=mvy>0?1:-1}
+  if(sail)BV=Math.min(1,BV+dt*1.3);const rem=(sail?BOAT_V*boatMul()*BV*OC_EK*(RUN||RUNK?1.25:1):5*(RUN||RUNK?1.6:1))*dt,n=Math.max(1,Math.ceil(rem/.12)),sx=mvx*rem/n,sy=mvy*rem/n;let moved=0;
   for(let i=0;i<n;i++){const ox=P.vx,oy=P.vy;
    if(frOK(P.vx+sx,P.vy)&&!bk(P.vx+sx,P.vy))P.vx+=sx;else if(sx&&!sy){const dy=Math.round(P.vy)-P.vy;if(Math.abs(dy)>1e-4&&Math.abs(dy)<.45){const ny=P.vy+Math.sign(dy)*Math.min(Math.abs(dy),Math.abs(sx));if(frOK(P.vx,ny))P.vy=ny}}
    if(frOK(P.vx,P.vy+sy)&&!bk(P.vx,P.vy+sy))P.vy+=sy;else if(sy&&!sx){const dx=Math.round(P.vx)-P.vx;if(Math.abs(dx)>1e-4&&Math.abs(dx)<.45){const nx=P.vx+Math.sign(dx)*Math.min(Math.abs(dx),Math.abs(sy));if(frOK(nx,P.vy))P.vx=nx}}
    moved+=Math.hypot(P.vx-ox,P.vy-oy)}
-  if(moved>.0005){P.mvg=1;P.x=Math.round(P.vx);P.y=Math.round(P.vy);P.lx=P.x;P.ly=P.y;P.sd+=moved;if(P.sd>=.9){P.sd=0;stepFx()}}if(window.__wallHit){window.__wallHit=0;if(sail&&time-(window.__wallT||-99)>7){window.__wallT=time;toast('🌊 Ombak terlalu kuat, tidak bisa lebih jauh. Putar balik ya!')}}}
+  if(moved>.0005){P.mvg=1;P.x=Math.round(P.vx);P.y=Math.round(P.vy);P.lx=P.x;P.ly=P.y;P.sd+=moved;if(P.sd>=.9){P.sd=0;stepFx()}}if(window.__wallHit){window.__wallHit=0;if(sail&&time-(window.__wallT||-99)>7){window.__wallT=time;toast('🌫️ Perahu tidak sanggup lebih jauh, kabut dan ombak terlalu kuat. Putar balik atau tekan ⚓ Pulang.')}}}
  if(st==='wait'){if(Math.random()<dt*.7)ripple(tx*T+8,ty*T+8);wt-=dt;if(wt<=0){st='bite';bt=1.1+(eq()>=1?.3:0)+Math.min(5,S.sk[6]|0)*.1;burst(tx*T+8,ty*T+8,10,'#cfeeff',70);say('Ikan menggigit! Tekan Aksi!');snd(880,.1);snd(880,.1,'square',.14);snd(1320,.18,'triangle',.28,.04);nz(.2,1000,1,.1,0,'bandpass',300);ripple(tx*T+8,ty*T+8);vib(45)}}
  else if(st==='bite'){bt-=dt;if(bt<=0){st='walk';streak=0;say('Ikan kabur, kamu telat.');snd(180,.25,'sawtooth')}}
  else if(st==='reel'){
@@ -3233,8 +3341,10 @@ requestAnimationFrame(loop);
   /* fase bulan dari tanggal (0 baru, .25 sabit awal/kuartal, .5 purnama, .75 kuartal akhir); posisi bulan tertinggal dari matahari sesuai fase */
   const moonPhase=()=>{const d=Date.now()/86400000+2440587.5-2451550.1;return((d/29.530588853)%1+1)%1};
   const moonPos=()=>{const a=(hourNow()-12)/24*TAU-moonPhase()*TAU;return{az:-.7+a,el:Math.asin(Math.cos(a)*.949)}};
-  let _ec=0,_ev='';const evId=()=>{if(EVT&&EVT.id)return EVT.id;const n=performance.now();if(n-_ec>250){_ec=n;try{_ev=(window.PMX&&PMX.fpEvt&&PMX.fpEvt())||''}catch(e){_ev=''}}return _ev};
- let tex=null,tex2=null,wm=null,texIsl=-1,yaw=0,haveYaw=false,lastN=0,enterT=0,wasOn=false,fpOff=false,lastEv='',bobP=0,bobA=0,fbc=null,fbx=null,fid=null,fbuf=null,fbW=0,fbH=0,F=null,snapTo=null,sfx=0,sfy=0,zk=1,tens=0,lastRy=null,pOff=0;
+  let _ec=0,_ev='';const evId=()=>{if(EVT&&EVT.id)return EVT.id;const n=performance.now();if(n-_ec>250){_ec=n;try{_ev=(window.PMX&&PMX.fpEvt&&PMX.fpEvt())||''}catch(e){_ev=''}}return _ev||(GFX?'fp':'')};
+ /* kepekaan geser layar first person (naikkan kalau terasa berat) */
+  const FP_SENS_X=2.4,FP_SENS_Y=2;
+  let tex=null,tex2=null,wm=null,texIsl=-1,yaw=0,haveYaw=false,lastN=0,enterT=0,wasOn=false,fpOff=(()=>{try{return localStorage.getItem('pm-fpon')!=='1'}catch(e){return true}})(),lastEv='',bobP=0,bobA=0,fbc=null,fbx=null,fid=null,fbuf=null,fbW=0,fbH=0,F=null,snapTo=null,sfx=0,sfy=0,zk=1,tens=0,lastRy=null,pOff=0;
  const STARS=[];for(let i=0;i<170;i++)STARS.push([(i*2.399963)%TAU-Math.PI,.04+((i*7919)%97)/97*.94,((i*31)%7)/7]);
  const CLD=[];for(let i=0;i<16;i++)CLD.push([i*.39-3.1,.16+((i*5)%8)*.1,26+(i%3)*14,.006+(i%3)*.003]);
 
@@ -3328,7 +3438,8 @@ requestAnimationFrame(loop);
   chests().forEach(c=>add(c.x*T+8,c.y*T+14,()=>drawChest(c)));
   clamPts().forEach(c=>add(c.x*T+8,c.y*T+14,()=>drawClam(c)));
   if(ISL===2){add(KS[0]*T+16,KS[1]*T+17,()=>drawStall(KS[0]*T-176,KS[1]*T-112));if(!sail)add(KB[0]*T+10,KB[1]*T+14,()=>drawBoat(KB[0],KB[1]));add(KBD[0]*T+8,KBD[1]*T+16,()=>drawBoard(KBD[0]*T,KBD[1]*T))}
-  out.sort((a,b)=>b.d-a.d);return out}
+  try{ocObjFP(add,F)}catch(e){}
+   out.sort((a,b)=>b.d-a.d);return out}
 
  function drawObjects(){
   const list=objects();
@@ -3456,7 +3567,7 @@ requestAnimationFrame(loop);
   else if(st==='walk'&&!dir&&(P.fx!==sfx||P.fy!==sfy))snapTo=Math.atan2(P.fy,P.fx);
   if(snapTo!==null){const df=wrap(snapTo-yaw);yaw=wrap(yaw+df*Math.min(1,dt*9));if(Math.abs(df)<.01){yaw=snapTo;snapTo=null}}
   /* putar pandangan dengan peredaman: sisa geseran dihabiskan perlahan sehingga berhenti lembut */
-  {const k=1-Math.exp(-dt*12),a=pdy*k,b=pdp*k;pdy-=a;pdp-=b;yaw=wrap(yaw+a);pOff+=b}
+  {const k=1-Math.exp(-dt*20),a=pdy*k,b=pdp*k;pdy-=a;pdp-=b;yaw=wrap(yaw+a);pOff+=b}
   if(snapTo===null&&st==='walk'){const c0=Math.cos(yaw),s0=Math.sin(yaw);if(Math.abs(c0)>=Math.abs(s0)){P.fx=c0>0?1:-1;P.fy=0}else{P.fx=0;P.fy=s0>0?1:-1}}
   sfx=P.fx;sfy=P.fy;
   if(dir&&lastRy!==yaw){const rm=window.__rawMv;if(rm&&(rm[0]||rm[1]))setMove(rm[0],rm[1])}lastRy=yaw;
@@ -3486,15 +3597,15 @@ requestAnimationFrame(loop);
  document.body.appendChild(btn);
  const fb=document.createElement('button');fb.textContent='🔭';fb.setAttribute('aria-label','Sudut pandang first person');fb.style.cssText=btn.style.cssText.replace(/top:[^;]*;/,'top:calc(env(safe-area-inset-top,0px) + 214px);');document.body.appendChild(fb);
  fb.addEventListener('click',e=>{e.stopPropagation();fov=(fov+1)%3;try{localStorage.setItem('pm-fpfov',String(fov))}catch(x){}toast('🔭 Sudut pandang: '+['Normal','Lebar','Sangat lebar'][fov])});
- btn.addEventListener('click',e=>{e.stopPropagation();fpOff=!fpOff;toast(fpOff?'🗺️ Tampilan atas':'👁️ Tampilan first person')});
+ btn.addEventListener('click',e=>{e.stopPropagation();fpOff=!fpOff;try{localStorage.setItem('pm-fpon',fpOff?'0':'1')}catch(x){}toast(fpOff?'🗺️ Tampilan atas':'👁️ First person: joystick = jalan, geser layar = lihat sekeliling. Tombol 👁️ untuk ganti.')});
  setInterval(()=>{try{const idv=evId(),ev=!!idv;
-  if(idv!==lastEv){lastEv=idv;if(ev){fpOff=false;setTimeout(()=>{if(evId()&&!fpOff&&!HOME)toast('👁️ First person: joystick = jalan, geser layar = lihat atas/bawah/kiri/kanan. Tombol 👁️ untuk ganti.')},3400)}}
+  if(idv!==lastEv){lastEv=idv;if(ev&&idv!=='fp'){fpOff=false;setTimeout(()=>{if(evId()&&!fpOff&&!HOME)toast('👁️ First person: joystick = jalan, geser layar = lihat atas/bawah/kiri/kanan. Tombol 👁️ untuk ganti.')},3400)}}
   btn.style.display=(ev&&!HOME&&!document.getElementById('splash')&&$('panel').style.display!=='block')?'block':'none';
   btn.style.opacity=fpOff?'.55':'1';fb.style.display=btn.style.display}catch(e){}},400);
 
  let lp=null,lx=0,ly=0,pdy=0,pdp=0;
  cv.addEventListener('pointerdown',e=>{if(!window.FPV||!FPV.active())return;lp=e.pointerId;lx=e.clientX;ly=e.clientY;try{cv.setPointerCapture(lp)}catch(x){}});
- cv.addEventListener('pointermove',e=>{if(e.pointerId!==lp||!haveYaw||!F)return;const r=cv.getBoundingClientRect(),dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;pdy+=dx*(F.W/Math.max(1,r.width))/F.foc*1.25;pdp-=dy*(F.H/Math.max(1,r.height))*1.2;snapTo=null});
+ cv.addEventListener('pointermove',e=>{if(e.pointerId!==lp||!haveYaw||!F)return;const r=cv.getBoundingClientRect(),dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;pdy+=dx*(F.W/Math.max(1,r.width))/F.foc*FP_SENS_X;pdp-=dy*(F.H/Math.max(1,r.height))*FP_SENS_Y;snapTo=null});
  ['pointerup','pointercancel'].forEach(ev=>cv.addEventListener(ev,e=>{if(e.pointerId===lp)lp=null}));
  window.FPV={
   sun:sunPos,
