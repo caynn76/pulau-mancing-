@@ -3635,17 +3635,20 @@ requestAnimationFrame(loop);
   g.setTransform(T0);if(a.bu>time)hdBubble(x,y)}
  function fln(p,q,col,w){const A=FPW(p[0],p[1],p[2]),B=FPW(q[0],q[1],q[2]);if(!A||!B)return;g.strokeStyle=col;g.lineWidth=w;g.beginPath();g.moveTo(A[0],A[1]);g.lineTo(B[0],B[1]);g.stroke()}
  /* ikan yang dipegang pemain lain: sprite ikan sebagai lempeng 3D bertebal (beberapa lapis), ikut perspektif & berayun */
- let hCv=null;
- function fish3D(f,cx,cy,fx,fy){let v;try{v=fv(f)}catch(e){return false}
-  const Wd=v.sp[0].length,Hh=v.sp.length,dx=fx?(fx>0?1:-1):0,dy=fx?0:(fy<0?-1:1),px=-dy,py=dx,sz=(SZ[f.sz|0]||SZ[0]).s,Ws=9*(1+.35*(sz-1)),Hs=Ws*(Hh+2)/(Wd+2);
-  if(!hCv)hCv=document.createElement('canvas');if(hCv.width!==Wd+2||hCv.height!==Hh+2){hCv.width=Wd+2;hCv.height=Hh+2}
-  const c=hCv.getContext('2d');c.clearRect(0,0,hCv.width,hCv.height);try{fishSpr(c,f,1,1)}catch(e){return false}
+ /* cache tekstur ikan (terang + gelap) per jenis/mutasi/fase kepak: sprite tidak digambar ulang tiap frame */
+ const FTC=new Map();
+ function fishTex(f){const ph=Math.floor(time*5+(f.n?f.n.length:0))%2,k=f.n+'|'+(f.m|0)+'|'+ph;let e=FTC.get(k);
+  if(!e){if(FTC.size>60)FTC.clear();const v=fv(f),w=v.sp[0].length+2,h=v.sp.length+2,c=document.createElement('canvas');c.width=w;c.height=h;fishSpr(c.getContext('2d'),f,1,1);
+   const d=document.createElement('canvas');d.width=w;d.height=h;const x=d.getContext('2d');x.drawImage(c,0,0);x.globalCompositeOperation='source-atop';x.fillStyle='rgba(0,0,0,.42)';x.fillRect(0,0,w,h);e={c,d,w,h};FTC.set(k,e)}
+  return e}
+ function fish3D(f,cx,cy,fx,fy){let t;try{t=fishTex(f)}catch(e){return false}
+  const dx=fx?(fx>0?1:-1):0,dy=fx?0:(fy<0?-1:1),px=-dy,py=dx,sz=(SZ[f.sz|0]||SZ[0]).s,Ws=9*(1+.35*(sz-1)),Hs=Ws*t.h/t.w;
   const sway=Math.sin(time*1.7+cx)*.6,zc=8.5+Math.sin(time*3+cx)*.5,mx=cx+dx*5.2+px*sway,my=cy+dy*5.2+py*sway,front=(F.cx-mx)*dx+(F.cy-my)*dy>0;
   g.imageSmoothingEnabled=false;
   for(const o of front?[-1.4,-.7,0]:[0,-.7,-1.4]){const ox=mx+dx*o,oy=my+dy*o,A=FPW(ox-px*Ws/2,oy-py*Ws/2,zc+Hs/2),B=FPW(ox+px*Ws/2,oy+py*Ws/2,zc+Hs/2),C=FPW(ox-px*Ws/2,oy-py*Ws/2,zc-Hs/2);if(!A||!B||!C)return true;
-   const w=hCv.width,h=hCv.height;g.setTransform(HDS*(B[0]-A[0])/w,HDS*(B[1]-A[1])/w,HDS*(C[0]-A[0])/h,HDS*(C[1]-A[1])/h,HDS*A[0],HDS*A[1]);
-   const last=o===(front?0:-1.4);try{g.filter=last?'none':'brightness(.6)'}catch(e){}g.drawImage(hCv,0,0)}
-  try{g.filter='none'}catch(e){}g.setTransform(HDS,0,0,HDS,0,0);return true}
+   g.setTransform(HDS*(B[0]-A[0])/t.w,HDS*(B[1]-A[1])/t.w,HDS*(C[0]-A[0])/t.h,HDS*(C[1]-A[1])/t.h,HDS*A[0],HDS*A[1]);
+   g.drawImage(o===(front?0:-1.4)?t.c:t.d,0,0)}
+  g.setTransform(HDS,0,0,HDS,0,0);return true}
  function fpPlayer3D(r,x,y,fr){const T0=g.getTransform();let sh='#2fae5a',hr='#e8b830';if(r.sk!==undefined){const sk=SKINS[r.sk|0];if(sk&&r.sk>0){sh=skR(sk,0);hr=sk.h}}
   const cx=x+5,cy=y+13,fx=r.fx|0,fy=r.fy|0;let hf3=false;const dX=fx?(fx>0?1:-1):0,dY=fx?0:(fy<0?-1:1),frontV=(F.cx-cx)*dX+(F.cy-cy)*dY>0;
   if(r.hf&&!frontV)hf3=fish3D(r.hf,cx,cy,fx,fy);
@@ -3676,7 +3679,7 @@ requestAnimationFrame(loop);
   for(const k in GH){const r=GH[k];if(!r)continue;if(r.mb)add(r.mb[0]*T+8,r.mb[1]*T+12,()=>window.FP3D===false?drawMB(r.mb,r):mb3D(r.mb));if(r.sl)add(r.vx*T+8,r.vy*T+14,()=>ghBoatFP(r,k));add(r.vx*T+8,r.vy*T+15,()=>drawG(r))}
   if(petOn())add(PET.x*T+8,PET.y*T+15,drawPet);
   HOUSES.forEach(([x,y,k])=>add(x*T+16,y*T+22,()=>{if(window.FP3D===false){shd(x*T+16,y*T+32,30);hdImg(HU[k],x*T,y*T-4)}else house3D(x,y,k)}));
-  NPC.forEach((a,k)=>{let nx=a[0]*T+8;if(a.lo!==undefined)nx=Math.round(((a.lo+a.hi)/2+Math.sin(time*.35+k*1.7)*(a.hi-a.lo)/2)*T)+8;add(nx,a[1]*T+15,()=>{window.FP3D===false?drawN(a,k):npc3D(a,k);ioMark(a,k);if(ISL===2)return;nqMark(a,k);if(k===4)mysMark(a);if(k===5)sgMark(a);if(k===6)tqMark(a)})});
+  NPC.forEach((a,k)=>{let nx=a[0]*T+8;if(a.lo!==undefined)nx=Math.round(((a.lo+a.hi)/2+Math.sin(time*.35+k*1.7)*(a.hi-a.lo)/2)*T)+8;add(nx,a[1]*T+15,()=>{drawN(a,k);ioMark(a,k);if(ISL===2)return;nqMark(a,k);if(k===4)mysMark(a);if(k===5)sgMark(a);if(k===6)tqMark(a)})});
   if(ISL===1){add(152,110,()=>window.FP3D===false?drawTank():tank3D());add(192,129,()=>window.FP3D===false?drawStall():stall3D(0,0));add(232,128,()=>window.FP3D===false?drawBoard():board3D());add(424,126,()=>window.FP3D===false?drawLH():lh3D());add(424,340,()=>window.FP3D===false?drawShip():rf(()=>ship3D()));if(!sail)add(154,190,()=>window.FP3D===false?drawBoat():rf(()=>boat3D(9,11)))}
   LAMPS.forEach(l=>add(l[0]*T+8,l[1]*T+15,()=>window.FP3D===false?drawLamp(l):lamp3D(l)));
   PROPS.forEach(p=>add(p[1]*T+8,p[2]*T+15,()=>window.FP3D===false?drawProp(p):prop3D(p)));
@@ -3740,7 +3743,7 @@ requestAnimationFrame(loop);
   const arm=(x0,x1)=>{g.lineCap='round';g.strokeStyle='#1a120a';g.lineWidth=12;g.beginPath();g.moveTo(x0,H+10);g.lineTo(x1,hy);g.stroke();g.strokeStyle=skin;g.lineWidth=9;g.stroke()};
   arm(W*.06,hxL);arm(W*.7,hxR);
   /* ketebalan badan ikan (lapisan gelap di belakang) lalu sisi depan */
-  for(let i=3;i>=0;i--){g.save();g.translate(cx-i*Math.sin(ang)*sc*.55,cy);g.rotate(Math.sin(time*22)*.22*flop);g.scale(sx*sc,sc);if(i){try{g.filter='brightness(.55)'}catch(e){}}try{fishSpr(g,f,-Wd/2,-Hh/2)}catch(e){}g.restore()}
+  try{const tx=fishTex(f);for(let i=3;i>=0;i--){g.save();g.translate(cx-i*Math.sin(ang)*sc*.55,cy);g.rotate(Math.sin(time*22)*.22*flop);g.scale(sx*sc,sc);g.drawImage(i?tx.d:tx.c,-tx.w/2,-tx.h/2);g.restore()}}catch(e){}
   /* tangan menggenggam */
   for(const hx of[hxL,hxR]){g.fillStyle=skin;g.strokeStyle='#1a120a';g.lineWidth=1.2;g.beginPath();g.arc(hx,hy,7,0,TAU);g.fill();g.stroke()}
   /* tetesan air saat ikan baru diangkat */
