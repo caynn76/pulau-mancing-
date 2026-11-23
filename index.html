@@ -2096,7 +2096,7 @@ function draw(){if(HOME){homeDraw();return}if(window.FPV&&FPV.on()){FPV.draw();r
  ob.push([4.9,()=>{if(ISL===1){shd(128,80,30);L3(128,80,36,()=>hdImg(hut,112,44))}}],[5.9,()=>{if(ISL===1&&window.drawBnr)window.drawBnr()}],[P.vy+.5,drawP]);if(MP.r)ob.push([MP.r.vy+.5,drawR]);for(const k in GH){const r=GH[k];if(r.mb)ob.push([r.mb[1]+.45,()=>drawMB(r.mb,r)]);if(r.sl)ob.push([r.vy+.43,()=>{if(GFX>=4)reflect(r.vy,()=>drawGB(r))}],[r.vy+.45,()=>drawGB(r)],[r.vy+.56,()=>bridgeOver(r.vx,r.vy)]);ob.push([r.vy+.5,()=>drawG(r)])}if(petOn())ob.push([PET.y+.5,drawPet]);
  HOUSES.forEach(([x,y,k])=>ob.push([y+1.9,()=>{shd(x*T+16,y*T+32,30);L3(x*T+16,y*T+32,36,()=>hdImg(HU[k],x*T,y*T-4))}]));
  NPC.forEach((a,k)=>ob.push([a[1]+.5,()=>{drawN(a,k);ioMark(a,k);if(ISL===2)return;nqMark(a,k);if(k===4)mysMark(a);if(k===5)sgMark(a);if(k===6)tqMark(a)}]));ob.push([6.9,drawTank],[7.9,drawStall],[7.5,drawBoard]);LAMPS.forEach(l=>ob.push([l[1]+.9,()=>L3(l[0]*T+8,l[1]*T+15,16,()=>drawLamp(l))]));PROPS.forEach(p=>{const sx=p[1]*T-camX,sy=p[2]*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([p[2]+.9,()=>L3(p[1]*T+8,p[2]*T+16,22,()=>drawProp(p))])});ob.push([8,()=>L3(424,126,64,drawLH)],[19.9,drawShip],[11.6,()=>{if(!sail&&ISL===1)drawBoat()}]);
- if(sail)ob.push([P.vy+.4,drawWake],[P.vy+.43,()=>{if(GFX>=4)reflect(P.vy,drawSailBoat)}],[P.vy+.45,drawSailBoat],[P.vy+.56,()=>bridgeOver(P.vx,P.vy)]);{const m=S.mb&&S.mb[ISL];if(!sail&&m&&!HOME)ob.push([m[1]+.45,()=>drawMB(m)])}chests().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawChest(c)])});clamPts().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawClam(c)])});{const sx=832-camX,sy=484-camY;if(ISL===1&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([31.9,()=>drawStall(656,384)])}if(ISL===2){{const sx=KS[0]*T-camX,sy=KS[1]*T-camY;if(sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KS[1]+.9,()=>drawStall(KS[0]*T-176,KS[1]*T-112)])}{const sx=KB[0]*T-camX,sy=KB[1]*T-camY;if(!sail&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KB[1]+.6,()=>drawBoat(KB[0],KB[1])])}}if(ISL===2)ob.push([KBD[1]+.9,()=>drawBoard(KBD[0]*T,KBD[1]*T)]);ob.sort((a,b)=>a[0]-b[0]).forEach(o=>o[1]());
+ if(sail)ob.push([P.vy+.4,drawWake],[P.vy+.45,drawSailBoat],[P.vy+.56,()=>bridgeOver(P.vx,P.vy)]);{const m=S.mb&&S.mb[ISL];if(!sail&&m&&!HOME)ob.push([m[1]+.45,()=>drawMB(m)])}chests().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawChest(c)])});clamPts().forEach(c=>{const sx=c.x*T-camX,sy=c.y*T-camY;if(sx>-24&&sx<W+24&&sy>-24&&sy<H+24)ob.push([c.y+.8,()=>drawClam(c)])});{const sx=832-camX,sy=484-camY;if(ISL===1&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([31.9,()=>drawStall(656,384)])}if(ISL===2){{const sx=KS[0]*T-camX,sy=KS[1]*T-camY;if(sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KS[1]+.9,()=>drawStall(KS[0]*T-176,KS[1]*T-112)])}{const sx=KB[0]*T-camX,sy=KB[1]*T-camY;if(!sail&&sx>-60&&sx<W+60&&sy>-60&&sy<H+60)ob.push([KB[1]+.6,()=>drawBoat(KB[0],KB[1])])}}if(ISL===2)ob.push([KBD[1]+.9,()=>drawBoard(KBD[0]*T,KBD[1]*T)]);ob.sort((a,b)=>a[0]-b[0]).forEach(o=>o[1]());
  drawSea();drawCritters();if(GFX>1)for(let i=0;i<3;i++){const cx=((time*6+i*230)%(WW+160))-80,cy=70+i*130;g.fillStyle='rgba(0,20,40,.09)';g.fillRect(Math.round(cx-36),cy-8,72,16);g.fillRect(Math.round(cx-24),cy-14,48,28);g.fillRect(Math.round(cx-44),cy-3,88,6)}
  if(wx<2)for(let i=0;i<3;i++){const gx=Math.round(((time*16+i*170)%(WW+60))-30),gy=Math.round(24+i*70+Math.sin(time*.8+i)*6),w=Math.floor(time*6+i)%2?1:0;g.fillStyle='#fff';g.fillRect(gx,gy,3,1);g.fillRect(gx-2,gy-w,2,1);g.fillRect(gx+3,gy-w,2,1)}
  if(CHG.on)chgDraw();if(CHG.on&&st==='walk'&&!HOME&&facingWater()){const q=castTarget(),X=q[0]*T,Y=q[1]*T;g.fillStyle='rgba(255,255,255,'+(.6+.25*Math.sin(time*6)).toFixed(2)+')';[[0,0],[T-4,0],[0,T-1],[T-4,T-1]].forEach(o=>g.fillRect(X+o[0],Y+o[1],4,1));[[0,0],[T-1,0],[0,T-4],[T-1,T-4]].forEach(o=>g.fillRect(X+o[0],Y+o[1],1,4))}
@@ -3691,7 +3691,7 @@ requestAnimationFrame(loop);
    out.sort((a,b)=>b.d-a.d);return out}
 
  function drawObjects(){
-  const list=objects();window.FPP3D=window.FP3D===false?null:fpPlayer3D;
+  const list=objects();window.FPP3D=null;
   for(let i=0;i<list.length;i++){const o=list[i];
    try{g.save();g.setTransform(HDS*o.s,0,0,HDS*o.s,HDS*(o.sx-o.s*o.ax),HDS*(o.gy-o.s*o.ay));g.globalAlpha=1-.85*fogT(o.d);g.imageSmoothingEnabled=false;o.fn()}catch(e){}finally{g.restore()}}
   window.FPP3D=null;g.setTransform(HDS,0,0,HDS,0,0);g.globalAlpha=1}
@@ -3732,25 +3732,11 @@ requestAnimationFrame(loop);
   if(st==='wait'||st==='bite'){try{fishShadow()}catch(e){}}
   const f=held;if(!f){_hs=null;return}
   if(_hs!==f){_hs=f;_hT=time}
-  let v;try{v=fv(f)}catch(e){return}
-  const Wd=v.sp[0].length,Hh=v.sp.length,W=F.W,H=F.H,age=time-_hT,pop=Math.min(1,age/.35),ez=1-Math.pow(1-pop,3),flop=Math.max(0,1-age/1.8),sz=(SZ[f.sz|0]||SZ[0]).s;
-  const sc=Math.min(W*.6/Wd,H*.32/Hh,(W*.2/Wd)*(1+.45*(sz-1)+.3))*(.3+.7*ez),
-   cx=W*.42,cy=H*.74+(1-ez)*H*.3-Math.abs(Math.sin(time*22))*flop*H*.03+Math.sin(time*2)*1.5+(sz-1)*H*.012,
-   ang=time*1.4;let sx=Math.cos(ang);if(Math.abs(sx)<.14)sx=sx<0?-.14:.14;
-  g.save();g.imageSmoothingEnabled=false;
-  /* lengan di belakang ikan */
-  const skin=(typeof PAL!=='undefined'&&PAL.s)||'#f2c08f',hy=cy+Hh*sc*.38,hxL=cx-Wd*sc*.26,hxR=cx+Wd*sc*.26;
-  const arm=(x0,x1)=>{g.lineCap='round';g.strokeStyle='#1a120a';g.lineWidth=12;g.beginPath();g.moveTo(x0,H+10);g.lineTo(x1,hy);g.stroke();g.strokeStyle=skin;g.lineWidth=9;g.stroke()};
-  arm(W*.06,hxL);arm(W*.7,hxR);
-  /* ketebalan badan ikan (lapisan gelap di belakang) lalu sisi depan */
-  try{const tx=fishTex(f);for(let i=3;i>=0;i--){g.save();g.translate(cx-i*Math.sin(ang)*sc*.55,cy);g.rotate(Math.sin(time*22)*.22*flop);g.scale(sx*sc,sc);g.drawImage(i?tx.d:tx.c,-tx.w/2,-tx.h/2);g.restore()}}catch(e){}
-  /* tangan menggenggam */
-  for(const hx of[hxL,hxR]){g.fillStyle=skin;g.strokeStyle='#1a120a';g.lineWidth=1.2;g.beginPath();g.arc(hx,hy,7,0,TAU);g.fill();g.stroke()}
-  /* tetesan air saat ikan baru diangkat */
-  if(flop>0){for(let k=0;k<7;k++){const t=(time*1.6+k*.15)%1,x=cx+Math.sin(k*7.1)*Wd*sc*.4,y=cy+Hh*sc*.4+t*H*.2;g.fillStyle='rgba(150,210,255,'+(.8*(1-t)*flop).toFixed(2)+')';g.beginPath();g.arc(x,y,2*(1-t)+.4,0,TAU);g.fill()}}
-  /* berkilau untuk ikan mutasi / ukuran besar */
-  if((f.m|0)>0||sz>=2){for(let k=0;k<5;k++){const t=(time*.9+k*.2)%1,x=cx+Math.sin(k*5.3+time*.7)*Wd*sc*.5,y=cy+Math.cos(k*3.1)*Hh*sc*.6,r=(1-Math.abs(t*2-1))*5;g.fillStyle='hsl('+((time*120+k*60)%360)+',95%,80%)';g.beginPath();g.moveTo(x,y-r);g.lineTo(x+r*.3,y-r*.3);g.lineTo(x+r,y);g.lineTo(x+r*.3,y+r*.3);g.lineTo(x,y+r);g.lineTo(x-r*.3,y+r*.3);g.lineTo(x-r,y);g.lineTo(x-r*.3,y-r*.3);g.closePath();g.fill()}}
-  try{const nm=fname(f);g.font='bold 12px sans-serif';g.textAlign='center';g.lineWidth=3;g.strokeStyle='rgba(0,0,0,.7)';g.strokeText(nm,cx,Math.min(H-6,cy+Hh*sc*.5+22));g.fillStyle='#fff';g.fillText(nm,cx,Math.min(H-6,cy+Hh*sc*.5+22))}catch(e){}
+  let t;try{t=fishTex(f)}catch(e){return}
+  const W=F.W,H=F.H,age=time-_hT,ez=1-Math.pow(1-Math.min(1,age/.3),3),sz=(SZ[f.sz|0]||SZ[0]).s,
+   sc=Math.min(W*.5/t.w,H*.28/t.h,(W*.17/t.w)*(1+.4*(sz-1)+.3))*(.4+.6*ez),cx=W*.42,cy=H*.78+(1-ez)*H*.2+Math.sin(time*2)*1.2;
+  g.save();g.imageSmoothingEnabled=false;g.drawImage(t.c,cx-t.w*sc/2,cy-t.h*sc/2,t.w*sc,t.h*sc);
+  try{const nm=fname(f);g.font='bold 12px sans-serif';g.textAlign='center';g.lineWidth=3;g.strokeStyle='rgba(0,0,0,.7)';g.strokeText(nm,cx,Math.min(H-6,cy+t.h*sc/2+16));g.fillStyle='#fff';g.fillText(nm,cx,Math.min(H-6,cy+t.h*sc/2+16))}catch(e){}
   g.restore()}
 
  function rodAndLine(){
