@@ -481,7 +481,7 @@ function eggSpr(ctx,f,x,y){var E=EGG[f.n];if(!E||!E.im.complete||!E.im.naturalWi
 let ISL=1;
 const $=id=>document.getElementById(id);
 const cv=$('c'),g=cv.getContext('2d'),fcx=$('fc').getContext('2d');
-const T=16,MW=140,MH=100,WW=MW*T,WH=MH*T;let W=256,H=192;const cam=(v,w,ww)=>v;/* LAUT TAK TERBATAS: perahu boleh berlayar SEAPAD petak di luar peta, lalu mentok tembok tak terlihat */const SEAPAD=260,seaOut=(x,y)=>(x<0||y<0||x>=MW||y>=MH)&&x>=-SEAPAD-6&&y>=-SEAPAD-6&&x<MW+SEAPAD+6&&y<MH+SEAPAD+6;
+const T=16,MW=140,MH=100,WW=MW*T,WH=MH*T;let W=256,H=192;const cam=(v,w,ww)=>v;/* LAUT TAK TERBATAS: perahu boleh berlayar SEAPAD petak di luar peta, lalu mentok tembok tak terlihat */const SEAPAD=450,seaOut=(x,y)=>(x<0||y<0||x>=MW||y>=MH)&&x>=-SEAPAD-6&&y>=-SEAPAD-6&&x<MW+SEAPAD+6&&y<MH+SEAPAD+6;
 var KS=[42,35],KB=[28,38],KBD=[47,35];
 const RAR=[
  {n:'Common',c:'#9aa5b1',w:60,b:5,z:28,f:['Teri','Nila','Bandeng']},
@@ -1096,8 +1096,8 @@ function ultraFx(){try{const day=NT<.35&&wx<2,night=NT>.55&&wx<2;g.save();if(GFX
 let SEV=null,SEVS=0,SEVn=45;window.SEB=0;
 const SEVD=['Timur','Tenggara','Selatan','Barat Daya','Barat','Barat Laut','Utara','Timur Laut'];
 function seDir(dx,dy){const a=Math.atan2(-dy,dx),i=((Math.round(a/(Math.PI/4))%8)+8)%8;return[ 'Timur','Timur Laut','Utara','Barat Laut','Barat','Barat Daya','Selatan','Tenggara'][i]}
-function seSpawn(kind){for(let n=0;n<50;n++){const a=Math.random()*6.283,d=8+Math.random()*5,x=Math.round(P.vx+Math.cos(a)*d),y=Math.round(P.vy+Math.sin(a)*d);if(x>1&&y>1&&x<MW-2&&y<MH-2&&M[y][x]===0&&isW(x,y)){SEV={k:kind,x,y,t:time+(kind==='g'?120:150)};toast(kind==='g'?'👻 Kapal hantu muncul di arah '+seDir(x-P.vx,y-P.vy)+'! Dekati sebelum menghilang':'🍾 Botol hanyut terlihat di arah '+seDir(x-P.vx,y-P.vy)+'! Ambil sebelum hanyut');snd(392,.12,'sine');snd(587,.2,'sine',.12);return true}}return false}
-function seReward(){const k=SEV.k,lv=1+.15*(S.lvl-1);let m;if(k==='g'&&Math.random()<.4){const ok=BORD.filter(i=>BAIT[i].q===undefined||tierMax()>=BAIT[i].q),i=ok[Math.floor(Math.random()*ok.length)];S.bait[i]=(S.bait[i]|0)+6;m='🎁 6 umpan '+BAIT[i].n+'!'}else{const gm=Math.round((k==='g'?400:150)*(.7+Math.random()*.6)*lv/10)*10;S.gems+=gm;m='💎 +'+fmt(gm)+' gem!'}
+function seSpawn(kind){for(let n=0;n<50;n++){const a=Math.random()*6.283,d=8+Math.random()*5+Math.min(14,ocRing(P.vx,P.vy)*3),x=Math.round(P.vx+Math.cos(a)*d),y=Math.round(P.vy+Math.sin(a)*d);if(x>1&&y>1&&x<MW-2&&y<MH-2?(M[y][x]===0&&isW(x,y)):(seaOut(x,y)&&x>-SEAPAD+8&&y>-SEAPAD+8&&x<MW+SEAPAD-8&&y<MH+SEAPAD-8)){SEV={k:kind,x,y,t:time+(kind==='g'?120:150)};toast(kind==='g'?'👻 Kapal hantu muncul di arah '+seDir(x-P.vx,y-P.vy)+'! Dekati sebelum menghilang':'🍾 Botol hanyut terlihat di arah '+seDir(x-P.vx,y-P.vy)+'! Ambil sebelum hanyut');snd(392,.12,'sine');snd(587,.2,'sine',.12);return true}}return false}
+function seReward(){const k=SEV.k,lv=1+.15*(S.lvl-1);let m;if(k==='g'&&Math.random()<.4){const ok=BORD.filter(i=>BAIT[i].q===undefined||tierMax()>=BAIT[i].q),i=ok[Math.floor(Math.random()*ok.length)];S.bait[i]=(S.bait[i]|0)+6;m='🎁 6 umpan '+BAIT[i].n+'!'}else{const gm=Math.round((k==='g'?400:150)*(.7+Math.random()*.6)*lv*(OC_V[ocRing(P.vx,P.vy)]||1)/10)*10;S.gems+=gm;m='💎 +'+fmt(gm)+' gem!'}
  toast((k==='g'?'👻 Harta kapal hantu: ':'🍾 Isi botol: ')+m);snd(660,.1,'square',.1);snd(990,.18,'triangle',.1);burst(SEV.x*T+8,SEV.y*T+8,18,k==='g'?'#b8f0ff':'#ffd23f',80);SEV=null;save();hud()}
 function seFire(){const night=NT>.55,r=Math.random();if(r<.35){SEVS=time+9;HSB=Math.max(HSB,time+90);toast('🐟 Kawanan ikan lewat! Berkah hoki 90 detik');snd(523,.1,'triangle');snd(784,.14,'triangle',.1);burst(P.vx*T+9,P.vy*T+12,16,'#cfeeff',70)}
  else if(r<.6){window.SEB=time+6;BV=1;shake=Math.max(shake,.7);toast('🌊 Ombak besar mengangkat perahumu! Kecepatan naik sebentar');nz(1.3,520,.6,.09,0,'lowpass',180);snd(180,.4,'sine',0,.06);burst(P.vx*T+9,P.vy*T+12,24,'#ffffff',90)}
@@ -1176,9 +1176,9 @@ function music(){if(mute||!AC||(S.vm??1)<=0)return;bus();const dk=!!window.__shm
 const ZNM=['🏞️ Kolam','🌊 Laut','🕳️ Laut Dalam','⛵ Samudra'];
 /* ===== Laut luas: cincin jarak, kompas, tombol Pulang (auto-sail) ===== */
 /* Ubah angka di sini untuk atur balance: jarak cincin (petak dari daratan), bobot rarity, pengali nilai jual */
-const OC_AT=[0,50,120,190],OC_N=['Samudra','Samudra Dalam','Samudra Gelap','Palung Abyss'],OC_I=['⛵','🌀','🌑','☠️'],
- OC_W=[[1,1,1,1,1,1],[.8,1,1.1,1.3,1.5,1.6],[.5,.9,1.2,1.7,2.3,2.6],[.25,.7,1.3,2.2,3.5,4.5]],OC_V=[1,1.1,1.25,1.5],
- OC_T=['','ikan langka lebih sering, nilai +10%','ikan Divine/Secret makin sering, nilai +25%','ikan terlangka, tarikan paling berat, nilai +50%'];
+const OC_AT=[0,50,120,190,280,370],OC_N=['Samudra','Samudra Dalam','Samudra Gelap','Palung Abyss','Pusaran Abadi','Tepi Dunia'],OC_I=['⛵','🌀','🌑','☠️','🌪️','🌌'],
+ OC_W=[[1,1,1,1,1,1],[.8,1,1.1,1.3,1.5,1.6],[.5,.9,1.2,1.7,2.3,2.6],[.25,.7,1.3,2.2,3.5,4.5],[.15,.5,1.2,2.4,4,5.5],[.1,.4,1.1,2.6,4.6,6.5]],OC_V=[1,1.1,1.25,1.5,1.75,2],OC_B=[0,0,100,250,500,1000],
+ OC_T=['','ikan langka lebih sering, nilai +10%','ikan Divine/Secret makin sering, nilai +25%','ikan terlangka, tarikan paling berat, nilai +50%','pusaran & kapal hantu sering muncul, nilai +75%','ujung samudra: ikan paling langka, nilai x2'];
 let SRG=0,OC_K=-1,OC_D=null,OC_R=0,OC_EK=1,OC_EW=0,OC_HT=45,OC_DT=40,OC_FT=5,OCH=[1,0];
 const OC_EDGE=30,OCF=[];
 function ocBuild(){const n=MW*MH,D=new Int16Array(n).fill(-1),Q=new Int32Array(n);let h=0,t=0;
@@ -1191,7 +1191,7 @@ function ocRing(x,y){const d=ocDist(x,y);let r=0;for(let i=1;i<OC_AT.length;i++)
 function ocZn(z,r){return z===3&&r>0?OC_I[r]+' '+OC_N[r]:ZNM[z]}
 /* ---- fitur laut: warna cincin, ombak cuaca, pin kompas, pulau dikunjungi, minimap ---- */
 const ISLS=[[92,22,'Pulau Utara'],[118,34,'Pulau Timur'],[108,62,'Pulau Tenggara'],[62,76,'Pulau Selatan'],[28,82,'Pulau Barat Daya'],[92,88,'Pulau Karang Kecil'],[128,88,'Pulau Ujung']];
-function seaTint(){if(!sail)return null;const d=ocDist(P.vx,P.vy),k=Math.min(1,d/200);if(k<.03)return null;const ab=d>=OC_AT[3];return[ab?'30,6,52':'3,12,44',Math.min(.52,k*.5+(ab?.05*Math.sin(time*1.4):0))]}
+function seaTint(){if(!sail)return null;const d=ocDist(P.vx,P.vy),k=Math.min(1,d/200);if(k<.03)return null;const ab=d>=OC_AT[3];return[d>=OC_AT[5]?'6,4,40':d>=OC_AT[4]?'44,8,60':ab?'30,6,52':'3,12,44',Math.min(.52,k*.5+(ab?.05*Math.sin(time*1.4):0))]}
 const swellK=()=>1+(wx|0)*.9;
 function ocTarget(){const w=S.wp;return(w&&w.i===ISL)?[w.x,w.y]:ocDock()}
 const ICP={};function icPos(i){if(ICP[i])return ICP[i];const q=ISLS[i];for(let r=0;r<12;r++)for(let j=-r;j<=r;j++)for(let k=-r;k<=r;k++){const x=q[0]+k,y=q[1]+j;if(M[y]&&M[y][x]===2&&!solid.has(x+','+y)){return ICP[i]=[x,y]}}return null}
@@ -1236,7 +1236,7 @@ function ocCmp(dt){const e=$('cmp'),ed=$('edg');if(!e)return;if(!sail||HOME){if(
  $('cmpa').style.transform='rotate('+rot.toFixed(0)+'deg)';
  const r=ocRing(P.vx,P.vy),tx=(S.wp&&S.wp.i===ISL?'📍 ':'')+Math.round(Math.hypot(dx,dy))+' m · '+OC_I[r]+' '+OC_N[r];if($('cmpt').textContent!==tx)$('cmpt').textContent=tx;
  $('cmpb').style.display=st==='walk'?'':'none';{const q=$('cmpp');if(q)q.style.display=(st==='walk'&&S.wp&&S.wp.i===ISL)?'':'none'}
- if(r!==OC_R){if(r>OC_R&&r>0){toast(OC_I[r]+' Memasuki '+OC_N[r]+': '+OC_T[r]);snd(330,.14,'sine');snd(247,.22,'sine',.14)}OC_R=r}
+ if(r!==OC_R){if(r>OC_R&&r>0){toast(OC_I[r]+' Memasuki '+OC_N[r]+': '+OC_T[r]);snd(330,.14,'sine');snd(247,.22,'sine',.14)}OC_R=r;if(r>(S.ocm|0)){S.ocm=r;if(OC_B[r]&&!S.gm){S.gems+=OC_B[r];setTimeout(()=>toast('🏆 Rekor jarak baru: '+OC_N[r]+'! +💎'+fmt(OC_B[r])),2600);save();try{hud()}catch(e){}}}}
  /* tepi laut: kabut tebal + arus, perahu melambat */
  const m=Math.min(P.vx+SEAPAD,P.vy+SEAPAD,MW-1+SEAPAD-P.vx,MH-1+SEAPAD-P.vy),k=Math.max(0,Math.min(1,m/OC_EDGE));
  OC_EK=.4+.6*k;const ea=(1-k)*(1-k*.3);if(ed){const o=Math.max(0,Math.min(.95,ea)).toFixed(2);if(ed.style.opacity!==o)ed.style.opacity=o}
@@ -4425,6 +4425,122 @@ window.PMX={fpBack,fpFront,fpEvt,water,ground,top,amb,hdWater,hdLand,lantern:()=
  }catch(e){}}
  setInterval(poll,10000);setTimeout(poll,6000);
 })();
+</script>
+<script>
+/* ===== Makhluk laut (muncul tetap per wilayah, hanya saat berlayar): 🐋 paus = gem, 🌀 pusaran = hoki ===== */
+(function(){try{
+ const C=36,CL={},NT={};
+ const lh=(a,b,k)=>{let h=Math.imul(a,73856093)^Math.imul(b,19349663)^Math.imul(k,83492791);h=Math.imul(h^(h>>>15),2246822507);h=Math.imul(h^(h>>>13),3266489909);return((h^(h>>>16))>>>0)/4294967296};
+ function at(cx,cy){
+  if(lh(cx,cy,1)>.55)return null;
+  const t=lh(cx,cy,2)<.6?'w':'p',P0=t==='w'?40:90,ON=t==='w'?20:70,ph=(time+lh(cx,cy,5)*P0)%P0;
+  if(ph>=ON)return null;
+  const x=cx*C+4+lh(cx,cy,3)*(C-8)+(t==='w'?Math.sin(time*.12+cx)*3:0),y=cy*C+4+lh(cx,cy,4)*(C-8)+(t==='w'?Math.cos(time*.1+cy)*2:0),tx=Math.round(x),ty=Math.round(y);
+  const inm=tx>1&&ty>1&&tx<MW-2&&ty<MH-2,ok=inm?(M[ty][tx]===0&&isW(tx,ty)):(seaOut(tx,ty)&&tx>-SEAPAD+8&&ty>-SEAPAD+8&&tx<MW+SEAPAD-8&&ty<MH+SEAPAD-8);
+  return ok?{k:cx+','+cy,t,x,y,ph,on:ON,b:Math.floor(time/P0)}:null}
+ function near(px,py,r){const o=[],c0=Math.floor(px/C),d0=Math.floor(py/C),n=Math.ceil(r/C);for(let a=c0-n;a<=c0+n;a++)for(let b=d0-n;b<=d0+n;b++){const c=at(a,b);if(c)o.push(c)}return o}
+ function drawLife(){
+  near(camX/T+W/T/2,camY/T+H/T/2,Math.max(W,H)/T/2+4).forEach(c=>{
+   const X=Math.round(c.x*T+8),Y=Math.round(c.y*T+8);g.save();
+   if(c.t==='w'){
+    g.globalAlpha=Math.max(0,Math.min(1,c.ph/1.5,(c.on-c.ph)/1.5));const bob=Math.round(Math.sin(time*1.6+c.x)*1.5);
+    g.fillStyle='rgba(0,20,50,.25)';g.fillRect(X-14,Y+10,30,3);
+    g.fillStyle='#34506e';g.fillRect(X-13,Y+bob,26,8);g.fillRect(X-10,Y-2+bob,18,2);g.fillRect(X+13,Y+1+bob,5,2);g.fillRect(X+17,Y-2+bob,3,3);g.fillRect(X+17,Y+3+bob,3,3);
+    g.fillStyle='#8fb0c8';g.fillRect(X-10,Y+5+bob,18,3);g.fillStyle='#fff';g.fillRect(X-9,Y+1+bob,2,2);
+    for(let i=0;i<6;i++){const u=(time*1.2+i*.17)%1;g.fillStyle='rgba(235,248,255,'+(1-u).toFixed(2)+')';g.fillRect(X-6+Math.round(Math.sin(i*2.1)*3*u),Y-3-Math.round(u*16),2,2)}
+   }else{
+    g.globalAlpha=Math.max(0,Math.min(1,c.ph/3,(c.on-c.ph)/3));
+    for(let r=0;r<4;r++){g.fillStyle='rgba(215,240,255,'+(.4-.07*r).toFixed(2)+')';for(let a=0;a<10;a++){const an=time*(1.6-r*.25)+a*.628+r;g.fillRect(Math.round(X+Math.cos(an)*(6+r*6)),Math.round(Y+Math.sin(an)*(6+r*6)*.55),2,1)}}
+    g.fillStyle='rgba(0,25,60,.55)';g.fillRect(X-4,Y-1,8,3)}
+   g.restore()})}
+ const _d=drawSea;drawSea=function(){_d();if(sail&&GFX)try{drawLife();drawLH();drawGlow()}catch(e){}};
+ setInterval(()=>{try{
+  if(!sail||HOME||document.hidden||document.getElementById('splash'))return;
+  near(P.vx,P.vy,16).forEach(c=>{
+   const d=Math.hypot(c.x-P.vx,c.y-P.vy);if(time<(CL[c.k]||0))return;
+   if(d>2.4){const nk=c.k+'|'+c.b;if(d<16&&!NT[nk]){NT[nk]=1;toast((c.t==='w'?'🐋 Paus muncul':'🌀 Pusaran hoki terlihat')+' di arah '+seDir(c.x-P.vx,c.y-P.vy)+'!')}return}
+   CL[c.k]=time+(c.t==='w'?600:420);
+   if(c.t==='w'){const gm=Math.round(90*(.7+Math.random()*.6)*(1+.15*(S.lvl-1))*(OC_V[ocRing(P.vx,P.vy)]||1)/10)*10;S.gems+=gm;toast('🐋 Paus menyapa! 💎 +'+fmt(gm))}
+   else{HSB=Math.max(HSB,time+75);toast('🌀 Pusaran membawa hoki: ikan langka lebih mudah 75 detik!')}
+   snd(523,.1,'triangle');snd(784,.16,'triangle',.1);burst(c.x*T+8,c.y*T+8,18,c.t==='w'?'#cfeeff':'#9fe8ff',80);save();try{hud()}catch(e){}})
+ }catch(e){}},400);
+  /* ---- 🗼 rantai mercusuar (titik singgah + pin otomatis), penanda arah, tampilan FP, suasana cincin jauh ---- */
+ const LH=[[-70,50],[-170,20],[-270,75],[-370,40],[210,50],[310,15],[410,70],[510,45]],LHB=[150,250,400,700,150,250,400,700],lhv=()=>S.lhv||(S.lhv=[]);
+ function drawLH(){if(ISL!==1)return;LH.forEach((q,i)=>{const X=q[0]*T+8,Y=q[1]*T+8;if(X<camX-40||X>camX+W+40||Y<camY-50||Y>camY+H+40)return;
+  const dv=lhv().indexOf(i)>=0;g.fillStyle='rgba(0,20,50,.25)';g.fillRect(X-8,Y+9,18,3);g.fillStyle='#7a6a5a';g.fillRect(X-7,Y+6,14,4);
+  g.fillStyle='#f2efe6';g.fillRect(X-4,Y-14,8,20);g.fillStyle='#d6502f';g.fillRect(X-4,Y-8,8,4);g.fillRect(X-4,Y-1,8,3);g.fillStyle='#4a3a30';g.fillRect(X-5,Y-17,10,3);
+  g.fillStyle=dv?'#8fe8a0':'#ffe27a';g.fillRect(X-2,Y-16,4,2);
+  if(NT>.4){g.save();g.globalCompositeOperation='lighter';const rg=g.createRadialGradient(X,Y-15,1,X,Y-15,30);rg.addColorStop(0,'rgba(255,230,140,'+(.4+.2*Math.sin(time*2)).toFixed(2)+')');rg.addColorStop(1,'rgba(255,230,140,0)');g.fillStyle=rg;g.fillRect(X-30,Y-45,60,60);g.restore()}})}
+ const BL=[];for(let i=0;i<22;i++)BL.push([lh(i,7,1),lh(i,7,2),lh(i,7,3)]);
+ function drawGlow(){const r=ocRing(P.vx,P.vy);if(r<3||NT<.4)return;g.save();g.globalCompositeOperation='lighter';
+  BL.forEach((q,i)=>{const a=.5+.5*Math.sin(time*(.6+q[2])+i*1.7);if(a<.25)return;const x=Math.round(camX+((q[0]*W+time*(3+q[2]*4))%W)),y=Math.round(camY+q[1]*H);g.fillStyle='rgba('+(r>=5?'170,120,255':'90,230,255')+','+(a*.5).toFixed(2)+')';g.fillRect(x,y,2,2);if(a>.8)g.fillRect(x-1,y,4,1)});g.restore()}
+ function fpLife(){const F=FPV._t.F;if(!F)return;const cw=F.W,ch=F.H,it=near(P.vx,P.vy,30).map(c=>({x:c.x*T+8,y:c.y*T+8,t:c.t,e:c.t==='w'?'🐋':'🌀'}));
+  if(ISL===1)LH.forEach(q=>it.push({x:q[0]*T+8,y:q[1]*T+8,t:'l',e:'🗼'}));
+  it.forEach(o=>{const r=FPV.scr(o.x,o.y,cw,ch);if(!r)return;const d=(o.x-F.cx)*F.fx+(o.y-F.cy)*F.fy,s=F.foc/d;g.save();g.globalAlpha=r[2];
+   if(o.t==='p'){const gy=F.hz+F.eye*s;g.strokeStyle='rgba(215,240,255,.7)';g.lineWidth=Math.max(1,s*1.5);for(let k=1;k<=3;k++){g.beginPath();g.ellipse(r[0],gy,k*9*s,k*3*s,0,0,6.283);g.stroke()}}
+   else{g.font=Math.max(8,(o.t==='l'?44:34)*s)+'px system-ui,sans-serif';g.textAlign='center';g.textBaseline='bottom';g.fillText(o.e,r[0],r[1]+(o.t==='l'?0:10*s))}g.restore()})}
+ if(window.FPV&&FPV.draw){const _fd=FPV.draw;FPV.draw=function(){_fd.apply(this,arguments);if(sail&&GFX)try{fpLife()}catch(e){}}}
+ const chip=document.createElement('div');chip.style.cssText='position:fixed;left:50%;top:60px;transform:translateX(-50%);max-width:86vw;z-index:11;padding:3px 10px;border-radius:12px;background:rgba(0,0,0,.55);color:#fff;font:700 12px system-ui,sans-serif;display:none;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';document.body.appendChild(chip);
+ const AR=['→','↗','↑','↖','←','↙','↓','↘'],ar=(dx,dy)=>AR[((Math.round(Math.atan2(-dy,dx)/(Math.PI/4))%8)+8)%8];let AUR=-1;
+ setInterval(()=>{try{if(!sail||HOME||document.hidden||document.getElementById('splash')){chip.style.display='none';return}
+  let b=null,bd=1e9,l=null,ld=1e9;near(P.vx,P.vy,40).forEach(c=>{if(time<(CL[c.k]||0))return;const d=Math.hypot(c.x-P.vx,c.y-P.vy);if(d<bd){bd=d;b=c}});
+  if(ISL===1)LH.forEach((q,i)=>{if(lhv().indexOf(i)>=0)return;const d=Math.hypot(q[0]-P.vx,q[1]-P.vy);if(d<ld){ld=d;l=q}});
+  const pt=[];if(b)pt.push((b.t==='w'?'🐋 ':'🌀 ')+Math.round(bd)+' '+ar(b.x-P.vx,b.y-P.vy));if(l&&ld<90)pt.push('🗼 '+Math.round(ld)+' '+ar(l[0]-P.vx,l[1]-P.vy));
+  chip.textContent=pt.join('   ');chip.style.display=(pt.length&&st==='walk')?'block':'none';
+  if(ISL===1)LH.forEach((q,i)=>{if(lhv().indexOf(i)>=0||Math.hypot(q[0]-P.vx,q[1]-P.vy)>5)return;lhv().push(i);const gm=Math.round(LHB[i]*(1+.1*(S.lvl-1))/10)*10,nx=(i%4<3)?LH[i+1]:null;S.gems+=gm;if(nx)S.wp={i:ISL,x:nx[0],y:nx[1]};
+   toast('🗼 Mercusuar '+(i<4?'Barat':'Timur')+' '+(i%4+1)+'/4! 💎 +'+fmt(gm)+(nx?' · 📍 pin ke mercusuar berikutnya (tekan Pulang untuk autopilot)':' · rantai selesai!'));snd(660,.12,'triangle');snd(880,.18,'triangle',.1);save();try{hud()}catch(e){}});
+  const r=ocRing(P.vx,P.vy);if(r<4)AUR=-1;else if(r!==AUR&&NT>.5&&window.PMX){AUR=r;try{PMX.aurora()}catch(e){}if(r>=5)try{PMX.meteor()}catch(e){}}
+ }catch(e){}},500);
+window.SEACR={near};
+}catch(err){try{console.error('Makhluk laut',err)}catch(e){}}})();
+</script>
+<script>
+/* ===== Tata letak HUD: tombol kiri & chip tengah-atas disusun otomatis (tidak saling tumpuk) ===== */
+(function(){try{
+ var css=document.createElement('style');
+ css.textContent=
+ '#lcol{position:fixed;left:8px;top:92px;z-index:12;display:flex;flex-direction:column;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;gap:6px;pointer-events:none}'+
+ '#lcol>*{pointer-events:auto}'+
+ '#srow{display:flex;flex-direction:row;align-items:center;gap:6px}'+
+ '#srow>#sdock{position:relative!important;left:auto!important;top:auto!important;margin:0!important}'+
+ '#srow>#anb,#lcol>button{position:relative!important;left:auto!important;top:auto!important;margin:0!important;width:38px!important;height:38px!important;padding:0!important;border-radius:50%!important;font-size:17px!important;line-height:1!important;box-shadow:0 2px 8px #0005!important}'+
+ '#tcol{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 6px);transform:translateX(-50%);z-index:11;display:flex;flex-direction:column;align-items:center;gap:4px;max-width:92vw;pointer-events:none}'+
+ '#tcol>div{position:relative!important;left:auto!important;top:auto!important;transform:none!important;z-index:auto!important;max-width:100%}'+
+ '#tcol>div[style*="opacity: 0;"]{position:absolute!important}'+
+ '#toast{z-index:60!important}#fpsb{left:24px!important}';
+ document.head.appendChild(css);
+ var col=document.createElement('div');col.id='lcol';
+ var sr=document.createElement('div');sr.id='srow';col.appendChild(sr);
+ var tc=document.createElement('div');tc.id='tcol';
+ document.body.appendChild(col);document.body.appendChild(tc);
+ var mv=function(el,to){if(el&&el.parentNode!==to)to.appendChild(el)};
+ var tries=0;
+ function adopt(){
+  mv(document.getElementById('sdock'),sr);mv(document.getElementById('anb'),sr);
+  [].forEach.call(document.querySelectorAll('button[aria-label="Ganti tampilan event"],button[aria-label="Sudut pandang first person"]'),function(b){mv(b,col)});
+  [].forEach.call(document.body.children,function(el){
+   if(el.tagName!=='DIV'||el.parentNode===tc||el.id)return;
+   var s=el.style;
+   if(s.position==='fixed'&&s.left==='50%'&&(s.maxWidth==='86vw'||s.top==='74px'||s.cssText.indexOf('255, 176, 46')>-1))tc.appendChild(el)});
+  if(++tries>=40)clearInterval(ai)}
+ var ai=setInterval(adopt,1000);adopt();
+ /* kolom kiri: tepat di bawah HUD (hb/mq), dan tidak menabrak joystick */
+ var last='';
+ function place(){
+  if(document.hidden)return;
+  var b=0,l=null;
+  ['hb','mq'].forEach(function(id){var e=document.getElementById(id);if(!e)return;var r=e.getBoundingClientRect();if(r.width<2||r.height<2)return;if(r.bottom>b)b=r.bottom;if(l===null||r.left<l)l=r.left});
+  var top=b?Math.round(b+6):92,left=l!==null?Math.max(4,Math.round(l)):8;
+  var avail=innerHeight-top-8,j=document.getElementById('joy'),jr=j&&j.getBoundingClientRect();
+  if(jr&&jr.width>1&&jr.top>top&&jr.left<innerWidth/2)avail=Math.min(avail,Math.round(jr.top-top-6));
+  avail=Math.max(44,avail);
+  var tp=document.getElementById('top'),tr=tp&&tp.getBoundingClientRect(),tt=(tr&&tr.width>1&&tr.height>1)?Math.round(tr.bottom+4):0;
+  var k=top+'|'+left+'|'+avail+'|'+tt;if(k===last)return;last=k;
+  col.style.top=top+'px';col.style.left=left+'px';col.style.maxHeight=avail+'px';
+  if(tt)tc.style.top=tt+'px';else tc.style.top=''}
+ setInterval(place,500);place();
+ addEventListener('resize',place);addEventListener('orientationchange',function(){setTimeout(place,300)});
+}catch(e){}})();
 </script>
 </body>
 </html>
