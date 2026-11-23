@@ -3676,7 +3676,7 @@ requestAnimationFrame(loop);
   TREES.forEach(t=>add(t[0]*T+8,t[1]*T+15,()=>window.FP3D===false?palm(t[0],t[1]):palm3D(t[0],t[1])));
   if(ISL===1){add(128,70,()=>{if(window.FP3D===false){shd(128,80,30);hdImg(hut,112,44)}else house3D(7,3,-1)});if(window.drawBnrFP)add(92,96,()=>window.drawBnrFP())}
   if(MP.r){const r=MP.r;add(r.vx*T+8,r.vy*T+15,drawR)}
-  for(const k in GH){const r=GH[k];if(!r)continue;if(r.mb)add(r.mb[0]*T+8,r.mb[1]*T+12,()=>window.FP3D===false?drawMB(r.mb,r):mb3D(r.mb));if(r.sl)add(r.vx*T+8,r.vy*T+14,()=>ghBoatFP(r,k));add(r.vx*T+8,r.vy*T+15,()=>drawG(r))}
+  for(const k in GH){const r=GH[k];if(!r)continue;if(r.mb)add(r.mb[0]*T+8,r.mb[1]*T+12,()=>window.FP3D===false?drawMB(r.mb,r):mb3D(r.mb));if(r.sl)add(r.vx*T+8,r.vy*T+14,()=>window.FP3D===false?ghBoatFP(r,k):ghBoat3D(r,k));add(r.vx*T+8,r.vy*T+15,()=>drawG(r))}
   if(petOn())add(PET.x*T+8,PET.y*T+15,drawPet);
   HOUSES.forEach(([x,y,k])=>add(x*T+16,y*T+22,()=>{if(window.FP3D===false){shd(x*T+16,y*T+32,30);hdImg(HU[k],x*T,y*T-4)}else house3D(x,y,k)}));
   NPC.forEach((a,k)=>{let nx=a[0]*T+8;if(a.lo!==undefined)nx=Math.round(((a.lo+a.hi)/2+Math.sin(time*.35+k*1.7)*(a.hi-a.lo)/2)*T)+8;add(nx,a[1]*T+15,()=>{drawN(a,k);ioMark(a,k);if(ISL===2)return;nqMark(a,k);if(k===4)mysMark(a);if(k===5)sgMark(a);if(k===6)tqMark(a)})});
@@ -3959,6 +3959,41 @@ requestAnimationFrame(loop);
   const hx=h.a===null?1:Math.cos(h.a),hy=h.a===null?0:Math.sin(h.a),cl=hx*F.rx+hy*F.ry,sx=(cl<0?-1:1)*Math.max(.28,Math.abs(cl)),ax=r.vx*T+9;
   g.translate(ax,0);g.scale(sx,1);g.translate(-ax,0);
   drawGB(r)}
+
+ /* PERAHU PEMAIN LAIN: geometri 3D asli di dunia (bukan sprite datar). Lambung, dek, bangku, mesin, tiang+layar diputar mengikuti arah gerak pemain itu, ikut upgrade/lambung/warna layar miliknya, ada refleksi di air */
+ function ghBoat3D(r,k){
+  let h=GHD[k];const now=performance.now();
+  if(!h)h=GHD[k]={x:r.vx,y:r.vy,a:null,t:now};
+  const dt=Math.max(.001,Math.min(.2,(now-h.t)/1000));h.t=now;
+  const dx=r.vx-h.x,dy=r.vy-h.y,m=Math.hypot(dx,dy);h.x=r.vx;h.y=r.vy;
+  if(m>2)h.a=null;else if(m>dt*.4){const t=Math.atan2(dy,dx);h.a=h.a===null?t:wrap(h.a+wrap(t-h.a)*Math.min(1,dt*6))}
+  const th=h.a!==null?h.a:((r.fx||r.fy)?Math.atan2(r.fy|0,r.fx|0):0);
+  const bu=r.bu|0,hl=r.hl|0,hc=['#c98a4b','#d9b27a','#8f9db0','#e3ecf5'][Math.min(hl,3)],st=hl>=3?'#6fd3ff':'#d44a3d',bx=(typeof BSC!=='undefined'&&BSC[r.bc|0])?BSC[r.bc|0][1]:'#f6f1df';
+  const c=Math.cos(th),s=Math.sin(th),cx=r.vx*T+8,cy=r.vy*T+9,zb=Math.sin(time*1.7+r.vx*2)*.5;
+  const Q=(a,b,z)=>[cx+(a-7)*c-b*s,cy+(a-7)*s+b*c,z+zb],BR=5.2,n=BOUT.length;
+  const scl=(f1,f2)=>BOUT.map(q=>Q((q[0]-4)*f1+4,q[1]*f2,0));
+  rf(()=>{
+   g.setTransform(HDS,0,0,HDS,0,0);
+   fq(scl(1.18,1.28),'rgba(255,255,255,.2)');
+   const outer=[],inner=[];
+   for(let i=0;i<n;i++){const A=BOUT[i],B=BOUT[(i+1)%n],mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2;let nx=B[1]-A[1],ny=-(B[0]-A[0]);if(nx*(mx-4)+ny*my<0){nx=-nx;ny=-ny}const l=Math.hypot(nx,ny)||1;nx/=l;ny/=l;
+    const wnx=nx*c-ny*s,wny=nx*s+ny*c,mw=Q(mx,my,0),vis=(F.cx-mw[0])*wnx+(F.cy-mw[1])*wny>0,kk=.62+.3*(.5+.5*wnx);
+    (vis?outer:inner).push([A,B,kk])}
+   for(const e of inner)fq([Q(e[0][0],e[0][1],0),Q(e[1][0],e[1][1],0),Q(e[1][0],e[1][1],BR),Q(e[0][0],e[0][1],BR)],shc(hc,e[2]*.7));
+   fq(BOUT.map(q=>Q(q[0]*.92,q[1]*.9,.2)),'#a8774a');
+   fq([Q(4.5,-6.4,3.1),Q(8,-6.4,3.1),Q(8,6.4,3.1),Q(4.5,6.4,3.1)],'#b98852');
+   fq([Q(4.5,-6.4,1),Q(4.5,6.4,1),Q(4.5,6.4,3.1),Q(4.5,-6.4,3.1)],'#7d5530');
+   if(bu>=2){fq([Q(-8,-2.2,1),Q(-8,2.2,1),Q(-8,2.2,7.5),Q(-8,-2.2,7.5)],'#2e323c');fq([Q(-11,-2.2,7.5),Q(-8,-2.2,7.5),Q(-8,2.2,7.5),Q(-11,2.2,7.5)],'#4a4f5c',HINK);if(bu>=3)fq([Q(-9.6,-.8,7.6),Q(-8.4,-.8,7.6),Q(-8.4,.8,7.6),Q(-9.6,.8,7.6)],'#ffb02e')}
+   for(const e of outer){const A=e[0],B=e[1],kk=e[2];
+    fq([Q(A[0],A[1],0),Q(B[0],B[1],0),Q(B[0],B[1],BR),Q(A[0],A[1],BR)],shc(hc,kk),'rgba(42,26,16,.75)');
+    fq([Q(A[0],A[1],BR-1.6),Q(B[0],B[1],BR-1.6),Q(B[0],B[1],BR),Q(A[0],A[1],BR)],shc(st,Math.min(1.2,kk+.15)));
+    if(bu>=5)fq([Q(A[0],A[1],BR-2.6),Q(B[0],B[1],BR-2.6),Q(B[0],B[1],BR-2.05),Q(A[0],A[1],BR-2.05)],'#ffd23f')}
+   fq(BOUT.map(q=>Q(q[0],q[1],BR)),'rgba(0,0,0,0)',st);
+   if(bu>=1){fq([Q(6,0,3),Q(6,0,25)],'rgba(0,0,0,0)','#4a2f17');
+    fq([Q(6,0,24),Q(6,0,8),Q(-6,0,8)],bx,HINK);
+    fq([Q(6.8,0,22),Q(6.8,0,9),Q(16,0,9)],shc(bx,.9),HINK);
+    fq([Q(6,0,8),Q(-6,0,8)],'rgba(0,0,0,0)','#4a2f17')}
+  })}
 
  let tx_=0,ty_=0;
  function frame(){
