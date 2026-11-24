@@ -28,12 +28,12 @@ canvas#cv{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;
 .grp{display:flex;gap:2px;background:var(--pn);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:2px}
 .grp button{background:transparent;color:var(--fg);border:0;border-radius:8px;padding:6px 10px;font:inherit;font-weight:600;min-width:34px}
 .grp button.on{background:var(--ac);color:#201400}
-#info{position:fixed;left:max(8px,env(safe-area-inset-left));bottom:max(8px,env(safe-area-inset-bottom));background:var(--pn);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:6px 9px;z-index:5;font-variant-numeric:tabular-nums;pointer-events:none;max-width:60vw}
+#info{position:fixed;right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));text-align:right;background:var(--pn);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:6px 9px;z-index:5;font-variant-numeric:tabular-nums;pointer-events:none;max-width:60vw}
 #info b{color:var(--ac)}
 #mmw{position:fixed;right:max(8px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));background:var(--pn);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:4px;z-index:5}
 #mm{display:block;image-rendering:pixelated;width:120px;height:90px;border-radius:6px}
 #mmw small{display:block;text-align:center;opacity:.8;margin-top:2px}
-#joy{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.25);z-index:5}
+#joy{position:fixed;left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom));width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.25);z-index:5}
 #knob{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.6)}
 
 #back{position:fixed;left:max(8px,env(safe-area-inset-left));top:calc(max(8px,env(safe-area-inset-top)) + 46px);z-index:6;background:var(--pn);color:var(--fg);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:7px 11px;font:inherit;font-weight:600}
@@ -41,9 +41,15 @@ canvas#cv{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;
 #net i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:#888;vertical-align:-1px}
 #gate{position:fixed;inset:0;z-index:20;background:#0b1620;display:none;align-items:center;justify-content:center;text-align:center;padding:24px}
 #gate div{max-width:360px;line-height:1.5;font-size:14px}#gate a{display:inline-block;margin-top:14px;padding:9px 16px;background:var(--ac);color:#201400;border-radius:10px;text-decoration:none;font-weight:700}
+#load{position:fixed;inset:0;z-index:30;background:linear-gradient(#0b2a45,#07182a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .45s;color:#eaf2f7;text-align:center}
+#load.out{opacity:0;pointer-events:none}
+#load .bt{font-size:46px;animation:bob 1.6s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+#load b{font-size:16px;letter-spacing:.5px}#load small{opacity:.7}
+#load .br{width:min(60vw,240px);height:6px;border-radius:4px;background:rgba(255,255,255,.15);overflow:hidden}#load .br i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
 </style>
 </head>
 <body>
+<div id="load"><div class="bt">⛵</div><b>Berlayar ke Pulau 3…</b><div class="br"><i id="lbar"></i></div><small id="ltx">Menyiapkan pulau</small></div>
 <div id="stage"><canvas id="cv"></canvas></div>
 <div class="bar">
  <div class="grp" id="gt"><button data-t="0">Siang</button><button data-t="1">Senja</button><button data-t="2">Malam</button></div>
@@ -98,7 +104,8 @@ async function getOthers(){if(gBusy||document.hidden)return;gBusy=1;try{const to
 function updOthers(dt){for(const id in OT){const g=OT[id],ox=g.vx,oy=g.vy,k=1-Math.exp(-9*dt);g.vx+=(g.x-g.vx)*k;g.vy+=(g.y-g.vy)*k;const d=Math.hypot(g.vx-ox,g.vy-oy);g.mv=d/dt>.4;
   if(g.mv){g.ph+=dt*6;if(Math.abs(g.vx-ox)>Math.abs(g.vy-oy)*1.05)g.dir=g.vx>ox?3:1;else g.dir=g.vy>oy?0:2}}}
 addEventListener('pagehide',()=>{const u=window.__LU;if(u){window.__LU=null;try{fetch(u,{method:'DELETE',keepalive:true})}catch(e){}}});
-document.getElementById('back').addEventListener('click',()=>{location.href=BACK});
+document.getElementById('back').addEventListener('click',()=>{if(window.__bk)return;window.__bk=1;const o=document.createElement('div');o.id='bkld';o.style.cssText='position:fixed;inset:0;z-index:99;background:linear-gradient(#0b2a45,#07182a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#eaf2f7;font:600 16px system-ui,sans-serif;opacity:0;transition:opacity .35s';o.innerHTML='<div style="font-size:46px">⛵</div>Pulang ke Pulau Rumah…';document.body.appendChild(o);requestAnimationFrame(()=>{o.style.opacity=1});setTimeout(()=>{location.href=BACK},450)});
+addEventListener('pageshow',e=>{if(e.persisted){window.__bk=0;const o=document.getElementById('bkld');if(o)o.remove()}});
 
 /* =====================================================================
    DATA PETA (grid logika 48 x 36 petak, sama di semua varian)
@@ -547,10 +554,19 @@ function loop(now){
   lvEl.textContent='Level '+(Pl.L===0?'0 pantai':Pl.L===1?'1 desa':'2 kuil')}
  requestAnimationFrame(loop);
 }
+function ldSet(p,t){const b=document.getElementById('lbar'),x=document.getElementById('ltx');if(b)b.style.width=p+'%';if(x&&t)x.textContent=t}
+function ldDone(){const l=document.getElementById('load');if(l){l.classList.add('out');setTimeout(()=>l.remove(),600)}}
+const T0=performance.now();
+function boot(){
+ldSet(35,'Menggambar pulau');
 setVar('C');setTod(0);setPet(0);
 window.__p3={Pl,setVar,setTod,setPet,OT,NET,get K(){return K}};
-if(GATE){const gt=document.getElementById('gate');document.getElementById('gmsg').innerHTML=GATE+'<br><a href="'+BACK+'">⬅ Kembali ke game</a>';gt.style.display='flex'}
-else{setInterval(presTick,1000);setInterval(getOthers,1500);setInterval(netShow,500);presTick();getOthers();requestAnimationFrame(loop)}
+if(GATE){ldDone();const gt=document.getElementById('gate');document.getElementById('gmsg').innerHTML=GATE+'<br><a href="'+BACK+'">⬅ Kembali ke game</a>';gt.style.display='flex';return}
+ldSet(65,'Menyambung ke pemain lain');
+setInterval(presTick,1000);setInterval(getOthers,1500);setInterval(netShow,500);
+Promise.race([Promise.all([presTick(),getOthers()]),new Promise(r=>setTimeout(r,2500))]).then(()=>{ldSet(100,'Siap');setTimeout(ldDone,Math.max(150,1100-(performance.now()-T0)))});
+requestAnimationFrame(loop)}
+requestAnimationFrame(()=>setTimeout(boot,40));
 </script>
 </body>
 </html>
