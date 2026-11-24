@@ -117,7 +117,7 @@ addEventListener('pageshow',e=>{if(e.persisted){window.__bk=0;const o=document.g
    ===================================================================== */
 const MW=48,MH=36;
 const SEA=0,SAND=1,GRASS=2,PATH=3,STONE=4,CLIFF=5,STAIR=6,DOCK=7,WATER=8,BRIDGE=9,WFALL=10;
-const typ=[],lvl=[],sol=[],side=[],POLES=[];
+const typ=[],lvl=[],sol=[],side=[],POLES=[],COL=[]; // COL: kotak tabrakan kecil [x0,y0,x1,y1] dalam petak, untuk benda yang tidak memenuhi satu petak
 function hs(x,y,s){let n=(x*73856093^y*19349663^s*83492791)>>>0;n=Math.imul(n^(n>>>13),1274126177)>>>0;return((n^(n>>>16))>>>0)/4294967296}
 const inB=(x,y)=>x>=0&&y>=0&&x<MW&&y<MH;
 const OBJ=[]; // {k:'tree'|'pink'|'house'|'torii'|'lantern'|'shrine',x,y,w,h}
@@ -190,11 +190,13 @@ const OBJ=[]; // {k:'tree'|'pink'|'house'|'torii'|'lantern'|'shrine',x,y,w,h}
  OBJ.push({k:'boat',x:19.2,y:34.1,w:2.6,h:1.2});
  // batu, payung dan bangku, papan petunjuk, peti, kayu apung
  const okS=(x,y)=>inB(x,y)&&typ[y][x]===SAND&&!sol[y][x];
- [[8,28],[9,29],[38,27],[39,28],[15,24]].forEach(([x,y])=>{if(okS(x,y))add('rock',x,y,1,1)});
- [[16,28],[30,27]].forEach(([x,y])=>{if(okS(x,y))add('parasol',x,y,1,1)});
- [[17,29,2],[31,28,2]].forEach(([x,y,w])=>{if(okS(x,y)&&okS(x+1,y))add('bench',x,y,w,1)});
- if(okS(20,30))add('sign',20,30,1,1);
- if(okS(25,31))add('crate',25,31,1,1);
+ // benda kecil: hanya dasarnya yang menghalang (kotak relatif ke pojok kiri-atas petak), sisanya bisa dilewati
+ const addC=(k,x,y,w,h,bx0,by0,bx1,by1)=>{OBJ.push({k,x,y,w,h});COL.push([x+bx0,y+by0,x+bx1,y+by1])};
+ [[8,28],[9,29],[38,27],[39,28],[15,24]].forEach(([x,y])=>{if(okS(x,y))addC('rock',x,y,1,1,.12,.45,.88,.97)});
+ [[16,28],[30,27]].forEach(([x,y])=>{if(okS(x,y))addC('parasol',x,y,1,1,.42,.8,.58,1)});
+ [[17,29],[31,28]].forEach(([x,y])=>{if(okS(x,y)&&okS(x+1,y))addC('bench',x,y,2,1,.1,.55,1.9,.98)});
+ if(okS(20,30))addC('sign',20,30,1,1,.4,.8,.6,1);
+ if(okS(25,31))addC('crate',25,31,1,1,.12,.45,.88,1);
  [[13,30],[33,30],[26,26]].forEach(([x,y])=>{if(okS(x,y))add('wood',x,y,1,1,false)});
 
 })();
@@ -487,6 +489,7 @@ function canStand(px,py){
  const pts=[[px-R,py],[px+R,py],[px-R,py-.3],[px+R,py-.3]];const onSt=curStair();
  for(const[a,b]of pts){const t=tileAt(a,b);if(!t)return false;const[tx,ty]=t;
   if(sol[ty][tx]||!walkType(typ[ty][tx]))return false;
+  for(let i=0;i<COL.length;i++){const q=COL[i];if(a>q[0]&&a<q[2]&&b>q[1]&&b<q[3])return false}
   const tl=lvl[ty][tx];if(!(tl===-2||onSt||tl===Pl.L))return false}
  return true}
 function step(dt){
