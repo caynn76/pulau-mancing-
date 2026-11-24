@@ -3632,7 +3632,10 @@ requestAnimationFrame(loop);
  const start=()=>{if(!AU||!ok2||sp.classList.contains('out')||!sp.classList.contains('ready'))return;try{localStorage.setItem('pm-fs',fc.checked?'1':'0')}catch(e){}
   if(fc.checked)fsOn();else lk();try{if(typeof snd==='function')snd(660,.08,'triangle'),snd(990,.12,'triangle',.08)}catch(e){}
   sp.classList.add('out');setTimeout(()=>sp.remove(),600)};
- go.addEventListener('click',start);addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&document.getElementById('splash')&&!/^(INPUT|TEXTAREA)$/.test((e.target&&e.target.tagName)||'')){e.preventDefault();start()}});
+ go.addEventListener('click',start);
+ /* pulang dari Pulau 3: lewati layar awal (login tetap dipakai) */
+ try{if(sessionStorage.getItem('pm-from3')==='1'){sessionStorage.removeItem('pm-from3');let n=0;const iv=setInterval(()=>{if(!document.getElementById('splash')||++n>100){clearInterval(iv);return}start()},100)}}catch(e){}
+ addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&document.getElementById('splash')&&!/^(INPUT|TEXTAREA)$/.test((e.target&&e.target.tagName)||'')){e.preventDefault();start()}});
  fc.addEventListener('click',e=>e.stopPropagation());
  // masuk layar penuh lagi bila pemain keluar tanpa sengaja lalu mengetuk layar
  addEventListener('pointerdown',()=>{try{if(!document.getElementById('splash')&&localStorage.getItem('pm-fs')!=='0')fsOn()}catch(e){}},{passive:true});
