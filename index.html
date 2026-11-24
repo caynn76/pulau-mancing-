@@ -1,6 +1,194 @@
 <!doctype html>
 <html lang="id">
 <head>
+<!--
+CATATAN RENCANA: PULAU 3 (TEMA JEPANG) - belum dikerjakan, hanya rancangan
+
+TUJUAN
+Pulau untuk menjelajah dan menikmati suasana, bukan untuk memancing. Grafik pixel dibuat bagus, ada tanjakan dan turunan.
+
+CARA MASUK
+- KEPUTUSAN: naik kapal dari dermaga, tanpa syarat (tanpa level dan tanpa beli kapal baru).
+
+PETA BERTINGKAT
+- Tiga ketinggian: pantai dan dermaga, desa di lereng, kuil di puncak.
+- Penghubung: tangga batu, jalan menanjak, jembatan merah. Tebing digambar dengan sisi dan bayangan.
+- Dari puncak terlihat seluruh pulau.
+
+SUASANA JEPANG
+- Gerbang torii, kuil, lentera batu, kebun bambu, sawah, kebun teh, rumah tradisional, kolam koi, air terjun kecil, onsen.
+- Kedai teh atau ramen, omikuji (ramalan harian).
+
+REFERENSI GAYA VISUAL (19 foto dari user, dipakai sebagai acuan suasana, bukan untuk disalin)
+- Suasana: Jepang sehari-hari ala latar anime, bukan hanya kuil dan sakura. Jalan kecil menanjak, tangga dengan pagar besi putih, rumah bertingkat di lereng, tembok batu penahan tanah.
+- Detail khas: kabel listrik berlapis-lapis di langit, tiang listrik, cermin cembung di tikungan, zebra cross, garis tepi jalan hijau, kotak pos merah, stasiun kecil di bawah pohon rindang, rambu segitiga.
+- Alam: sawah berair yang memantulkan awan, jalan setapak kerikil dengan rumput tinggi, bukit hijau, awan kumulus besar, gunung berkabut di kejauhan, pemandangan kota dari atas tangga.
+- Palet cuaca: siang biru jenuh dengan hijau terang, hujan abu-biru berkabut, pagi berkabut keemasan, senja oranye dengan siluet tiang.
+- Ide teknik pixel: kabel digambar garis tipis melengkung, pantulan awan di air sawah, awan besar berlapis dengan bayangan di dasarnya, bayangan panjang di jalan, kabut tipis di lapisan jauh, palet dibedakan per cuaca dan jam.
+- Keputusan ukuran petak (tetap 16 px seperti pulau lama atau lebih halus): menunggu jawaban user.
+
+EMPAT MUSIM
+- Semi: sakura dan kelopak berguguran.
+- Panas: hijau lebat, kunang-kunang, kembang api.
+- Gugur: daun merah.
+- Dingin: salju dan lentera hangat.
+- KEPUTUSAN: musim berputar sendiri di dalam game, bukan mengikuti tanggal asli.
+- Satu musim sekitar satu hari nyata (satu tahun empat hari), angkanya mudah diubah di kode.
+- Dihitung dari jam server yang sama dengan musik bersama, jadi semua pemain melihat musim yang sama dan event bisa serempak. Tidak ada data baru yang disimpan, Rules Firebase tidak berubah.
+- Tambahan 1: GM bisa mengunci satu musim (misalnya sakura selama event). Butuh satu field baru di Rules, mirip pengaturan cuaca GM.
+- Tambahan 2: di mode foto, pemain bisa mencoba melihat musim lain tanpa mengubah musim yang sedang berjalan.
+
+EVENT
+- Hanami (piknik di bawah sakura).
+- Matsuri dengan kembang api dan minigame tangkap ikan mas (kingyo sukui).
+- Tsukimi (bulan purnama).
+- Tahun Baru di kuil.
+
+PENGGANTI MANCING
+- Koleksi stempel kuil di tiap tempat.
+- Mode foto.
+- Lagu bernuansa Jepang (daftar lagu ada di TRACKS).
+
+TAHAPAN KERJA
+1. Peta, tanjakan, dan kamera.
+2. Musim, kelopak, kabut, dan cahaya malam.
+3. Bangunan, NPC, dan stempel.
+4. Event, musik, dan pemain lain terlihat di pulau itu.
+
+RISIKO
+- Ketinggian di game top-down adalah perubahan mesin yang paling berat.
+- Ukuran file sudah sekitar 1,7 MB, jadi gambar baru harus hemat supaya tidak lag di HP.
+
+RISIKO YANG DIPILIH UNTUK DICATAT (beserta cara amannya)
+1. Mesin tanjakan bisa merusak yang sudah jalan. Gerak, tabrakan, lempar kail, perahu, dan first person bergantung pada peta datar sekarang. Cara aman: ketinggian dibuat sebagai lapisan terpisah yang hanya aktif di Pulau 3, jadi pulau lama tidak tersentuh.
+2. HP jadi lag. Pulau besar dengan kelopak sakura, kabut, dan cahaya lentera menambah beban gambar, terutama di mode Max dan HD. Cara aman: efek musim mengikuti pengaturan grafik Low sampai HD yang sudah ada, dan jumlah partikel dibatasi.
+6. Pengerjaan terlalu besar sekaligus. Satu file HTML yang diubah banyak sekali dalam sekali jalan rawan bug yang sulit dilacak. Cara aman: kerja dibagi empat tahap, dan tiap tahap dicoba dulu sebelum lanjut. Sebelum tahap 1, simpan salinan index.html versi stabil untuk kembali kalau ada yang rusak.
+
+TAMBAHAN CATATAN (24 Nov 2026) - hasil diskusi, masih rancangan, belum ada kode
+
+KEPUTUSAN ARAH
+- Tidak ada distrik kota. Peta tetap tiga zona: pantai dan dermaga, desa di lereng, kuil di puncak.
+- Foto Shibuya dan Shinjuku hanya dipakai untuk palet (senja jingga, neon malam, hujan). Gang kedai kecil dengan papan vertikal hanya opsi di tahap 3.
+- Ukuran petak: saran tetap 16 px seperti pulau lama (memakai ulang gerak, tabrakan, kamera). Rasa halus dicapai lewat detail gambar. Menunggu keputusan user.
+- Acuan pulau lama (dicek di kode): Pulau 1 dan Pulau 2 sama-sama petak 16 px (konstanta T=16), dunia 140 x 100 petak (sekitar 2240 x 1600 px). Layar logika 256 x 192 px, jadi tampil sekitar 16 x 12 petak.
+- KEINGINAN USER (24 Nov): pixel Pulau 3 lebih HD dan tampilan lebih luas dari pulau lama. Temuan kode: tinggi layar logika tetap 192 px, lebar menyesuaikan layar, diskalakan kelipatan bulat; sudah ada mode grafik HD dengan Scale2x untuk sprite. Rencana: tiga varian dibandingkan di prototipe tahap 1 (lihat 1A) sebelum memutuskan.
+  Varian A: petak 16, tampil 16 x 12 petak (sama seperti pulau lama).
+  Varian B: petak 16, tampil lebih luas (misalnya 24 x 18 petak, sekitar 2,25 kali piksel digambar).
+  Varian C: grid logika tetap 16 tapi seni dekor digambar 32 px per petak (2 kali detail), tampil 16 x 12 petak atau lebih.
+  Peringatan: sprite pemain, NPC, dan perahu masih 16 px, jadi kerapatan piksel bisa tidak seragam di varian C. Karakter perlu diperhalus lewat Scale2x atau digambar ulang. Layar logika lebih besar juga memengaruhi HUD, first person, dan FPS di HP.
+  Grid logika (data peta, tabrakan, minimap, presence) sebaiknya tetap 16 px di semua varian supaya mesin lama tidak berubah.
+- Peta dan minimap realtime WAJIB ada di Pulau 3 (di pulau lama sudah ada: minimap di layar, panel Peta Pulau, titik pemain lain). Pulau 3 harus terdaftar di sistem itu, lihat langkah 2E.
+- Ketinggian: 3 level diskret (pantai, desa, kuil), pindah level hanya lewat tangga atau jalan tertentu. Tampilan tanjakan lewat sisi tebing, bayangan, dan dinding penahan tanah.
+
+SARAN PENGERJAAN
+1. Buat prototipe kecil dulu (pantai, tangga, satu rumah) di file atau pulau uji, buktikan tanjakan enak dan tidak lag di HP sebelum membuat peta penuh.
+2. Kode dan aset Pulau 3 dipisah dari file utama (misalnya pulau3.js, dimuat saat naik kapal). Gambar dibuat dari kode atau sprite kecil, bukan gambar besar.
+3. Efek musim dibuat bertahap: satu musim sampai bagus (semi) baru musim lain. Partikel dibatasi dan mengikuti pengaturan grafik Low sampai HD. Kunci musim oleh GM masuk. Mode foto musim lain ditunda ke akhir.
+
+RISIKO TAMBAHAN
+- Save lama: pemain yang sudah punya progres harus aman. Tambah migrasi di MIG untuk stempel dan data Pulau 3.
+- Pemain lain: posisi dan level ketinggian harus ikut terkirim di presence, kalau tidak pemain terlihat melayang atau tembus tebing.
+- Voice sekitar: jarak dihitung 2D, perlu mempertimbangkan level ketinggian.
+- Kapal: cek perilaku kapal tertambat di pulau baru.
+- Merek asli: semua papan, logo, iklan, dan plat mobil dari foto diganti merek fiktif atau tulisan Jepang generik. Menara dan patung terkenal diganti versi orisinal (misalnya menara pengamat merah di puncak, patung anjing batu buatan sendiri).
+
+REFERENSI FOTO TAMBAHAN (sekitar 40 foto dari user: Tokyo, kuil, desa, malam pinggiran) DAN PEMETAANNYA
+- Torii kayu besar dan jalan setapak hutan: jalan ke kuil. Kerikil lebar, kanopi gelap di tepi, bercak cahaya di tanah, orang kecil di kejauhan.
+- Gerbang merah besar dan lapangan batu: gerbang kuil dan area omikuji. Atap abu berlapis, tiang merah, lentera besar, lantai batu persegi, bayangan atap memanjang, kios di kiri-kanan.
+- Torii batu berlumut di ujung jembatan kayu: gerbang awal jalan ke kuil. Pagar kayu sederhana, dedaunan menggantung, bukit berkabut di belakang.
+- Rumah atap jerami di kaki bukit dengan dinding batu tersusun: desa lereng. Balok silang di puncak atap, rumput tinggi, bunga oranye.
+- Rumah dua lantai dengan sawah soba putih: rumah warga. Atap genteng gelap, dinding putih, balkon kayu, truk kecil putih.
+- Cermin cembung, rambu hidran bulat, kotak merah: properti jalan. Tiang oranye berkarat, kotak logam merah di rumput.
+- Gudang dengan menara pengeras suara merah, halte kayu mungil, jalan menanjak: bangunan desa.
+- Hutan cedar bersusun: latar jauh, makin ke atas makin gelap.
+- Gang dengan papan vertikal (opsional tahap 3): papan warna-warni, lampu jalan klasik, mesin minuman di dinding.
+- Kedai shabu-shabu dengan tirai noren: interior kedai teh atau ramen. Meja melengkung, panci tembaga, tirai kain tipis.
+- Mesin minuman di bawah lampu oranye: sumber cahaya malam yang murah digambar. Satu jendela hangat di apartemen gelap juga efektif.
+- Jalan malam pinggiran: kabel bersilang tebal, tiang listrik, lampu jalan putih berkilau, lampu lalu lintas merah buram, aspal basah.
+- Papan petunjuk stasiun: papan kuning dan biru dengan panah, bisa jadi penunjuk arah antarzona.
+
+PALET PER CUACA DAN JAM (perkiraan dari foto, disesuaikan saat menggambar)
+- Siang cerah: langit #1F5FBF, hijau daun #7FB83A, bayangan hijau tua #1E3A1A, paving abu-biru #9AA3AD.
+- Pagi atau sore keemasan: hijau kekuningan #B5C93A, bayangan hijau tua #2A4A1E, atap coklat #7A4A2A, langit biru muda #6FB0E8.
+- Senja: jingga #E8501E, merah tua #B8341A, biru malam #14306B.
+- Hujan: langit abu #B8BBBD, aspal #2B2E30, lampu jalan kuning #F2C230.
+- Malam pinggiran: biru hampir hitam #050B1A, lampu jalan #F4F6E8, lampu merah #FF2A2A, jendela hangat #E8803A.
+- Malam kota (hanya sebagai acuan neon): #0A0A12 dengan aksen hijau, biru, magenta.
+
+RENCANA BERTAHAP PULAU 3 (versi final, 24 Nov 2026)
+Aturan: satu perubahan per langkah. Setelah tiap langkah: uji, jalankan DAFTAR UJI REGRESI (file daftar-uji-pulau3.md), simpan salinan bernomor (misalnya index-v3-tahap1B.html). Jangan lanjut kalau belum lolos. Pulau 3 terkunci untuk GM sampai tahap 5D. Anggaran performa: minimal 30 FPS di HP terlemah pada mode HD.
+
+TAHAP 0 - Persiapan (belum ada kode game)
+[ ] Simpan versi stabil (index-v3-stabil.html).
+[ ] Tulis daftar uji regresi dan jalankan sekali sebagai acuan.
+[ ] Ukur FPS dasar di HP (Low, HD, Max) dan catat.
+[ ] Putuskan: ukuran petak, jumlah level, format data peta.
+Selesai bila: daftar uji tertulis dan angka performa dasar tercatat.
+
+TAHAP 1 - Prototipe terpisah (file lain, game tidak disentuh)
+[ ] 1A peta datar kecil dengan 3 level digambar, dalam tiga varian (A, B, C di atas) untuk dibandingkan tampilan dan FPS-nya di HP.
+[ ] 1B tangga, pindah level, tabrakan.
+[ ] 1C kamera, sisi tebing, bayangan.
+[ ] 1D uji FPS di HP.
+[ ] 1E keputusan lanjut atau ubah desain.
+Selesai bila: tanjakan terasa enak dan FPS aman.
+
+TAHAP 2 - Masuk ke game (terkunci untuk GM)
+[ ] 2A pulau kosong, naik kapal, keluar-masuk, save aman. (Uji presence Pulau 3 dengan akun GM di sini, lihat bagian FIREBASE.)
+[ ] 2B zona pantai dan dermaga.
+[ ] 2C zona desa lereng.
+[ ] 2D zona kuil di puncak.
+[ ] 2E peta dan minimap realtime untuk Pulau 3: minimap di layar, panel Peta Pulau (daftar tempat PL untuk pulau 3), titik pemain lain, dan penanda level ketinggian (arsir tiap level, tanda tangga). Dikerjakan setelah zona pertama ada, lalu diperbarui tiap zona baru.
+Selesai bila: tiap zona bisa dijelajahi, minimap dan peta Pulau 3 tampil dengan posisi pemain realtime, dan daftar uji regresi lolos.
+
+TAHAP 3 - Suasana
+[ ] 3A siklus siang dan malam dengan palet.
+[ ] 3B cuaca (hujan, kabut).
+[ ] 3C musim semi saja (sakura, kelopak) sampai bagus.
+[ ] 3D satu musim lagi per langkah (panas, gugur, dingin).
+[ ] 3E kunci musim oleh GM (satu-satunya perubahan Rules, lihat FIREBASE).
+Selesai bila: efek mengikuti pengaturan grafik dan partikel terbatas.
+
+TAHAP 4 - Isi pulau
+[ ] 4A bangunan dan properti (torii, lentera, cermin cembung, dll).
+[ ] 4B NPC dan dialog.
+[ ] 4C stempel kuil dan omikuji (tambah migrasi save di MIG).
+[ ] 4D mode foto.
+
+TAHAP 5 - Sosial dan event
+[ ] 5A pemain lain terlihat di Pulau 3.
+[ ] 5B musik Jepang.
+[ ] 5C event satu per satu (hanami dulu).
+[ ] 5D buka untuk semua pemain.
+
+DITUNDA: distrik kota, mode foto musim lain, event selain hanami. Dikerjakan setelah 5D stabil.
+
+FIREBASE (hasil pengecekan kode)
+- Hampir tidak ada yang baru. Musim dihitung dari jam server, tidak ada data baru.
+- Presence sudah mengirim nomor pulau (field i dari ISL). Pulau 3 cukup memakai i=3. BELUM TERBUKTI Rules menerima nilai 3 (file ini tidak memuat Rules presence). Uji di tahap 2A dengan akun GM sebelum lanjut. Kalau ditolak, longgarkan batas nilai i di Rules.
+- Level ketinggian TIDAK perlu field baru: level dihitung dari posisi petak (x,y) pemain, jadi pemain lain bisa menghitungnya sendiri. Ini menghindari perubahan Rules presence.
+- Satu-satunya node baru: kunci musim oleh GM (tahap 3E), misalnya season dengan pola seperti event: baca untuk semua yang login, tulis hanya GM (cek gm/ uid).
+- Data pemain baru (stempel kuil, dll) masuk ke objek save S dan ikut cloudSync yang sudah ada. Tidak perlu node baru, tapi tambahkan migrasi di MIG.
+
+KEPUTUSAN: PULAU 3 TERPISAH (24 Nov 2026) - menggantikan asumsi lama di atas bila bertentangan
+- Pulau 3 dibuat sebagai game atau halaman sendiri (misalnya pulau3.html), bukan bagian dari mesin index.html. Ini menggantikan saran sebelumnya memuat pulau3.js dari dalam file utama.
+- Dampak positif: ukuran petak, resolusi layar, area pandang, kamera, dan sistem ketinggian BEBAS dipilih. Varian A, B, C (lihat atas) tidak lagi dibatasi mesin lama, dan grid logika tidak harus 16 px. Risiko merusak pulau lama turun besar, dan performa pulau lama tidak terpengaruh. File utama tidak bertambah berat.
+- Dampak yang harus diurus (sambungan antar dua halaman):
+  1. Pintu masuk: naik kapal dari dermaga di index.html membuka pulau3.html, dan ada jalan kembali.
+  2. Save: dua halaman tidak boleh saling menimpa. Pakai kunci save terpisah atau bagian S terpisah untuk data Pulau 3 (stempel dll). Hal yang dibagi (gem, tas, skin, level) harus dibaca dengan aman dan tidak ditulis ganda.
+  3. Login Firebase: halaman kedua harus memakai akun yang sama (asal alamat sama agar penyimpanan browser terbaca) atau login ulang.
+  4. Presence dan pemain lain: memakai node presence yang sama dengan i=3 supaya pemain lain di Pulau 3 saling terlihat. Pemain di pulau lama tidak melihat mereka (beda pulau). Rules perlu diuji.
+  5. Yang harus dibuat ulang atau disalin: sprite pemain dan skin, UI dasar, login, chat, voice, musik (TRACKS), mode GM. Ini pekerjaan tambahan yang besar, pilih mana yang wajib dulu dan mana yang ditunda.
+  6. Minimap dan peta realtime tidak otomatis ada, dibuat sendiri di Pulau 3 (tetap wajib).
+- Perubahan di index.html dibatasi di titik sambungan: pintu masuk kapal dan pembagian data save. Selebihnya tidak disentuh.
+- Dampak ke tahapan: Tahap 1 (prototipe) menjadi dasar halaman sebenarnya, bukan dibuang. Tahap 2 menjadi tahap SAMBUNGAN (pintu masuk, save, login, presence), bukan memasukkan pulau ke mesin lama. Daftar uji regresi untuk pulau lama cukup dijalankan di titik sambungan.
+- Domain: sudah diputuskan sama dengan game utama (lihat KEPUTUSAN USER).
+
+KEPUTUSAN USER (24 Nov 2026, siang)
+- Prioritas: DETAIL LEBIH HALUS (bukan area pandang lebih luas). Varian C jadi arah utama. Varian B hanya pembanding.
+- Pulau 3 berada di domain yang sama dengan game utama. Penyimpanan browser dan login bisa dibaca kedua halaman. Tetap perlu kunci save terpisah untuk data Pulau 3 supaya dua halaman tidak saling menimpa, dan data bersama (gem, tas, skin, level) dibaca dengan aman.
+- Usulan teknis (belum diputuskan, diuji di prototipe tahap 1): karena mesin terpisah, petak Pulau 3 bisa 32 px (gambar 2 kali lebih rinci) dengan tampil sekitar 16 x 12 petak, artinya layar logika sekitar 512 x 384 px (sekitar 4 kali piksel pulau lama). Karakter, NPC, dan perahu digambar ulang 32 px agar kerapatan piksel seragam. Risiko utama: FPS di HP, jadi ukur di tahap 1D dan siapkan opsi grafik (turunkan resolusi atau kurangi efek) mengikuti pengaturan Low sampai HD.
+-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pulau Mancing</title>
@@ -1847,7 +2035,6 @@ function perfHTML(){const tg=(k,t,d,on)=>'<div class="row"><span>'+t+'<br><small
 function setHTMLraw(){const m=Math.round((S.vm??1)*100),v=Math.round((S.vs??1)*100),av=Math.round((S.va??1)*100),r=(k,x)=>'<input type="range" min="0" max="100" value="'+x+'" data-v="'+k+'" style="flex:1;max-width:55%">',
  seg=(k,vals,cur)=>'<div class="seg">'+vals.map(x=>'<button data-'+k+'="'+x[1]+'"'+(cur===x[1]?' class="on"':'')+'>'+x[0]+'</button>').join('')+'</div>';
  return '<div class="sec">🔊 Suara</div><div class="row"><span>🎵 Musik <b>'+m+'%</b></span>'+r('m',m)+'</div><div class="row"><span>💥 Efek <b>'+v+'%</b></span>'+r('s',v)+'</div><div class="row"><span>🌊 Suara lingkungan <b>'+av+'%</b></span>'+r('a',av)+'</div><div class="row"><span>Bisukan semua</span><button data-mute="1">'+(mute?'Aktifkan':'Bisukan')+'</button></div><div class="sec">🌧 Hujan</div><div class="row">'+seg('crq',[['Mati',0],['Lembut',1],['Normal',2]],RQV())+'</div><p class="hint">Lembut: tetesan lebih sedikit dan samar, suara lebih teredam dan pelan. Mati: tanpa hujan dan suara hujan (petir tetap ada).</p>'
- +'<div class="sec">🧭 Minimap</div><div class="row"><span>Ukuran</span></div><div class="row">'+seg('mms',[['Mati',0],['Kecil',1],['Sedang',2],['Besar',3]],S.mms??2)+'</div><div class="row">'+seg('mmo',[['Solid',0],['Transparan',1]],S.mmo|0)+'</div><p class="hint">Ketuk minimap di layar untuk buka Peta, tahan untuk ciutkan.</p>'
  +'<div class="sec">🖼️ Grafik</div><div class="row">'+seg('gfx',[['Low',0],['Medium',1],['High',2],['Ultra',3],['Max',4],['HD',5]],GFX)+'</div><p class="hint">Low: efek air, bayangan awan, hewan, dan cahaya malam dimatikan (paling ringan). Medium: efek dikurangi separuh. High: semua efek. Max: Ultra + refleksi perahu di air, lens flare, butiran film, riak hujan, dan hujan terlebat (paling berat). Ultra: tambahan sinar matahari, sedikit debu cahaya dan kunang-kunang, pewarnaan sinematik, hujan lebih lebat (butuh HP kuat; otomatis turun kalau FPS drop). HD: semua efek Max ditambah resolusi render 2x (teks, gradasi cahaya, dan butiran film lebih tajam dan halus) serta air dan daratan lebih detail (ombak mulus, riak tipis, kilau lembut, busa pantai bergelombang, rumput halus bergoyang, butir pasir, pasir basah, bayangan pohon lembut), serta karakter dan perahu (bayangan lembut, ombak buritan halus, tali pancing mulus, riak pelampung). Karakter digambar baru secara halus (kepala, topi, baju, tangan, dan kaki beranimasi), sedangkan sprite lain dan rumah dihaluskan otomatis (Scale2x). Paling berat, hanya untuk HP atau PC yang sangat kuat; turunkan ke Max kalau patah-patah.</p>'
  +'<div class="sec">⏱ FPS</div><div class="row">'+seg('fps',[['30',30],['60',60],['90',90],['120',120]],FPS)+'</div><p class="hint">FPS rendah menghemat baterai. 90 dan 120 FPS hanya terasa di layar 90 Hz atau 120 Hz ke atas; di layar 60 Hz tetap berjalan 60. FPS tinggi lebih boros baterai.</p>'+'<div class="sec">🎮 Kontrol</div><div class="row"><span>Ukuran joystick</span></div><div class="row">'+seg('cj',[['Auto',0],['Kecil',96],['Sedang',128],['Besar',160]],S.jsz||0)+'</div><div class="row"><span>Getar (haptic)</span><button data-chap="1">'+(S.hap===0?'Mati':'Nyala')+'</button></div><div class="row"><span>Mode kidal (tukar posisi joystick dan menu)</span><button data-clefty="1">'+(S.lefty?'Nyala':'Mati')+'</button></div><p class="hint">👁 First person: joystick analog = jalan maju/mundur dan geser kiri/kanan. Geser layar = lihat atas, bawah, kiri, kanan.</p><div class="sec">👁 Tampilan</div><div class="row"><span>Kurangi kilatan (petir tidak menyilaukan)</span><button data-cnfl="1">'+(NFL()?'Nyala':'Mati')+'</button></div>'
  +perfHTML()+rdmHTML()+dataHTML()+gmHTML()+'<div class="bar"><button data-x="1">Tutup</button></div>'}
@@ -1896,43 +2083,7 @@ function mmOthers(){const c=$('mm');if(!c||!Object.keys(GH).length)return;const 
  for(const id in GH){const o=GH[id];if(!o||o.vx===undefined)continue;const sx=(o.vx-ox+.5)*k,sy=(o.vy-oy+.5)*k;
   x.fillStyle=o.sl?'#4cc3ff':'#ffb84d';x.strokeStyle='#fff';x.lineWidth=Math.max(2,k*.3);x.beginPath();x.arc(sx,sy,Math.max(4,k*.9),0,6.3);x.fill();x.stroke();
   x.lineWidth=Math.max(3,k*.4);x.strokeStyle='rgba(0,0,0,.75)';x.strokeText(o.n,sx,sy-k*1.4);x.fillStyle='#fff';x.fillText(o.n,sx,sy-k*1.4)}}
-/* ===== Minimap di layar game (ketuk = buka Peta, tahan = ciutkan/besarkan) ===== */
-(function(){
- const VW=30,VH=22,TS=8,C=['#2d7ec4','#e9cf8f','#4f9d3a','#a56f3b','#2f8f9a','#a56f3b','#c9a46a'],cv=document.createElement('canvas'),bg=document.createElement('canvas');
- cv.style.cssText='position:fixed;right:8px;top:140px;z-index:6;border-radius:14px;border:2px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.4),0 0 0 3px var(--glow);display:none;touch-action:manipulation';
- document.body.appendChild(cv);let bk='',lastD=0,pt=0,pl=false;const col=()=>S.mmh===1;
- cv.addEventListener('pointerdown',e=>{e.preventDefault();pl=false;pt=setTimeout(()=>{pl=true;S.mmh=col()?0:1;try{save()}catch(x){}},550)});
- cv.addEventListener('pointerup',()=>{clearTimeout(pt);if(!pl){try{openPanel(false,'peta')}catch(x){}}});
- cv.addEventListener('pointercancel',()=>clearTimeout(pt));
- function fr(now){requestAnimationFrame(fr);if(now-lastD<90)return;lastD=now;try{
-  const show=(S.mms??2)!==0&&st==='walk'&&!document.getElementById('splash')&&$('panel').style.display!=='block'&&typeof M!=='undefined'&&M;
-  if(!show){cv.style.display='none';return}
-  cv.style.display='block';const cl=col(),iw=cl?72:VW*TS,ih=cl?72:VH*TS;
-  if(cv.width!==iw||cv.height!==ih){cv.width=iw;cv.height=ih;bk=''}
-  let sc2=cl?1:[0,.75,1,1.4][S.mms??2]||1,top=140,right=8;
-  try{const mn=$('menu'),ac=$('act'),rm=mn&&mn.getBoundingClientRect(),ra=ac&&ac.getBoundingClientRect();
-   if(rm&&rm.height>0){top=Math.round(rm.bottom+6);right=Math.max(4,Math.round(innerWidth-rm.right))}
-   if(ra&&ra.height>0&&ra.top>top){const av=ra.top-6-top,hh=ih/2*sc2;if(hh>av)sc2=Math.max(.45,sc2*av/hh)}}catch(e){}
-  try{const mg=$('msg'),rg=mg&&mg.getBoundingClientRect();if(rg&&rg.height>0&&!mg.classList.contains('gone')){const w=iw/2*sc2,h=ih/2*sc2;if(top<rg.bottom&&top+h>rg.top){const av=innerWidth-right-rg.right-6;if(av>0&&w>av)sc2=Math.max(.45,sc2*av/w)}}}catch(e){}
-  cv.style.left='auto';cv.style.right=right+'px';cv.style.top=top+'px';
-  cv.style.width=iw/2*sc2+'px';cv.style.height=ih/2*sc2+'px';cv.style.opacity=S.mmo?.55:1;
-  const x=cv.getContext('2d');x.setTransform(1,0,0,1,0,0);
-  if(cl){x.fillStyle='rgba(10,30,50,.85)';x.fillRect(0,0,iw,ih);x.font='38px system-ui,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('🗺️',iw/2,ih/2+2);return}
-  const ox=Math.floor(P.vx-VW/2),oy=Math.floor(P.vy-VH/2),fx=(P.vx-VW/2-ox)*TS,fy=(P.vy-VH/2-oy)*TS,key=ox+'|'+oy+'|'+ISL+'|'+M.length;
-  if(bk!==key){bg.width=(VW+1)*TS;bg.height=(VH+1)*TS;const b=bg.getContext('2d');b.fillStyle=C[0];b.fillRect(0,0,bg.width,bg.height);
-   for(let j=0;j<=VH;j++)for(let i=0;i<=VW;i++){const t=M[oy+j]&&M[oy+j][ox+i];if(t===undefined||t===0)continue;b.fillStyle=C[t]||'#888';b.fillRect(i*TS,j*TS,TS,TS)}bk=key}
-  x.drawImage(bg,-fx,-fy);
-  const g2=x.createRadialGradient(iw/2,ih/2,ih*.4,iw/2,ih/2,iw*.62);g2.addColorStop(0,'rgba(0,20,40,0)');g2.addColorStop(1,'rgba(0,20,40,.5)');x.fillStyle=g2;x.fillRect(0,0,iw,ih);
-  x.font='700 15px system-ui,sans-serif';x.textAlign='center';
-  for(const id in GH){const o=GH[id];if(!o||o.vx===undefined)continue;const sx=(o.vx-ox)*TS-fx+TS/2,sy=(o.vy-oy)*TS-fy+TS/2;if(sx<-10||sy<-10||sx>iw+10||sy>ih+10)continue;
-   x.fillStyle=o.sl?'#4cc3ff':'#ffb84d';x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.arc(sx,sy,5,0,6.3);x.fill();x.stroke();
-   x.lineWidth=3;x.strokeStyle='rgba(0,0,0,.8)';x.strokeText(o.n,sx,sy-9);x.fillStyle='#fff';x.fillText(o.n,sx,sy-9)}
-  const px=iw/2,py=ih/2,t=(now%1600)/1600;
-  x.strokeStyle='rgba(255,255,255,'+((1-t)*.9).toFixed(2)+')';x.lineWidth=2;x.beginPath();x.arc(px,py,5+t*14,0,6.3);x.stroke();
-  x.fillStyle='#ff6b4a';x.strokeStyle='#fff';x.lineWidth=2.5;x.beginPath();x.arc(px,py,5,0,6.3);x.fill();x.stroke();
-  x.fillStyle='rgba(0,0,0,.55)';x.beginPath();x.arc(iw-14,14,10,0,6.3);x.fill();x.fillStyle='#fff';x.font='800 12px system-ui,sans-serif';x.textBaseline='middle';x.fillText('U',iw-14,15)
- }catch(e){}}
- requestAnimationFrame(fr)})();
+
 function mmDeco(){const c=$('mm');if(!c)return;const PM=40,full=!MMZ,vw=full?MW+PM*2:36,vh=full?MH+PM*2:26,ox=full?-PM:Math.round(P.vx-vw/2),oy=full?-PM:Math.round(P.vy-vh/2),k=c.width/vw,x=c.getContext('2d'),W2=c.width,H2=c.height;
  x.setTransform(1,0,0,1,0,0);
  const g2=x.createRadialGradient(W2/2,H2/2,Math.min(W2,H2)*.45,W2/2,H2/2,Math.max(W2,H2)*.75);g2.addColorStop(0,'rgba(0,20,40,0)');g2.addColorStop(1,'rgba(0,20,40,.45)');x.fillStyle=g2;x.fillRect(0,0,W2,H2);
