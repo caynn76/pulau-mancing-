@@ -135,8 +135,8 @@ Selesai bila: tanjakan terasa enak dan FPS aman.
 
 TAHAP 2 - Masuk ke game (terkunci untuk GM)
 [x] 2A DIBUAT (menunggu uji GM): pulau3.html (gerbang GM, login dari pm-au, presence i=3 ke /island, pemain lain tampil, tombol kembali, indikator status Rules) + tombol GM 'Berlayar ke Pulau 3' di dermaga Pulau Rumah (index.html, 4 baris). Save tidak ditulis di pulau3.html. Cadangan sebelum 2A: index.before2A.html. Sisa uji: Rules menerima i=3 (lampu hijau 'Online' di pulau3.html), pindah bolak-balik, save tidak berubah. (Uji presence Pulau 3 dengan akun GM di sini, lihat bagian FIREBASE.)
-[ ] 2B zona pantai dan dermaga.
-[ ] 2C zona desa lereng.
+[x] 2B DIBUAT (menunggu uji HP): pulau3.html - dermaga bertiang dan lampu kertas (menyala malam), perahu nelayan bertambat (bergoyang), batu, payung dan bangku pantai, papan petunjuk, peti dan jaring, kayu apung, kerang dan bintang laut di pasir, tombol 'Pulang' muncul di ujung dermaga. Cadangan: pulau3.before-2B.html. index.html tidak berubah di 2B. Tabrakan benda kecil (batu, payung, bangku, papan, peti) memakai kotak kecil di dasar benda (COL), bukan satu petak penuh, supaya karakter bisa lewat di celah dan di belakang benda.
+[x] 2C DIBUAT (menunggu uji HP): pulau3.html - 4 rumah bervariasi (atap abu, hijau, cokelat; satu warung dengan tirai noren dan lampion), mesin minuman generik, sepeda, jemuran, sumur, dua patung jizo, papan pengumuman (untuk event nanti), kebun sayur 3x3 di tanah. Cahaya malam untuk mesin minuman dan warung. Cadangan: pulau3.before-2C.html.
 [ ] 2D zona kuil di puncak.
 [ ] 2E peta dan minimap realtime untuk Pulau 3: minimap di layar, panel Peta Pulau (daftar tempat PL untuk pulau 3), titik pemain lain, dan penanda level ketinggian (arsir tiap level, tanda tangga). Dikerjakan setelah zona pertama ada, lalu diperbarui tiap zona baru.
 Selesai bila: tiap zona bisa dijelajahi, minimap dan peta Pulau 3 tampil dengan posisi pemain realtime, dan daftar uji regresi lolos.
@@ -4531,11 +4531,12 @@ setTimeout(()=>{if(AU)syncClock().then(poll)},2500);
 (function(){if(!/^https?:$/.test(location.protocol))return;
 let base=null,last=0,shown=false;
 const check=async()=>{if(shown||document.hidden||Date.now()-last<60000)return;last=Date.now();
- try{const r=await fetch(location.pathname+'?_v='+Date.now(),{method:'HEAD',cache:'no-store'});if(!r.ok)return;const v=(r.headers.get('etag')||'')+'|'+(r.headers.get('last-modified')||'');if(v==='|')return;
+ try{const r=await fetch(location.pathname+'?_v='+Date.now(),{method:'HEAD',cache:'no-store'});if(!r.ok)return;let v=(r.headers.get('etag')||'')+'|'+(r.headers.get('last-modified')||'')+'|'+(r.headers.get('content-length')||'');
+  if(v==='||'){const g=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'});if(!g.ok)return;v='len:'+(await g.text()).length}
   if(base===null){base=v;return}if(v!==base)show()}catch(e){}};
 function show(){shown=true;const b=document.createElement('div');b.style.cssText='position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:50;display:flex;gap:8px;align-items:center;max-width:92vw;padding:8px 12px;border-radius:12px;background:#101c24;color:#fff;border:2px solid #ffd23f;font:600 13px system-ui,sans-serif;box-shadow:0 4px 14px #0008';
  const t=document.createElement('span');t.textContent='🔄 Ada versi baru';const g=document.createElement('button');g.textContent='Muat ulang';g.style.cssText='padding:5px 10px';g.onclick=()=>location.reload();const x=document.createElement('button');x.textContent='✕';x.style.cssText='padding:5px 8px';x.onclick=()=>{b.remove();shown=false;last=Date.now()+30*60000};b.append(t,g,x);document.body.appendChild(b)}
-setTimeout(check,8000);setInterval(check,600000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});
+setTimeout(check,8000);setInterval(check,600000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});addEventListener('pageshow',e=>{if(e.persisted)check()});
 })();
 </script>
 <script>
