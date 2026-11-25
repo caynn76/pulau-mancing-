@@ -261,7 +261,7 @@ const OBJ=[]; // {k:'tree'|'pink'|'house'|'torii'|'lantern'|'shrine',x,y,w,h}
 
  // ===== STASIUN SHIRASUNA (ujung jalur shinkansen, pantai timur) =====
  for(let y=25;y<=29;y++)for(let x=36;x<=47;x++){typ[y][x]=y<=26?STONE:SAND;lvl[y][x]=0;sol[y][x]=false;side[y][x]=false}
- for(let y=27;y<=29;y++)for(let x=37;x<=47;x++)sol[y][x]=true;
+ for(let y=27;y<=29;y++)for(let x=36;x<=47;x++)sol[y][x]=true;for(let x=36;x<=47;x++)sol[30][x]=true;
  for(let y=23;y<=29;y++)for(let x=35;x<=47;x++)TNO[x+','+y]=1;
  addC('station',37,23,5,2,[0,.3,5,2]);addC('tkm',36,24,1,1,[.15,.5,.85,1]);addC('ttb',42,24,1,1,[.15,.55,.95,1]);
  addC('canopy',43,25,4,1,[.3,.55,.6,1],[3.4,.55,3.7,1]);
@@ -270,13 +270,11 @@ const OBJ=[]; // {k:'tree'|'pink'|'house'|'torii'|'lantern'|'shrine',x,y,w,h}
 
  // ===== pantai lebih ramai: pinus hitam, jemuran jaring, pelampung, kerang, bintang laut, rumput pantai =====
  const okB=(x,y)=>okS(x,y)&&!TNO[x+','+y];
- [[5,25],[19,26],[32,26],[7,30],[33,31]].forEach(([x,y])=>{if(okB(x,y))addC('matsu',x,y,1,1,[.3,.7,.7,1])});
  [[11,27],[33,24]].forEach(([x,y])=>{if(okB(x,y)&&okB(x+1,y))addC('net',x,y,2,1,[.1,.6,.3,1],[1.7,.6,1.9,1])});
  [[19,31],[29,30],[6,27]].forEach(([x,y])=>{if(okB(x,y))add('buoy',x+.3,y+.8,.7,.2,false)});
  for(let y=22;y<=32;y++)for(let x=0;x<MW;x++){if(typ[y][x]!==SAND||sol[y][x]||TNO[x+','+y])continue;
   const r=hs(x,y,801),edgeBack=!inB(x,y-1)||typ[y-1][x]!==SAND;
-  if(r>.915){const k=hs(x,y,802)>.45?'shell':'star',ox=x+.2+hs(x,y,803)*.6,oy=y+.55+hs(x,y,804)*.4;for(let se=0;se<3;se++)OBJ.push({k,x:ox,y:oy,w:.4,h:.2,se})}
-  else if((edgeBack&&hs(x,y,805)>.5)||hs(x,y,806)>.965){OBJ.push({k:'tuft',x:x+.05+hs(x,y,807)*.3,y:y+.8+hs(x,y,808)*.2,w:.6,h:.2})}}
+  if(r>.915){const k=hs(x,y,802)>.45?'shell':'star',ox=x+.2+hs(x,y,803)*.6,oy=y+.55+hs(x,y,804)*.4;for(let se=0;se<3;se++)OBJ.push({k,x:ox,y:oy,w:.4,h:.2,se})}}
 
 })();
 const walkType=t=>t===SAND||t===GRASS||t===PATH||t===STONE||t===STAIR||t===DOCK||t===BRIDGE;
@@ -397,6 +395,16 @@ function bake(){
   if(SEASON===3){for(let i=0;i<700;i++){g.fillStyle=hs(i,9,904)>.5?'#f6fafc':'#dfe8ee';g.fillRect(bx+((hs(i,3,905)*bw)|0),by+((hs(i,5,906)*bh)|0),Math.max(1,u),1)}}
   const kx=36*T+Math.round(.42*T),kw=Math.round(.58*T);rect(g,kx,by+Math.round(.3*T),kw,bh-Math.round(.6*T),'#c8321f');
   for(let q=0;q<bh-Math.round(.6*T);q+=Math.max(4,Math.round(4*u)))rect(g,kx,by+Math.round(.3*T)+q,kw,Math.max(2,Math.round(2*u)),'#f2f2f2')}
+
+ // tanggul beton stasiun: dinding selatan dan barat, tangga ke peron, tiang penyangga. Memisahkan stasiun dari pasir pantai.
+ {const k=Math.max(1,u),X0=36*T,WW=12*T,Y0=27*T+Math.round(.45*T)+Math.round(2.05*T),HH=Math.round(1.05*T);
+  rect(g,X0,Y0+HH,WW,Math.round(.2*T),'rgba(0,0,0,.2)');
+  rect(g,X0,Y0,WW,HH,'#9aa1a9');rect(g,X0,Y0,WW,k*2,'#c4cad0');
+  for(let y=Math.round(.3*T);y<HH;y+=Math.round(.3*T))rect(g,X0,Y0+y,WW,k,'rgba(40,46,54,.28)');
+  for(let x=0;x<WW;x+=3*T){rect(g,X0+x,Y0,k*2,HH,'rgba(40,46,54,.35)');rect(g,X0+x+Math.round(.28*T),Y0+k*2,Math.round(.42*T),HH-k*2,'#8a9199');rect(g,X0+x+Math.round(.28*T),Y0+k*2,k,HH-k*2,'#b2b8bf')}
+  for(let i=0;i<260;i++){g.fillStyle=hs(i,1,911)>.5?'rgba(255,255,255,.1)':'rgba(30,36,44,.14)';g.fillRect(X0+((hs(i,2,912)*WW)|0),Y0+((hs(i,3,913)*HH)|0),k,k)}
+  rect(g,X0-Math.round(.22*T),27*T+Math.round(.45*T),Math.round(.22*T),Y0+HH-(27*T+Math.round(.45*T)),'#858c94');rect(g,X0-Math.round(.22*T),27*T+Math.round(.45*T),k,Y0+HH-(27*T+Math.round(.45*T)),'#aab1b8');
+  for(let i=0;i<3;i++){const sx=35*T+Math.round(i*.33*T);rect(g,sx,25*T+Math.round(.12*T),Math.round(.33*T),2*T-Math.round(.12*T),['#cbd0d6','#b4bac1','#9ea4ab'][i]);rect(g,sx,25*T+Math.round(.12*T),k,2*T-Math.round(.12*T),'rgba(40,46,54,.3)')}}
 
  // karpet kelopak sakura di bawah pohon
  if(SEASON===0){if(!window.__PCM){const m={};OBJ.forEach(o=>{if(/^pink/.test(o.k)){const cx=o.x+o.w/2,cy=o.y+o.h-.2;for(let j=-2;j<=2;j++)for(let i=-2;i<=2;i++){const dd=Math.hypot(i,j-.2);if(dd<=2.3){const kx=Math.floor(cx)+i,ky=Math.floor(cy)+j,key=kx+','+ky;m[key]=Math.max(m[key]||0,1-dd/2.5)}}}});window.__PCM=m}
@@ -1236,7 +1244,7 @@ addEventListener('keydown',e=>{if(e.key==='e'||e.key==='E'||e.key==='Enter'||e.k
    STASIUN SHIRASUNA: kereta shinkansen, tiket, jadwal, perjalanan ke kota.
    Tidak menulis save. KOTA.ready=false: kota belum ada, jadi kereta berbalik arah.
    ===================================================================== */
-const KOTA={ready:false,url:'kota.html',name:'Kota Besar'};
+const KOTA={ready:true,url:'kota.html',name:'Kota Besar'};
 const TRN={st:'away',t:0,w:6,x:64,door:0,vis:0,ticket:0,ch:0};const TSTOP=37.6,TSTART=64,TY=29.2;
 PLC.push(['🚉 Stasiun Shirasuna',41,26]);
 SFX.stIn=function(){nz(3.2,'lowpass',190,.8,.34);tone(72,3.2,.05,'sawtooth',0,48)};
@@ -1501,6 +1509,7 @@ function boot(){
 ldSet(35,'Menggambar pulau');
 setVar('C');setTod(-1);setPet(1);
 if(!GATE){ldSet(50,'Menggambar musim');const keepS=SEASON;for(const q of [keepS]){SEASON=q;bake();bakeSprites()}SEASON=keepS}
+try{if(!GATE&&sessionStorage.getItem('pm-fromkota')){sessionStorage.removeItem('pm-fromkota');Pl.x=41.2;Pl.y=26.4;Pl.L=0;TRN.st='dwell';TRN.t=2;TRN.x=TSTOP;TRN.vis=1;TRN.door=1;setTimeout(()=>{try{toast('🚉 Tiba di Stasiun Shirasuna')}catch(e){}},1800)}}catch(e){}
 window.__p3={Pl,setVar,setTod,setPet,setWx,setSeason,WX,OT,NET,get K(){return K}};
 if(GATE){ldDone();const gt=document.getElementById('gate');document.getElementById('gmsg').innerHTML=GATE+'<br><a href="'+BACK+'">⬅ Kembali ke game</a>';gt.style.display='flex';return}
 ldSet(65,'Menyambung ke pemain lain');
