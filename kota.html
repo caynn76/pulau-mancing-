@@ -362,39 +362,40 @@ function lights(n){if(n<.04)return;g.save();g.globalAlpha=Math.min(1,n*1.3);
  g.restore()}
 
 /* ===== SUARA KOTA (WebAudio dari kode, tanpa file audio). Tidak menulis save. ===== */
-const SND={on:true,ctx:null,m:null,nb:null,L:{},k:0,nx:{},kb:{}};
-try{if(localStorage.getItem('kotasnd')==='0')SND.on=false}catch(e){}
+const SND={on:true,lv:1,ctx:null,m:null,nb:null,wb:null,L:{},k:0,nx:{},kb:{},vol(){return this.lv===2?.55:this.lv===1?.3:0}};
+try{const q=localStorage.getItem('kotasnd');if(q==='0'||q==='1'||q==='2')SND.lv=+q}catch(e){}
+SND.on=SND.lv>0;
 function sndInit(){if(SND.ctx){if(SND.ctx.state==='suspended')SND.ctx.resume();return}
- try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const c=SND.ctx=new AC(),m=SND.m=c.createGain();m.gain.value=SND.on?.8:0;m.connect(c.destination);
-  const len=c.sampleRate*2,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=Math.max(-1,Math.min(1,w*.5+l*3.2))}SND.nb=b;
+ try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const c=SND.ctx=new AC(),m=SND.m=c.createGain();m.gain.value=SND.vol();m.connect(c.destination);
+  const len=c.sampleRate*2,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=Math.max(-1,Math.min(1,l*3.6))}SND.nb=b;const wb=c.createBuffer(1,len,c.sampleRate),wd=wb.getChannelData(0);for(let i=0;i<len;i++)wd[i]=Math.random()*2-1;SND.wb=wb;
   const loop=(type,f,q)=>{const s=c.createBufferSource();s.buffer=b;s.loop=true;const fl=c.createBiquadFilter();fl.type=type;fl.frequency.value=f;fl.Q.value=q||.7;const g=c.createGain();g.gain.value=0;s.connect(fl);fl.connect(g);g.connect(m);s.start(0,Math.random()*1.5);return{g,fl,s}};
-  SND.L.city=loop('lowpass',260,.5);SND.L.crowd=loop('bandpass',700,.7);SND.L.traf=loop('bandpass',420,.6);SND.L.exw=loop('lowpass',150,.6);SND.L.river=loop('bandpass',640,.8);SND.L.hall=loop('lowpass',420,.5);SND.L.train=loop('lowpass',120,.8);SND.L.bus=loop('lowpass',200,.7);
+  SND.L.city=loop('lowpass',170,.5);SND.L.crowd=loop('bandpass',380,1.1);SND.L.traf=loop('lowpass',280,.6);SND.L.exw=loop('lowpass',110,.6);SND.L.river=loop('bandpass',520,1);SND.L.hall=loop('lowpass',300,.5);SND.L.train=loop('lowpass',90,.8);SND.L.bus=loop('lowpass',140,.7);
   [[SND.L.crowd,.31,160],[SND.L.river,.17,90]].forEach(([o,r,dp])=>{const lf=c.createOscillator();lf.frequency.value=r;const lg=c.createGain();lg.gain.value=dp;lf.connect(lg);lg.connect(o.fl.frequency);lf.start()});
   const ho=c.createOscillator();ho.type='sawtooth';ho.frequency.value=100;const hf=c.createBiquadFilter();hf.type='lowpass';hf.frequency.value=420;const hg=c.createGain();hg.gain.value=0;ho.connect(hf);hf.connect(hg);hg.connect(m);ho.start();SND.L.neon={g:hg};
   if(c.state==='suspended')c.resume()}catch(e){SND.ctx=null}}
 function tone(f,d,v,ty,at,f2){const c=SND.ctx;if(!c||!SND.on||c.state!=='running')return;const t0=c.currentTime+(at||0),o=c.createOscillator(),g=c.createGain();o.type=ty||'sine';o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+d);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.008);g.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(g);g.connect(SND.m);o.start(t0);o.stop(t0+d+.05)}
-function nzb(d,ty,f,q,v,at){const c=SND.ctx;if(!c||!SND.on||c.state!=='running')return;const t0=c.currentTime+(at||0),s=c.createBufferSource();s.buffer=SND.nb;const fl=c.createBiquadFilter();fl.type=ty;fl.frequency.value=f;fl.Q.value=q||.7;const g=c.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+d*.35);g.gain.linearRampToValueAtTime(0,t0+d);s.connect(fl);fl.connect(g);g.connect(SND.m);s.start(t0,Math.random()*1.5,d+.05)}
+function nzb(d,ty,f,q,v,at){const c=SND.ctx;if(!c||!SND.on||c.state!=='running')return;const t0=c.currentTime+(at||0),s=c.createBufferSource();s.buffer=ty==='lowpass'?SND.nb:SND.wb;const fl=c.createBiquadFilter();fl.type=ty;fl.frequency.value=f;fl.Q.value=q||.7;const g=c.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+d*.35);g.gain.linearRampToValueAtTime(0,t0+d);s.connect(fl);fl.connect(g);g.connect(SND.m);s.start(t0,Math.random()*1.5,d+.05)}
 const prox=(d,r)=>Math.max(0,1-d/r),dRect=(x0,y0,x1,y1)=>Math.hypot(Math.max(x0-P.x,0,P.x-x1),Math.max(y0-P.y,0,P.y-y1));
 const sg=(o,v)=>{if(o&&o.g&&SND.ctx)o.g.gain.setTargetAtTime(v*(SND.on?1:0),SND.ctx.currentTime,.4)};
-function busSnd(b){const c=SND.ctx;if(!c||!SND.on||c.state!=='running')return;const d=Math.hypot(P.x-b.px,P.y-b.sy),v=prox(d,16);if(v<=.02)return;tone(880,.28,.12*v,'sine');tone(659,.4,.12*v,'sine',.24);nzb(.7,'highpass',2600,.8,.1*v,.5)}
+function busSnd(b){const c=SND.ctx;if(!c||!SND.on||c.state!=='running')return;const d=Math.hypot(P.x-b.px,P.y-b.sy),v=prox(d,16);if(v<=.02)return;tone(880,.28,.08*v,'sine');tone(659,.4,.08*v,'sine',.24);nzb(.6,'highpass',2600,.8,.05*v,.5)}
 function updSnd(dt){const c=SND.ctx;if(!c||c.state!=='running'||!SND.on)return;
  const dScr=Math.hypot(P.x-80,P.y-29),dNeon=dRect(104,34,110,62),dAl=dRect(50,6,54,24),dPlz=dRect(4,24,40,34),dAve=dRect(40,26,120,32),dX=dRect(76,8,84,60),dBus=dRect(75,38,85,58),dEx=Math.abs(P.x-115),dTr=Math.hypot(P.x-22,P.y-41.5),ph=phase();
  const gTraf=.2*Math.max(prox(dAve,14),prox(dX,10)*.8)*(ph==='S'?.4:1),gEx=prox(dEx,16)*(dEx<3?1.4:1);
- sg(SND.L.city,.07);sg(SND.L.crowd,.26*Math.max(prox(dScr,22)*(ph==='S'?1.2:.8),prox(dNeon,10)*.7,prox(dAl,7)*.5,prox(dPlz,6)*.55));
- sg(SND.L.traf,gTraf);sg(SND.L.exw,.2*gEx);sg(SND.L.river,.18*prox(Math.max(0,64-P.y),9)*(P.y>55?1:0));
- sg(SND.L.hall,.13*(P.x<40&&P.y>=34?1:prox(dRect(4,34,40,45),6)));sg(SND.L.train,.2*(P.x<42?prox(dTr,12):0));
- let dw=0;for(const b of VB)if(b.st==='dw')dw++;sg(SND.L.bus,.1*prox(dBus,11)*(.5+dw*.25));sg(SND.L.neon,.05*Math.max(prox(dNeon,8),prox(dAl,6)*.6));
+ sg(SND.L.city,.03);sg(SND.L.crowd,.11*Math.max(prox(dScr,22)*(ph==='S'?1.2:.8),prox(dNeon,10)*.7,prox(dAl,7)*.5,prox(dPlz,6)*.55));
+ sg(SND.L.traf,gTraf*.45);sg(SND.L.exw,.13*gEx);sg(SND.L.river,.08*prox(Math.max(0,64-P.y),9)*(P.y>55?1:0));
+ sg(SND.L.hall,.05*(P.x<40&&P.y>=34?1:prox(dRect(4,34,40,45),6)));sg(SND.L.train,.1*(P.x<42?prox(dTr,12):0));
+ let dw=0;for(const b of VB)if(b.st==='dw')dw++;sg(SND.L.bus,.05*prox(dBus,11)*(.5+dw*.25));sg(SND.L.neon,.02*Math.max(prox(dNeon,8),prox(dAl,6)*.6));
  const t=performance.now()/1000,nx=SND.nx;
- if(ph==='S'&&dScr<26&&(nx.beep||0)<t){nx.beep=t+.5;tone((Math.floor(t*2)%2)?1480:1180,.14,.17*prox(dScr,26),'sine')}
- if((nx.car||0)<t&&gTraf>.08){nx.car=t+.5+Math.random()*1.4;nzb(.55+Math.random()*.4,'bandpass',700+Math.random()*700,.9,.5*gTraf)}
- if((nx.ex||0)<t&&gEx>.08){nx.ex=t+.9+Math.random()*1.6;nzb(.8,'lowpass',420+Math.random()*200,.8,.3*gEx)}
- if(P.x<40&&P.y>=24&&(nx.st||0)<t){nx.st=t+(nx.st?38:6);[784,988,1175].forEach((f,i)=>tone(f,.5,.12,'sine',i*.38))}
- for(const b of BL)if(b.kb){const dx=b.x+b.dr+.5;if(Math.abs(P.x-dx)<1.2&&P.y>23.7&&P.y<25.7&&(SND.kb[b.i]||0)<t){SND.kb[b.i]=t+10;[988,784,659,784].forEach((f,i)=>tone(f,.16,.11,'sine',i*.13))}}
- if(P.mv){const k=Math.floor(P.ph/Math.PI);if(k!==SND.k){SND.k=k;const kk=kAt(Math.floor(P.x),Math.floor(P.y));nzb(.07,'bandpass',kk===ALLEY?900:kk===NSTR?700:kk===ROAD?500:1500,1.2,.07)}}}
-function sndSet(on){SND.on=on;try{localStorage.setItem('kotasnd',on?'1':'0')}catch(e){}$('snb').textContent=on?'🔊 Suara ON':'🔇 Suara OFF';if(SND.m&&SND.ctx)SND.m.gain.setTargetAtTime(on?.8:0,SND.ctx.currentTime,.1)}
+ if(ph==='S'&&dScr<26&&(nx.beep||0)<t){nx.beep=t+.5;tone((Math.floor(t*2)%2)?1480:1180,.14,.1*prox(dScr,26),'sine')}
+ if((nx.car||0)<t&&gTraf>.08){nx.car=t+.5+Math.random()*1.4;nzb(.7+Math.random()*.5,'lowpass',380+Math.random()*260,.8,.22*gTraf)}
+ if((nx.ex||0)<t&&gEx>.08){nx.ex=t+.9+Math.random()*1.6;nzb(.8,'lowpass',420+Math.random()*200,.8,.16*gEx)}
+ if(P.x<40&&P.y>=24&&(nx.st||0)<t){nx.st=t+(nx.st?38:6);[784,988,1175].forEach((f,i)=>tone(f,.5,.08,'sine',i*.38))}
+ for(const b of BL)if(b.kb){const dx=b.x+b.dr+.5;if(Math.abs(P.x-dx)<1.2&&P.y>23.7&&P.y<25.7&&(SND.kb[b.i]||0)<t){SND.kb[b.i]=t+10;[988,784,659,784].forEach((f,i)=>tone(f,.16,.08,'sine',i*.13))}}
+ if(P.mv){const k=Math.floor(P.ph/Math.PI);if(k!==SND.k){SND.k=k;const kk=kAt(Math.floor(P.x),Math.floor(P.y));nzb(.06,'bandpass',kk===ALLEY?700:kk===NSTR?600:kk===ROAD?450:1100,1.4,.03)}}}
+function sndLevel(lv){SND.lv=lv;SND.on=lv>0;try{localStorage.setItem('kotasnd',String(lv))}catch(e){}$('snb').textContent=lv===2?'🔊 Suara: Penuh':lv===1?'🔉 Suara: Pelan':'🔇 Suara: Mati';if(SND.m&&SND.ctx)SND.m.gain.setTargetAtTime(SND.vol(),SND.ctx.currentTime,.1)}
 ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{if(SND.on)sndInit()},{passive:true}));
 document.addEventListener('visibilitychange',()=>{const c=SND.ctx;if(!c)return;if(document.hidden)c.suspend();else if(SND.on)c.resume()});
-$('snb').addEventListener('click',()=>{sndSet(!SND.on);if(SND.on)sndInit()});sndSet(SND.on);
+$('snb').addEventListener('click',()=>{sndLevel((SND.lv+1)%3);if(SND.on)sndInit()});sndLevel(SND.lv);
 
 /* aksi: naik shinkansen pulang ke Shirasuna */
 const TG=[{k:'train',r:[14,40,30,42],reach:.9,lab:'🚆 Naik Shinkansen ke Shirasuna'}];let ACTT=null;
@@ -406,7 +407,7 @@ let tt=0;function say(s,ms){const t=$('toast');t.textContent=s;t.style.opacity=1
 
 /* perjalanan pulang: pemandangan dari jendela */
 const RIDE={on:0,t:0,D:4.6};const rc=$('rc'),rg=rc.getContext('2d');
-function rideStart(){if(RIDE.on)return;RIDE.on=1;try{sndInit();[659,784,988,1319].forEach((f,i)=>tone(f,.3,.12,'sine',i*.18));nzb(3,'lowpass',520,.7,.22,.6)}catch(e){}RIDE.t=0;const r=$('ride');r.style.display='block';requestAnimationFrame(()=>r.style.opacity=1);let last=performance.now();
+function rideStart(){if(RIDE.on)return;RIDE.on=1;try{sndInit();[659,784,988,1319].forEach((f,i)=>tone(f,.3,.12,'sine',i*.18));nzb(3,'lowpass',520,.7,.1,.6)}catch(e){}RIDE.t=0;const r=$('ride');r.style.display='block';requestAnimationFrame(()=>r.style.opacity=1);let last=performance.now();
  (function lp(now){const dt=Math.min(.1,(now-last)/1000);last=now;RIDE.t+=dt;rideDraw(RIDE.t);if(RIDE.t>=RIDE.D){try{sessionStorage.setItem('pm-fromkota','1')}catch(e){}location.href=ISL;return}requestAnimationFrame(lp)})(last)}
 function rideDraw(t){const n=N,mx=(a,b,k)=>Math.round(a+(b-a)*k);rg.fillStyle='rgb('+mx(120,14,n)+','+mx(190,22,n)+','+mx(235,52,n)+')';rg.fillRect(0,0,384,150);
  rg.fillStyle='rgb('+mx(240,40,n)+','+mx(248,52,n)+','+mx(252,86,n)+')';const cx=260-t*6;for(let x=-110;x<=110;x++){const h=Math.round(80*(1-Math.abs(x)/110));rg.fillRect(cx+x,150-h,1,h)}
