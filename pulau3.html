@@ -39,6 +39,7 @@ canvas#cv{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;
 #mpb{display:flex;gap:12px;flex:1;min-height:0;overflow:auto;flex-wrap:wrap;align-content:flex-start}#mpc{image-rendering:pixelated;border-radius:8px;border:1px solid rgba(255,255,255,.25);display:block;flex:none}
 #mpl{flex:1;min-width:170px}#mapp.wide #mpb{overflow:hidden;flex-wrap:nowrap}#mapp.wide #mpl{overflow-y:auto;height:100%;padding-right:4px}#mapp:not(.wide) #mpl{min-width:100%}#mapp:not(.wide) #mpc{position:sticky;top:0;z-index:2;background:#0b1620}#mpl h4{margin:6px 0 4px;font-size:12px;opacity:.75;letter-spacing:.4px}#mpl .mpp{padding:4px 2px;font-size:13px}
 #mpl .pl{display:block;width:100%;text-align:left;background:var(--pn);color:var(--fg);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:7px 9px;margin:0 0 5px;font:inherit;font-size:13px}#mpl .pl small{opacity:.6;margin-left:4px}#mpl .pl.sel{border-color:#ffd23f;background:rgba(255,210,63,.15)}#mpl .clr{color:#ffb4b4}
+body.nogm #gt,body.nogm #gp,body.nogm #szb,body.nogm #wxb,body.nogm #info{display:none!important}
 body.ui-off .bar,body.ui-off #mmw,body.ui-off #info,body.ui-off #net,body.ui-off #back,body.ui-off #board{display:none!important}
 body.ui-off #joy{opacity:0}
 #uib{position:fixed;left:max(18px,env(safe-area-inset-left));bottom:calc(max(18px,env(safe-area-inset-bottom)) + 132px);z-index:6;width:36px;height:36px;padding:0;border-radius:50%;background:var(--pn);color:var(--fg);border:1px solid rgba(255,255,255,.18);font-size:16px;line-height:1}
@@ -97,7 +98,8 @@ const FB_KEY='AIzaSyDQAa7hgphhZe6gyYZQaGXChcO1c6RGIaQ',FB_URL='https://mancing-i
 let SV={},AU=null;
 try{SV=JSON.parse(localStorage.getItem('pulau-mancing')||'null')||{}}catch(e){}
 try{AU=JSON.parse(localStorage.getItem('pm-au')||'null')}catch(e){}
-const GATE=!(SV&&Array.isArray(SV.inv))?'Data game belum ditemukan. Buka game utama dulu, lalu kembali ke sini.':!AU||!AU.rt?'Kamu belum login. Login dulu di game utama.':!SV.gm?'Pulau 3 masih dalam pengembangan dan hanya bisa dibuka dengan mode GM.':'';
+const IS_GM=!!(SV&&SV.gm);try{if(!IS_GM)document.body.classList.add('nogm')}catch(e){}
+const GATE=!(SV&&Array.isArray(SV.inv))?'Data game belum ditemukan. Buka game utama dulu, lalu kembali ke sini.':!AU||!AU.rt?'Kamu belum login. Login dulu di game utama.':'';
 async function auToken(){if(AU.tok&&Date.now()<AU.exp-60000)return AU.tok;
  try{const r=await fetch('https://securetoken.googleapis.com/v1/token?key='+FB_KEY,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(AU.rt)}),d=await r.json();
   if(!d.id_token)return '';AU.tok=d.id_token;AU.exp=Date.now()+(+d.expires_in||3600)*1000;
@@ -286,7 +288,8 @@ const inWater=(x,y)=>wadeAt(Math.floor(x),Math.floor(y));
    ===================================================================== */
 const VAR={A:{T:16,H:192,name:'A: petak 16, 12 petak tinggi'},B:{T:16,H:288,name:'B: petak 16, 18 petak tinggi'},C:{T:32,H:384,name:'Pulau 3 · C (petak 32) · 1B+1C'}};
 let vkey='C',V=VAR.C,T=32,u=2,FX=true;
-let SEASON=0;const SEAS=['Semi','Panas','Gugur','Dingin'],SEAS_BUILT=[0,1,2,3]; // semua musim sudah dibuat
+let SEASON=(m=>m>=2&&m<=4?0:m>=5&&m<=7?1:m>=8&&m<=10?2:3)(new Date().getMonth());const SEAS=['Semi','Panas','Gugur','Dingin'],SEAS_BUILT=[0,1,2,3]; // semua musim sudah dibuat
+document.getElementById('szb').textContent='Musim: '+SEAS[SEASON];
 const BK=()=>vkey+'|'+SEASON;
 const SGS=[{a:'#7db84a',b:'#5e9c38',c:'#a2d45e',d:'#6fae3f',e:'#8cc653'},{a:'#69bf3a',b:'#3f9a2c',c:'#9be05a',d:'#55ad34',e:'#7fd048'},{a:'#a3a64a',b:'#868f3a',c:'#bdb85a',d:'#93983f',e:'#aeaa50'},{a:'#e6eef4',b:'#cfdbe6',c:'#f6fafc',d:'#d9e4ed',e:'#eef4f8'}];let SG=SGS[0];
 const AC=['#d9532a','#f0b832','#b8452a','#e8892a'];
@@ -1244,7 +1247,7 @@ addEventListener('keydown',e=>{if(e.key==='e'||e.key==='E'||e.key==='Enter'||e.k
    STASIUN SHIRASUNA: kereta shinkansen, tiket, jadwal, perjalanan ke kota.
    Tidak menulis save. KOTA.ready=false: kota belum ada, jadi kereta berbalik arah.
    ===================================================================== */
-const KOTA={ready:true,url:'kota.html',name:'Kota Besar'};
+const KOTA={ready:IS_GM,url:'kota.html',name:'Kota Besar'};
 const TRN={st:'away',t:0,w:6,x:64,door:0,vis:0,ticket:0,ch:0};const TSTOP=37.6,TSTART=64,TY=29.2;
 PLC.push(['🚉 Stasiun Shirasuna',41,26]);
 SFX.stIn=function(){nz(3.2,'lowpass',190,.8,.34);tone(72,3.2,.05,'sawtooth',0,48)};
@@ -1284,10 +1287,10 @@ function drawRailWire(g,t){const y=Math.round(26.62*T-camY),x0=Math.max(0,Math.r
  g.fillStyle='rgba(28,28,40,.8)';g.fillRect(x0,y,W-x0,Math.max(1,Math.round(u*.6)));g.fillStyle='rgba(28,28,40,.4)';g.fillRect(x0,y+Math.round(u*3),W-x0,1)}
 /* tiket, jadwal, boarding */
 function trNext(){return TRN.st==='away'?'Kereta berikutnya tiba sekitar '+Math.max(1,Math.ceil(TRN.w-TRN.t))+' detik lagi.':TRN.st==='arrive'?'Kereta sedang masuk peron.':TRN.st==='dwell'?'Kereta berhenti di peron. Naik sekarang!':'Kereta baru saja berangkat.'}
-ACT.ticket={lab:'🎫 Beli tiket',cd:1.4,L:0,run(){sfx('beep');if(TRN.ticket){toast('🎫 Kamu sudah punya tiket. Naik di peron saat kereta berhenti.',3200);return}TRN.ticket=1;setTimeout(()=>sfx('coin'),250);
+ACT.ticket={lab:'🎫 Beli tiket',cd:1.4,L:0,run(){sfx('beep');if(!IS_GM){showCard({kj:'🎫',title:'Tiket belum dijual',html:'<p>Jalur Shinkansen ke '+KOTA.name+' belum dibuka.</p><p>Kotanya masih dalam pembangunan. Nantikan ya!</p>',btns:[['Oke',null]]});return}if(TRN.ticket){toast('🎫 Kamu sudah punya tiket. Naik di peron saat kereta berhenti.',3200);return}TRN.ticket=1;setTimeout(()=>sfx('coin'),250);
   showCard({kj:'🎫',title:'Tiket Shinkansen',html:'<p>Shirasuna → '+KOTA.name+'</p><p>Sekali jalan. Naik di peron saat kereta berhenti.</p>'})}};
-ACT.timetable={lab:'🕐 Lihat jadwal',cd:1,L:0,run(){sfx('soft');showCard({kj:'🕐',title:'Jadwal Shinkansen',html:'<p>Stasiun Shirasuna → '+KOTA.name+'</p><p>'+trNext()+'</p><p>'+(TRN.ticket?'Tiketmu sudah siap.':'Beli tiket di mesin di samping stasiun.')+'</p>'})}};
-ACT.board={lab:'🚆 Naik Shinkansen',cd:2,L:0,need:()=>TRN.st==='dwell'&&TRN.door>.6&&!RIDE.on,run(){if(!TRN.ticket){bubble('🎫');toast('🎫 Belum ada tiket. Beli dulu di mesin tiket di samping stasiun.',3400);return}rideStart()}};
+ACT.timetable={lab:'🕐 Lihat jadwal',cd:1,L:0,run(){sfx('soft');if(!IS_GM){showCard({kj:'🕐',title:'Jadwal Shinkansen',html:'<p>Stasiun Shirasuna → '+KOTA.name+'</p><p>Belum beroperasi. Kotanya masih dalam pembangunan.</p>',btns:[['Oke',null]]});return}showCard({kj:'🕐',title:'Jadwal Shinkansen',html:'<p>Stasiun Shirasuna → '+KOTA.name+'</p><p>'+trNext()+'</p><p>'+(TRN.ticket?'Tiketmu sudah siap.':'Beli tiket di mesin di samping stasiun.')+'</p>'})}};
+ACT.board={lab:'🚆 Naik Shinkansen',cd:2,L:0,need:()=>TRN.st==='dwell'&&TRN.door>.6&&!RIDE.on,run(){if(!IS_GM){toast('🚆 Shinkansen ke '+KOTA.name+' belum beroperasi.',3000);return}if(!TRN.ticket){bubble('🎫');toast('🎫 Belum ada tiket. Beli dulu di mesin tiket di samping stasiun.',3400);return}rideStart()}};
 function stationTG(){TG.push({k:'ticket',r:[36,24,37,25],reach:1.4});TG.push({k:'timetable',r:[42,24,43,25],reach:1.4});TG.push({k:'board',r:[38,25,47,27],reach:.3})}
 /* perjalanan: pemandangan dari jendela */
 const RIDE={on:0,t:0,D:17,last:0,ck:0};let rideEl=null,rideCv=null,rideG=null;
