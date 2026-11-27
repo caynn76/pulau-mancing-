@@ -50,7 +50,7 @@ fill(WALK,40,24,119,25);fill(ROAD,40,26,119,31);fill(WALK,40,32,119,33);   // ja
 fill(PLAZA,4,24,39,33);                                                     // plaza stasiun
 fill(WALL,6,34,38,37);fill(HALL,20,34,23,37);                               // gedung stasiun + lorong
 fill(PLAT,6,38,38,41);fill(RAIL,0,42,39,44);
-fill(ALLEY,50,6,53,23);fill(TUN,40,26,41,31);fill(NSTR,104,34,109,62);fill(RIVER,0,64,119,71);fill(WALK,74,8,75,59);fill(WALK,84,8,85,59);fill(ROAD,76,8,83,59);fill(ROAD,72,26,87,31);   // jalan silang untuk Scramble                                // peron dan rel
+fill(ALLEY,50,6,53,23);fill(PLAZA,40,24,41,33);fill(NSTR,104,34,109,62);fill(RIVER,0,64,119,71);fill(WALK,74,8,75,59);fill(WALK,84,8,85,59);fill(ROAD,76,8,83,59);fill(ROAD,72,26,87,31);   // jalan silang untuk Scramble                                // peron dan rel
 const kAt=(x,y)=>x<0||y<0||x>=MW||y>=MH?ROOF:tk[y*MW+x];
 let BLKR=null;const solid=(x,y)=>{const tx=Math.floor(x),ty=Math.floor(y),k=kAt(tx,ty);return k===ROOF||k===RAIL||k===WALL||k===RIVER||k===TUN||(tx>=0&&ty>=0&&tx<MW&&ty<MH&&BLKR&&BLKR[ty*MW+tx]===1)};
 const CROSS=[60,61,62,92,93,94,73,74,75,84,85,86],CROSSV=[23,24,25,32,33,34];
@@ -245,8 +245,10 @@ const VB=BSTOPS.map((st,i)=>{const dw=i===0||i===3;return{si:i,lane:st.lane,dir:
 const QP=[],PAX=[];BSTOPS.forEach((st,i)=>{for(let j=0;j<4;j++){const hx=st.lane?84.4+(j%2)*.7:74.5+(j%2)*.7,hy=st.y+(j-1.5)*.55;QP.push({si:i,hx,hy,x:hx,y:hy,ph:hs(i,j,9)*6,v:1,c:PCOL[(i+j)%6],board:false,hide:false})}});
 function spawnPax(b){try{busSnd(b)}catch(e){}const cur=b.px+(b.lane?.5:-.5),sw=b.lane?84.7:75.3;for(let i=0;i<3;i++)PAX.push({x:cur,y:b.sy+(i-1)*.5,tx:sw+(hs(i,b.si,9)-.5)*.6,ty:b.sy+(i-1)*.9+(hs(i,b.si,8)-.5)*1.2,ph:hs(i,3,9)*6,v:1,c:PCOL[(i+b.si*2)%6],life:5,st:0,w:b.lane?[85.4,33.4,86.8,33.5,1]:[74.6,33.4,73.2,33.5,-1]});let n=0;for(const q of QP)if(q.si===b.si&&n<2&&!q.hide){q.board=true;n++}}
 function wclip(x,y,w,h,f){g.save();g.beginPath();g.rect(x,y,w,h);g.clip();f();g.restore()}
-function tunnelDraw(){const X=42*T-camX;if(X>W+10||X+4*T<0)return;const Y=26*T-camY,h=6*T,gr=g.createLinearGradient(X,0,X+4*T,0);gr.addColorStop(0,'rgba(3,4,8,1)');gr.addColorStop(.35,'rgba(3,4,8,.6)');gr.addColorStop(1,'rgba(3,4,8,0)');g.fillStyle=gr;g.fillRect(Math.round(X),Math.round(Y),4*T,h);
- R(g,40*T-camX,Y-6,2*T,8,'#7a828c');R(g,40*T-camX,Y-6,2*T,2,'#aab2bc');R(g,40*T-camX,Y+h-2,2*T,8,'#7a828c');signPanel(Math.round(40*T-camX-6),Math.round(Y-30),2*T+12,'#ffd23f','アンダーパス',false)}
+function tunnelDraw(){const X0=42*T-camX;if(X0>W+10||X0+7*T<0)return;const Y=26*T-camY,h=6*T,gr=g.createLinearGradient(X0,0,X0+6*T,0);gr.addColorStop(0,'rgba(3,4,8,1)');gr.addColorStop(.4,'rgba(3,4,8,.62)');gr.addColorStop(1,'rgba(3,4,8,0)');g.fillStyle=gr;g.fillRect(Math.round(X0),Math.round(Y),6*T,h);
+ g.fillStyle='#7d858f';g.beginPath();g.moveTo(X0,Y);g.lineTo(X0+6*T,Y);g.lineTo(X0+6*T,Y+4);g.lineTo(X0,Y+30);g.closePath();g.fill();R(g,X0,Y-2,6*T,3,'#a8b0b9');
+ g.fillStyle='rgba(0,0,0,.35)';g.fillRect(Math.round(X0),Math.round(Y),10,h);R(g,X0-7,Y-4,7,h+8,'#9aa2ab');R(g,X0-7,Y-4,2,h+8,'#c6ccd2');for(let yy=Y+2;yy<Y+h;yy+=16)R(g,X0-11,yy,5,3,'#6f767f');
+ signPanel(Math.round(X0+3*T),Math.round(Y-34),3*T,'#ffd23f','アンダーパス',false)}
 function busStep(b,dt){const sp=2.4,exitY=b.dir>0?61.1:36.9,spY=b.dir>0?36.9:61.0;
  if(b.st==='dw'){b.tm-=dt;if(b.tm<=0){b.st='out';for(const q of QP)if(q.si===b.si){q.board=false;q.hide=false;q.x=q.hx;q.y=q.hy}}}
  else if(b.st==='out'){b.y+=b.dir*sp*dt;if((b.y-exitY)*b.dir>=0){b.st='wait';b.tm=4+Math.random()*6;b.y=spY}}
@@ -427,7 +429,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;fa++;fps+=(1
  for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++)g.drawImage(chunk(c,r),c*CW*T-camX,r*CH*T-camY);
  signs();
  const E=[];for(const l of LAMPS)if(Math.abs(l[0]*T-camX-W/2)<W/2+40)E.push([l[1],()=>drawLamp(l)]);for(const d of DEC)if(Math.abs(d.x*T-camX-W/2)<W/2+60)E.push([d.y,()=>drawDec(d)]);for(const p of TLP)if(Math.abs(p[0]*T-camX-W/2)<W/2+40)E.push([p[1],()=>drawTL(p)]);for(const p of UP)if(Math.abs(p[0]*T-camX-W/2)<W/2+40)E.push([p[1],()=>drawUP(p)]);for(const c of VCARS)if(Math.abs(c.x*T-camX-W/2)<W/2+60&&c.y*T-camY>-40&&c.y*T-camY<H+60)E.push([c.y,()=>wclip(0,0,W,36.4*T-camY,()=>drawVCar(c))]);for(const b of VB)if(Math.abs(b.px*T-camX-W/2)<W/2+60&&b.y*T-camY>-90&&b.y*T-camY<H+90)E.push([b.y,()=>wclip(0,37.1*T-camY,W,21.8*T,()=>drawVBus(b))]);for(const p of PAX)if(Math.abs(p.x*T-camX-W/2)<W/2+30&&p.y*T-camY>-30&&p.y*T-camY<H+30)E.push([p.y,()=>drawPed(p)]);for(const q of QP)if(!q.hide&&Math.abs(q.x*T-camX-W/2)<W/2+30&&q.y*T-camY>-30&&q.y*T-camY<H+30)E.push([q.y,()=>drawPed(q)]);for(const p of NSP)if(Math.abs(p.x*T-camX-W/2)<W/2+30&&p.y*T-camY>-30&&p.y*T-camY<H+30)E.push([p.y,()=>drawPed(p)]);for(const p of ALP)if(Math.abs(p.x*T-camX-W/2)<W/2+30&&p.y*T-camY>-30&&p.y*T-camY<H+30)E.push([p.y,()=>drawPed(p)]);for(const p of SCR)if(Math.abs(p.x*T-camX-W/2)<W/2+30&&p.y*T-camY>-30&&p.y*T-camY<H+30)E.push([p.y,()=>drawPed(p)]);
- for(const c of CARS)if(c.x*T-camX>-90&&c.x*T-camX<W+90)E.push([c.y,()=>wclip(42*T-camX,0,W,H,()=>drawCar(c))]);
+ for(const c of CARS)if(c.x*T-camX>-90&&c.x*T-camX<W+90)E.push([c.y,()=>wclip(Math.max(0,42*T-camX),0,W,H,()=>drawCar(c))]);
  for(const p of PEDS)if(p.x*T-camX>-20&&p.x*T-camX<W+20)E.push([p.y,()=>drawPed(p)]);
  E.push([TL.by,drawTrain]);E.push([P.y,drawPlayer]);E.sort((a,b)=>a[0]-b[0]);for(const e of E)e[1]();alleyOver(false,0);nOver(false,0);busOver(false,0);towerDraw(false,0);exDraw(false,0);tunnelDraw();wires();
  if(N>.01){g.fillStyle='rgba(8,10,40,'+(N*.5).toFixed(3)+')';g.fillRect(0,0,W,H)}{const k=Math.sin(Math.PI*Math.min(1,N))*.18;if(k>.005){g.fillStyle='rgba(255,128,48,'+k.toFixed(3)+')';g.fillRect(0,0,W,H)}}
